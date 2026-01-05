@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
+{% block content %}
+
+<div class="row" style="align-items:center; justify-content:space-between;">
+  <div>
+    <h1>Patients</h1>
+    <div class="muted">Search by name, phone, or national ID.</div>
+  </div>
+  {% if user.role == "doctor" or user.role == "assistant" or user.role == "admin" %}
+        <a class="btn primary" href="{% url 'patients:create' %}">+ Add patient</a>
+  {% endif %}
+</div>
+
+<div class="card" style="margin-top:14px;">
+  <form method="get" class="row" style="align-items:end;">
+    <div style="flex: 1 1 520px;">
+      <label class="muted">Search</label>
+      <input class="input" name="q" placeholder="e.g., Ahmed Hassan / 010… / National ID" value="{{ q }}">
+    </div>
+    <div style="flex: 0 0 auto;">
+      <button class="btn" type="submit">Search</button>
+      {% if q %}<a class="btn" href="/">Clear</a>{% endif %}
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>National ID</th>
+      <th>Sex</th>
+    </tr>
+    {% for p in patients %}
+      <tr>
+        <td><a href="{% url 'patients:detail' p.pk %}"><b>{{ p.full_name }}</b></a></td>
+        <td>{{ p.phone }}</td>
+        <td>{{ p.national_id }}</td>
+        <td><span class="badge">{{ p.sex }}</span></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4" class="muted">No patients found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

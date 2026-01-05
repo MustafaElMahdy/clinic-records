@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Logged out{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px; margin: 40px auto;">
+  <h1>You’re logged out</h1>
+  <p class="muted">Please log in again to access patient records.</p>
+  <a class="btn primary" href="{% url 'login' %}">Log in</a>
+</div>
+{% endblock %}

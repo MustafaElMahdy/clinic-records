@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}{{ patient.full_name }}{% endblock %}
+{% block content %}
+
+<div class="row" style="align-items:center; justify-content:space-between;">
+  <div>
+    <h1>{{ patient.full_name }}</h1>
+    <div class="muted">
+      {{ patient.phone }} {% if patient.national_id %} • {{ patient.national_id }}{% endif %}
+    </div>
+  </div>
+  <a class="btn" href="/">← Back</a>
+</div>
+
+<div class="split" style="margin-top:14px;">
+  <div class="card">
+    {% if can_add_visit %}
+    <h2>Add Visit</h2>
+    <form method="post">
+    {% csrf_token %}
+    {{ visit_form.as_p }}
+    <button class="btn primary" type="submit">Add Visit</button>
+    </form>
+    {% else %}
+        <p class="muted">You don’t have permission to add visits.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Patient Info</h2>
+    <p><b>Sex:</b> {{ patient.sex }}</p>
+    <p><b>DOB:</b> {{ patient.date_of_birth }}</p>
+    <p><b>Address:</b> {{ patient.address }}</p>
+    {% if patient.notes %}<p><b>Notes:</b><br>{{ patient.notes|linebreaksbr }}</p>{% endif %}
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px;">
+  <h2>Visit History</h2>
+  {% for v in visits %}
+  <div class="card visit-row">
+
+    <div class="visit-left">
+      <div class="muted">
+        <b>{{ v.visit_datetime }}</b>
+        {% if v.doctor %} • Dr. {{ v.doctor.username }}{% endif %}
+        {% if v.follow_up_date %} • Follow-up: {{ v.follow_up_date }}{% endif %}
+      </div>
+
+      {% if v.chief_complaint %}<div><b>Complaint:</b> {{ v.chief_complaint }}</div>{% endif %}
+      {% if v.diagnosis %}<div><b>Diagnosis:</b> {{ v.diagnosis }}</div>{% endif %}
+
+      <div style="margin-top:6px;"><b>Notes:</b><br>{{ v.clinical_notes|linebreaksbr }}</div>
+      {% if v.treatment_plan %}<div style="margin-top:6px;"><b>Plan:</b><br>{{ v.treatment_plan|linebreaksbr }}</div>{% endif %}
+    </div>
+
+    {% if user.role == "doctor" or user.role == "admin" %}
+      <div class="visit-right">
+        <a href="{% url 'visits:edit' v.pk %}" class="btn">Edit</a>
+      </div>
+    {% endif %}
+
+  </div>
+{% endfor %}
+</div>
+{% if can_view_audit %}
+  <div class="card" style="margin-top:14px;">
+    <h2>Audit</h2>
+    <div class="muted" style="margin-bottom:10px;">
+      Recent activity for this patient (views, visit creation/edits).
+    </div>
+
+    {% if audit_events %}
+      <table class="table">
+        <tr>
+          <th>Time</th>
+          <th>Action</th>
+          <th>By</th>
+          <th>Details</th>
+        </tr>
+        {% for e in audit_events %}
+          <tr>
+            <td class="muted">{{ e.created_at }}</td>
+            <td><span class="badge">{{ e.action }}</span></td>
+            <td>
+              {% if e.actor %}
+                {{ e.actor.username }}
+              {% else %}
+                <span class="muted">System</span>
+              {% endif %}
+            </td>
+            <td class="muted">
+              {% if e.action == "patient_viewed" %}
+                Viewed patient record
+
+              {% elif e.action == "visit_created" %}
+                Visit created
+                {% if e.visit_id %}
+                  • <a href="{% url 'visits:edit' e.visit_id %}">open</a>
+                {% endif %}
+
+              {% elif e.action == "visit_edited" %}
+                Visit edited
+                {% if e.visit_id %}
+                  • <a href="{% url 'visits:edit' e.visit_id %}">open</a>
+                {% endif %}
+
+              {% elif e.action == "patient_created" %}
+                Patient created
+
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p class="muted">No audit events yet.</p>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% endblock %}
