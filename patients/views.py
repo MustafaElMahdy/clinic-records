@@ -34,9 +34,49 @@ def patient_list(request):
 @login_required
 @role_required("doctor", "assistant", "admin")
 def patient_create(request):
+    def normalize_phone(s: str) -> str:
+        """Normalize common Egypt phone formats into a comparable string."""
+        if not s:
+            return ""
+        s = s.strip().replace(" ", "").replace("-", "")
+        if s.startswith("+20"):
+            s = "0" + s[3:]
+        elif s.startswith("20") and len(s) >= 12:
+            s = "0" + s[2:]
+        return s
+
     if request.method == "POST":
         form = PatientForm(request.POST)
         if form.is_valid():
+            confirm = request.POST.get("confirm_duplicate") == "1"
+
+            phone = normalize_phone(form.cleaned_data.get("phone") or "")
+            national_id = (form.cleaned_data.get("national_id") or "").strip()
+
+            dup_q = Q()
+            if national_id:
+                dup_q |= Q(national_id__iexact=national_id)
+            if phone:
+                # This assumes you usually store phone numbers somewhat consistently.
+                dup_q |= Q(phone__icontains=phone)
+
+            duplicates = Patient.objects.filter(dup_q).order_by("full_name") if dup_q else Patient.objects.none()
+
+            # If duplicates exist, show warning unless user confirms "create anyway"
+            if duplicates.exists() and not confirm:
+                return render(
+                    request,
+                    "patients/duplicate_warning.html",
+                    {
+                        "form": form,  # keep bound form data
+                        "duplicates": duplicates[:10],
+                        "submitted_name": form.cleaned_data.get("full_name"),
+                        "submitted_phone": form.cleaned_data.get("phone"),
+                        "submitted_national_id": national_id,
+                    },
+                )
+
+            # Create patient
             patient = form.save()
 
             # Audit log: patient created
@@ -52,6 +92,7 @@ def patient_create(request):
         form = PatientForm()
 
     return render(request, "patients/patient_form.html", {"form": form})
+
 
 
 @login_required
