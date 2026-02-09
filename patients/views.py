@@ -19,7 +19,9 @@ from .models import Patient
 def patient_list(request):
     q = request.GET.get("q", "").strip()
 
-    patients = Patient.objects.all().order_by("full_name")
+    # ✅ scope by clinic
+    patients = Patient.objects.filter(clinic=request.user.clinic).order_by("full_name")
+
     if q:
         q_norm = " ".join(q.lower().split())
         patients = patients.filter(
@@ -54,12 +56,16 @@ def patient_create(request):
             input_phone = normalize_phone(input_phone_raw)
             national_id = (form.cleaned_data.get("national_id") or "").strip()
 
-            # Find duplicates (MVP approach: normalize stored phone in Python)
             matched_ids = []
             match_reasons = {}  # patient_id -> ["national_id", "phone"]
 
+            # ✅ scope duplicate search by clinic
             if national_id or input_phone:
-                candidates = Patient.objects.all().only("id", "full_name", "phone", "national_id")
+                candidates = (
+                    Patient.objects
+                    .filter(clinic=request.user.clinic)
+                    .only("id", "full_name", "phone", "national_id")
+                )
 
                 for p in candidates:
                     reasons = []
@@ -78,9 +84,12 @@ def patient_create(request):
                         matched_ids.append(p.id)
                         match_reasons[p.id] = reasons
 
-            duplicates = Patient.objects.filter(id__in=matched_ids).order_by("full_name") if matched_ids else Patient.objects.none()
+            duplicates = (
+                Patient.objects.filter(clinic=request.user.clinic, id__in=matched_ids).order_by("full_name")
+                if matched_ids
+                else Patient.objects.none()
+            )
 
-            # Show warning unless confirmed
             if duplicates.exists() and not confirm:
                 return render(
                     request,
@@ -95,8 +104,10 @@ def patient_create(request):
                     },
                 )
 
-            # Create patient
-            patient = form.save()
+            # ✅ create patient and assign clinic
+            patient = form.save(commit=False)
+            patient.clinic = request.user.clinic
+            patient.save()
 
             log_event(
                 request,
@@ -112,12 +123,14 @@ def patient_create(request):
     return render(request, "patients/patient_form.html", {"form": form})
 
 
-
 @login_required
 @role_required("doctor", "assistant", "admin")
 def patient_detail(request, pk: int):
-    patient = get_object_or_404(Patient, pk=pk)
-    visits = Visit.objects.filter(patient=patient).order_by("-visit_datetime")
+    # ✅ patient must belong to the user's clinic
+    patient = get_object_or_404(Patient, pk=pk, clinic=request.user.clinic)
+
+    # ✅ scope visits by clinic too
+    visits = Visit.objects.filter(patient=patient, clinic=request.user.clinic).order_by("-visit_datetime")
 
     # ---- Throttled patient_viewed audit (once per 10 minutes per patient per session) ----
     VIEW_THROTTLE_SECONDS = 10 * 60  # 10 minutes
@@ -125,7 +138,6 @@ def patient_detail(request, pk: int):
 
     now_ts = time.time()
     last_ts = request.session.get(session_key)
-
     should_log_view = (last_ts is None) or ((now_ts - float(last_ts)) >= VIEW_THROTTLE_SECONDS)
 
     if should_log_view:
@@ -137,13 +149,13 @@ def patient_detail(request, pk: int):
         )
         request.session[session_key] = now_ts
 
-    # Doctor-only audit visibility
     can_view_audit = request.user.role in ("doctor", "admin")
     audit_events = []
     if can_view_audit:
+        # ✅ scope audit by clinic (assumes AuditEvent has clinic field; if not yet, see note below)
         audit_events = (
             AuditEvent.objects
-            .filter(patient_id=patient.pk)
+            .filter(patient_id=patient.pk, clinic=request.user.clinic)
             .select_related("actor")
             .order_by("-created_at")[:50]
         )
@@ -159,13 +171,14 @@ def patient_detail(request, pk: int):
             visit = visit_form.save(commit=False)
             visit.patient = patient
 
-            # Only auto-assign doctor if a doctor is logged in
+            # ✅ set clinic explicitly (even if Visit.save() also enforces it)
+            visit.clinic = request.user.clinic
+
             if request.user.role == "doctor":
                 visit.doctor = request.user
 
             visit.save()
 
-            # Audit log: visit created
             log_event(
                 request,
                 action=AuditEvent.Action.VISIT_CREATED,

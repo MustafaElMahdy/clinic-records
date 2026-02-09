@@ -1,14 +1,18 @@
 from django.db import models
 from django.utils import timezone
+from clinics.models import Clinic
 
 
 def normalize_name(name: str) -> str:
-    # basic normalization for fast searching; we can improve later for Arabic
     return " ".join(name.lower().split()) if name else ""
 
 
 class Patient(models.Model):
-    # Identity
+    clinic = models.ForeignKey(
+        Clinic,
+        on_delete=models.PROTECT,
+        related_name="patients",
+    )
     full_name = models.CharField(max_length=255)
     normalized_name = models.CharField(max_length=255, editable=False, db_index=True)
 
@@ -41,7 +45,7 @@ class Patient(models.Model):
             models.Index(fields=["normalized_name"]),
             models.Index(fields=["phone"]),
             models.Index(fields=["national_id"]),
+            models.Index(fields=["clinic", "phone"]),
+            models.Index(fields=["clinic", "national_id"]),
+            models.Index(fields=["clinic", "normalized_name"]),
         ]
-from django.db import models
-
-# Create your models here.

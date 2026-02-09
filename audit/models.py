@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from clinics.models import Clinic
 
 
 class AuditEvent(models.Model):
@@ -11,6 +12,13 @@ class AuditEvent(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # ✅ tenant / clinic scoping
+    clinic = models.ForeignKey(
+        Clinic,
+        on_delete=models.PROTECT,
+        related_name="audit_events",
+    )   
+
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -21,11 +29,9 @@ class AuditEvent(models.Model):
 
     action = models.CharField(max_length=50, choices=Action.choices)
 
-    # Generic object reference (so it works for Patient, Visit, etc.)
     object_type = models.CharField(max_length=50)   # e.g. "patients.Patient"
     object_id = models.PositiveIntegerField()       # e.g. pk of the object
 
-    # Useful context
     patient_id = models.PositiveIntegerField(null=True, blank=True)
     visit_id = models.PositiveIntegerField(null=True, blank=True)
 
@@ -37,6 +43,3 @@ class AuditEvent(models.Model):
 
     def __str__(self):
         return f"{self.created_at} - {self.action} - {self.object_type}:{self.object_id}"
-from django.db import models
-
-# Create your models here.
