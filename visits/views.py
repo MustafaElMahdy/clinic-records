@@ -11,31 +11,25 @@ from .models import Visit
 @login_required
 @role_required("doctor", "admin")
 def visit_edit(request, pk: int):
-    visit = get_object_or_404(Visit, pk=pk)
+    # ✅ BLOCK cross-clinic access immediately
+    visit = get_object_or_404(Visit, pk=pk, clinic=request.user.clinic)
 
     if request.method == "POST":
         form = VisitForm(request.POST, instance=visit)
         if form.is_valid():
-            updated_visit = form.save()
+            visit = form.save()
 
-            # Audit log: visit edited
+            # ✅ audit (also clinic-safe if your log_event sets clinic)
             log_event(
                 request,
                 action=AuditEvent.Action.VISIT_EDITED,
-                obj=updated_visit,
-                patient_id=updated_visit.patient_id,
-                visit_id=updated_visit.pk,
-                metadata={
-                    "visit_datetime": updated_visit.visit_datetime.isoformat() if updated_visit.visit_datetime else None,
-                    "chief_complaint": updated_visit.chief_complaint,
-                },
+                obj=visit,
+                patient_id=visit.patient_id,
+                visit_id=visit.pk,
             )
-            return redirect("patients:detail", pk=updated_visit.patient.pk)
+
+            return redirect("patients:detail", pk=visit.patient.pk)
     else:
         form = VisitForm(instance=visit)
 
-    return render(
-        request,
-        "visits/visit_edit.html",
-        {"form": form, "visit": visit},
-    )
+    return render(request, "visits/visit_edit.html", {"form": form, "visit": visit})
