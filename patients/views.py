@@ -35,7 +35,7 @@ def patient_list(request):
 @role_required("doctor", "assistant", "admin")
 def patient_create(request):
     def normalize_phone(s: str) -> str:
-        """Normalize common Egypt phone formats into a comparable string."""
+        """Normalize common Egypt phone formats into comparable string."""
         if not s:
             return ""
         s = s.strip().replace(" ", "").replace("-", "")
@@ -50,28 +50,47 @@ def patient_create(request):
         if form.is_valid():
             confirm = request.POST.get("confirm_duplicate") == "1"
 
-            phone = normalize_phone(form.cleaned_data.get("phone") or "")
+            input_phone_raw = form.cleaned_data.get("phone") or ""
+            input_phone = normalize_phone(input_phone_raw)
             national_id = (form.cleaned_data.get("national_id") or "").strip()
 
-            dup_q = Q()
-            if national_id:
-                dup_q |= Q(national_id__iexact=national_id)
-            if phone:
-                # This assumes you usually store phone numbers somewhat consistently.
-                dup_q |= Q(phone__icontains=phone)
+            # Find duplicates (MVP approach: normalize stored phone in Python)
+            matched_ids = []
+            match_reasons = {}  # patient_id -> ["national_id", "phone"]
 
-            duplicates = Patient.objects.filter(dup_q).order_by("full_name") if dup_q else Patient.objects.none()
+            if national_id or input_phone:
+                candidates = Patient.objects.all().only("id", "full_name", "phone", "national_id")
 
-            # If duplicates exist, show warning unless user confirms "create anyway"
+                for p in candidates:
+                    reasons = []
+
+                    # Strong match: national ID
+                    if national_id and p.national_id and p.national_id.strip().lower() == national_id.lower():
+                        reasons.append("national_id")
+
+                    # Soft match: phone (normalized)
+                    if input_phone and p.phone:
+                        stored_phone = normalize_phone(p.phone)
+                        if stored_phone and stored_phone == input_phone:
+                            reasons.append("phone")
+
+                    if reasons:
+                        matched_ids.append(p.id)
+                        match_reasons[p.id] = reasons
+
+            duplicates = Patient.objects.filter(id__in=matched_ids).order_by("full_name") if matched_ids else Patient.objects.none()
+
+            # Show warning unless confirmed
             if duplicates.exists() and not confirm:
                 return render(
                     request,
                     "patients/duplicate_warning.html",
                     {
-                        "form": form,  # keep bound form data
+                        "form": form,
                         "duplicates": duplicates[:10],
+                        "match_reasons": match_reasons,
                         "submitted_name": form.cleaned_data.get("full_name"),
-                        "submitted_phone": form.cleaned_data.get("phone"),
+                        "submitted_phone": input_phone_raw,
                         "submitted_national_id": national_id,
                     },
                 )
@@ -79,7 +98,6 @@ def patient_create(request):
             # Create patient
             patient = form.save()
 
-            # Audit log: patient created
             log_event(
                 request,
                 action=AuditEvent.Action.PATIENT_CREATED,

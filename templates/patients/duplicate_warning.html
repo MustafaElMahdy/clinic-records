@@ -1,24 +1,23 @@
-{% extends "base.html" %}
-{% block title %}Possible Duplicate Patient{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% load patient_extras %} {% block title %}Possible
+Duplicate Patient{% endblock %} {% block content %}
 
-<div class="card" style="max-width: 980px;">
+<div class="card" style="max-width: 980px">
   <h1>Possible Duplicate Patient</h1>
   <p class="muted">
-    We found existing patient records that may match what you entered.
-    This helps prevent duplicates.
+    We found existing patient records that may match what you entered. This
+    helps prevent duplicates.
   </p>
 
-  <div class="card" style="box-shadow:none;">
+  <div class="card" style="box-shadow: none">
     <h3>What you entered</h3>
     <div class="muted">
-      <b>Name:</b> {{ submitted_name }}<br>
-      <b>Phone:</b> {{ submitted_phone }}<br>
+      <b>Name:</b> {{ submitted_name }}<br />
+      <b>Phone:</b> {{ submitted_phone }}<br />
       <b>National ID:</b> {{ submitted_national_id|default:"—" }}
     </div>
   </div>
 
-  <div class="card" style="box-shadow:none;">
+  <div class="card" style="box-shadow: none">
     <h3>Possible matches</h3>
 
     <table class="table">
@@ -28,36 +27,57 @@
         <th>National ID</th>
         <th></th>
       </tr>
+
       {% for p in duplicates %}
-        <tr>
-          <td><b>{{ p.full_name }}</b></td>
-          <td>{{ p.phone }}</td>
-          <td>{{ p.national_id|default:"—" }}</td>
-          <td style="text-align:right;">
-            <a class="btn" href="{% url 'patients:detail' p.pk %}">Open</a>
-          </td>
-        </tr>
+      <tr>
+        <td>
+          <b>{{ p.full_name }}</b>
+
+          {% with rlist=match_reasons|get_item:p.id %} {% if rlist %}
+          <div class="muted" style="margin-top: 4px">
+            Matched by: {% for r in rlist %}
+            <span class="badge">
+              {% if r == "national_id" %} National ID {% elif r == "phone" %}
+              Phone {% else %} {{ r }} {% endif %}
+            </span>
+            {% endfor %}
+          </div>
+          {% endif %} {% endwith %}
+        </td>
+
+        <td>{{ p.phone }}</td>
+        <td>{{ p.national_id|default:"—" }}</td>
+        <td style="text-align: right">
+          <a class="btn" href="{% url 'patients:detail' p.pk %}">Open</a>
+        </td>
+      </tr>
       {% endfor %}
     </table>
 
-    <p class="muted" style="margin-top:10px;">
-      If this is the same patient, click <b>Open</b> and use the existing record.
-      If it’s a different patient, click <b>Create anyway</b>.
+    <p class="muted" style="margin-top: 10px">
+      If this is the same patient, click <b>Open</b> and use the existing
+      record. If it’s a different patient, click <b>Create anyway</b>.
     </p>
   </div>
 
-  <div class="row" style="justify-content:flex-end; gap:10px; margin-top:12px;">
+  <div
+    class="row"
+    style="justify-content: flex-end; gap: 10px; margin-top: 12px"
+  >
     <a class="btn" href="{% url 'patients:create' %}">Go back</a>
 
-    <form method="post" style="margin:0;">
+    <form method="post" style="margin: 0">
       {% csrf_token %}
-
-      {# Re-submit the same form values as hidden fields #}
-      {% for field in form %}
-        <input type="hidden" name="{{ field.name }}" value="{{ field.value|default_if_none:'' }}">
+	 {# Re-submit the same form values as hidden fields #}
+	 {% for field in form %}
+      <input
+        type="hidden"
+        name="{{ field.name }}"
+        value="{{ field.value|default_if_none:'' }}"
+      />
       {% endfor %}
 
-      <input type="hidden" name="confirm_duplicate" value="1">
+      <input type="hidden" name="confirm_duplicate" value="1" />
       <button class="btn primary" type="submit">Create anyway</button>
     </form>
   </div>
