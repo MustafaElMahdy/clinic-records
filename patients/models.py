@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from clinics.models import Clinic
+from clinics.managers import ClinicManager
 
 
 def normalize_name(name: str) -> str:
@@ -32,6 +33,8 @@ class Patient(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = ClinicManager()
+
     def save(self, *args, **kwargs):
         self.normalized_name = normalize_name(self.full_name)
         super().save(*args, **kwargs)
@@ -48,4 +51,18 @@ class Patient(models.Model):
             models.Index(fields=["clinic", "phone"]),
             models.Index(fields=["clinic", "national_id"]),
             models.Index(fields=["clinic", "normalized_name"]),
+        ]
+        constraints = [
+            # Ensure national_id is unique within each clinic (when provided)
+            models.UniqueConstraint(
+                fields=['clinic', 'national_id'],
+                name='unique_national_id_per_clinic',
+                condition=models.Q(national_id__isnull=False) & ~models.Q(national_id='')
+            ),
+            # Ensure phone is unique within each clinic (when provided)
+            models.UniqueConstraint(
+                fields=['clinic', 'phone'],
+                name='unique_phone_per_clinic',
+                condition=models.Q(phone__isnull=False) & ~models.Q(phone='')
+            ),
         ]

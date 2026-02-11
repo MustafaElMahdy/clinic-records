@@ -63,6 +63,67 @@
   </div>
 {% endfor %}
 </div>
+
+<div class="card" style="margin-top:14px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">Medical Documents & Files</h2>
+    <a href="{% url 'files:upload' patient.pk %}" class="btn primary">Upload File</a>
+  </div>
+
+  {% if attachments %}
+    <div class="file-grid">
+      {% for attachment in attachments %}
+        <div class="file-card">
+          <div class="file-preview">
+            {% if attachment.is_image %}
+              <a href="{% url 'files:download' attachment.pk %}" target="_blank">
+                <img src="{% url 'files:download' attachment.pk %}" alt="{{ attachment.original_filename }}" style="max-width: 100%; max-height: 150px; object-fit: cover;">
+              </a>
+            {% elif attachment.is_pdf %}
+              <a href="{% url 'files:download' attachment.pk %}" target="_blank">
+                <div class="file-icon pdf">📄 PDF</div>
+              </a>
+            {% else %}
+              <a href="{% url 'files:download' attachment.pk %}">
+                <div class="file-icon doc">📎 DOC</div>
+              </a>
+            {% endif %}
+          </div>
+
+          <div class="file-info">
+            <div class="file-name" title="{{ attachment.original_filename }}">
+              {{ attachment.original_filename|truncatechars:30 }}
+            </div>
+            <div class="file-meta muted">
+              <span class="badge">{{ attachment.get_file_type_display }}</span>
+              {{ attachment.get_file_size_display }} • {{ attachment.uploaded_at|date:"Y-m-d" }}
+            </div>
+            {% if attachment.title %}
+              <div class="file-title" style="margin-top: 4px; font-size: 0.9em;">
+                {{ attachment.title }}
+              </div>
+            {% endif %}
+            {% if attachment.visit %}
+              <div class="muted" style="font-size: 0.85em; margin-top: 4px;">
+                Linked to visit: {{ attachment.visit.visit_datetime|date:"Y-m-d" }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="file-actions">
+            <a href="{% url 'files:download' attachment.pk %}" class="btn">View/Download</a>
+            {% if user.role == "doctor" or user.role == "admin" %}
+              <a href="{% url 'files:delete' attachment.pk %}" class="btn danger">Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">No files uploaded yet.</p>
+  {% endif %}
+</div>
+
 {% if can_view_audit %}
   <div class="card" style="margin-top:14px;">
     <h2>Audit</h2>
@@ -107,6 +168,18 @@
 
               {% elif e.action == "patient_created" %}
                 Patient created
+
+              {% elif e.action == "file_uploaded" %}
+                Uploaded: <strong>{{ e.metadata.filename }}</strong>
+                <span class="badge">{{ e.metadata.file_type }}</span>
+                ({{ e.metadata.file_size|filesizeformat }})
+
+              {% elif e.action == "file_downloaded" %}
+                Downloaded: <strong>{{ e.metadata.filename }}</strong>
+
+              {% elif e.action == "file_deleted" %}
+                Deleted: <strong>{{ e.metadata.filename }}</strong>
+                <span class="badge">{{ e.metadata.file_type }}</span>
 
               {% else %}
                 —

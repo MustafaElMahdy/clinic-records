@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File - {{ patient.full_name }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row" style="align-items:center; justify-content:space-between; margin-bottom: 20px;">
+        <div>
+            <h1>Upload Medical Document</h1>
+            <div class="muted">Patient: <strong>{{ patient.full_name }}</strong></div>
+        </div>
+        <a class="btn" href="{% url 'patients:detail' patient.pk %}">← Back</a>
+    </div>
+
+    <div class="card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+            <label for="{{ form.file.id_for_label }}" class="form-label">File *</label>
+            {{ form.file }}
+            {% if form.file.errors %}
+                <div class="text-danger">{{ form.file.errors }}</div>
+            {% endif %}
+            <small class="form-text text-muted">
+                Allowed: Images (JPG, PNG), PDF, Word documents. Max size: 10MB
+            </small>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.file_type.id_for_label }}" class="form-label">File Type *</label>
+            {{ form.file_type }}
+            {% if form.file_type.errors %}
+                <div class="text-danger">{{ form.file_type.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-danger">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+            {{ form.notes }}
+            {% if form.notes.errors %}
+                <div class="text-danger">{{ form.notes.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.visit.id_for_label }}" class="form-label">Link to Visit (Optional)</label>
+            {{ form.visit }}
+            {% if form.visit.errors %}
+                <div class="text-danger">{{ form.visit.errors }}</div>
+            {% endif %}
+        </div>
+
+            <div class="d-flex gap-2" style="margin-top: 20px;">
+                <button type="submit" class="btn primary">Upload</button>
+                <a href="{% url 'patients:detail' patient.pk %}" class="btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

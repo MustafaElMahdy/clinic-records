@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from clinics.models import Clinic
+from clinics.managers import ClinicManager
 from patients.models import Patient
 
 User = settings.AUTH_USER_MODEL
@@ -39,6 +40,8 @@ class Visit(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = ClinicManager()
 
     def save(self, *args, **kwargs):
         # keep visit.clinic consistent with patient.clinic

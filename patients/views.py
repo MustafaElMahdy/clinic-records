@@ -1,6 +1,7 @@
 import time
 
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,11 +9,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from accounts.permissions import role_required
 from audit.models import AuditEvent
 from audit.utils import log_event
+from files.models import Attachment
 from visits.forms import VisitForm
 from visits.models import Visit
 from .forms import PatientForm
 from .models import Patient
-
 
 @login_required
 @role_required("doctor", "assistant", "admin")
@@ -20,7 +21,7 @@ def patient_list(request):
     q = request.GET.get("q", "").strip()
 
     # ✅ scope by clinic
-    patients = Patient.objects.filter(clinic=request.user.clinic).order_by("full_name")
+    patients = Patient.objects.for_clinic(request.clinic).order_by("full_name")
 
     if q:
         q_norm = " ".join(q.lower().split())
@@ -63,7 +64,7 @@ def patient_create(request):
             if national_id or input_phone:
                 candidates = (
                     Patient.objects
-                    .filter(clinic=request.user.clinic)
+                    .for_clinic(request.clinic)
                     .only("id", "full_name", "phone", "national_id")
                 )
 
@@ -85,7 +86,7 @@ def patient_create(request):
                         match_reasons[p.id] = reasons
 
             duplicates = (
-                Patient.objects.filter(clinic=request.user.clinic, id__in=matched_ids).order_by("full_name")
+                Patient.objects.for_clinic(request.clinic).filter(id__in=matched_ids).order_by("full_name")
                 if matched_ids
                 else Patient.objects.none()
             )
@@ -106,8 +107,26 @@ def patient_create(request):
 
             # ✅ create patient and assign clinic
             patient = form.save(commit=False)
-            patient.clinic = request.user.clinic
-            patient.save()
+            patient.clinic = request.clinic
+
+            try:
+                patient.save()
+            except IntegrityError as e:
+                # Handle uniqueness constraint violations
+                error_msg = str(e).lower()
+
+                # Check which field caused the violation
+                if 'unique_national_id_per_clinic' in error_msg or ('national_id' in error_msg and 'unique' in error_msg):
+                    form.add_error('national_id',
+                        'A patient with this National ID already exists in your clinic.')
+                elif 'unique_phone_per_clinic' in error_msg or ('phone' in error_msg and 'unique' in error_msg):
+                    form.add_error('phone',
+                        'A patient with this phone number already exists in your clinic.')
+                else:
+                    form.add_error(None,
+                        'A patient with these details already exists in your clinic.')
+
+                return render(request, "patients/patient_form.html", {"form": form})
 
             log_event(
                 request,
@@ -127,10 +146,10 @@ def patient_create(request):
 @role_required("doctor", "assistant", "admin")
 def patient_detail(request, pk: int):
     # ✅ patient must belong to the user's clinic
-    patient = get_object_or_404(Patient, pk=pk, clinic=request.user.clinic)
+    patient = get_object_or_404(Patient.objects.for_clinic(request.clinic), pk=pk)
 
     # ✅ scope visits by clinic too
-    visits = Visit.objects.filter(patient=patient, clinic=request.user.clinic).order_by("-visit_datetime")
+    visits = Visit.objects.for_clinic(request.clinic).filter(patient=patient).order_by("-visit_datetime")
 
     # ---- Throttled patient_viewed audit (once per 10 minutes per patient per session) ----
     VIEW_THROTTLE_SECONDS = 10 * 60  # 10 minutes
@@ -152,13 +171,17 @@ def patient_detail(request, pk: int):
     can_view_audit = request.user.role in ("doctor", "admin")
     audit_events = []
     if can_view_audit:
-        # ✅ scope audit by clinic (assumes AuditEvent has clinic field; if not yet, see note below)
+        # ✅ scope audit by clinic
         audit_events = (
             AuditEvent.objects
-            .filter(patient_id=patient.pk, clinic=request.user.clinic)
+            .for_clinic(request.clinic)
+            .filter(patient_id=patient.pk)
             .select_related("actor")
             .order_by("-created_at")[:50]
         )
+
+    # ✅ Get attachments for this patient (scoped to clinic)
+    attachments = Attachment.objects.for_clinic(request.clinic).filter(patient=patient).order_by("-uploaded_at")
 
     can_add_visit = request.user.role in ("doctor", "assistant", "admin")
 
@@ -172,7 +195,7 @@ def patient_detail(request, pk: int):
             visit.patient = patient
 
             # ✅ set clinic explicitly (even if Visit.save() also enforces it)
-            visit.clinic = request.user.clinic
+            visit.clinic = request.clinic
 
             if request.user.role == "doctor":
                 visit.doctor = request.user
@@ -205,5 +228,6 @@ def patient_detail(request, pk: int):
             "can_add_visit": can_add_visit,
             "can_view_audit": can_view_audit,
             "audit_events": audit_events,
+            "attachments": attachments,
         },
     )

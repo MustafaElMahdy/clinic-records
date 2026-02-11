@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from clinics.models import Clinic
+from clinics.managers import ClinicManager
 
 
 class AuditEvent(models.Model):
@@ -9,6 +10,9 @@ class AuditEvent(models.Model):
         VISIT_CREATED = "visit_created", "Visit created"
         VISIT_EDITED = "visit_edited", "Visit edited"
         PATIENT_VIEWED = "patient_viewed", "Patient viewed"
+        FILE_UPLOADED = "file_uploaded", "File uploaded"
+        FILE_DOWNLOADED = "file_downloaded", "File downloaded"
+        FILE_DELETED = "file_deleted", "File deleted"
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -40,6 +44,8 @@ class AuditEvent(models.Model):
 
     metadata = models.JSONField(default=dict, blank=True)
     display = models.CharField(max_length=255, blank=True, default="")
+
+    objects = ClinicManager()
 
     def __str__(self):
         return f"{self.created_at} - {self.action} - {self.object_type}:{self.object_id}"

@@ -19,3 +19,13 @@ venv/
 # IDEs
 .vscode/
 .idea/
+
+# Documentation and test files (local development only)
+*_IMPLEMENTATION.md
+*_TESTING.md
+TESTING_CHECKLIST.md
+test_*.py
+check_*.py
+cleanup_*.py
+setup_test_data.py
+pre_test_check.py

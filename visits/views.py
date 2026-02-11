@@ -12,7 +12,7 @@ from .models import Visit
 @role_required("doctor", "admin")
 def visit_edit(request, pk: int):
     # ✅ BLOCK cross-clinic access immediately
-    visit = get_object_or_404(Visit, pk=pk, clinic=request.user.clinic)
+    visit = get_object_or_404(Visit.objects.for_clinic(request.clinic), pk=pk)
 
     if request.method == "POST":
         form = VisitForm(request.POST, instance=visit)
