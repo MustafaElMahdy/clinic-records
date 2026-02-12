@@ -43,7 +43,10 @@
 <div class="card" style="margin-bottom: 14px;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
     <h2 style="margin: 0;">Clinic Users</h2>
-    <a href="/admin/accounts/user/add/" class="btn primary">Add User</a>
+    <div style="display: flex; gap: 10px;">
+      <a href="{% url 'accounts:list' %}" class="btn">Manage Users</a>
+      <a href="{% url 'accounts:create' %}" class="btn primary">Add User</a>
+    </div>
   </div>
 
   {% if users %}
@@ -68,7 +71,7 @@
             {% endif %}
           </td>
           <td>
-            <a href="/admin/accounts/user/{{ user_obj.pk }}/change/" class="btn" style="padding: 6px 10px; font-size: 13px;">Edit</a>
+            <a href="{% url 'accounts:edit' user_obj.pk %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Edit</a>
           </td>
         </tr>
       {% endfor %}
