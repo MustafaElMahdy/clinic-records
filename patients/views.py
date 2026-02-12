@@ -1,11 +1,14 @@
 import time
+from datetime import timedelta
+from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 
+from accounts.models import User
 from accounts.permissions import role_required
 from audit.models import AuditEvent
 from audit.utils import log_event
@@ -14,6 +17,52 @@ from visits.forms import VisitForm
 from visits.models import Visit
 from .forms import PatientForm
 from .models import Patient
+
+
+@login_required
+@role_required("admin")
+def admin_dashboard(request):
+    """Admin dashboard showing clinic statistics and management tools."""
+    clinic = request.clinic
+
+    # Get statistics
+    total_patients = Patient.objects.for_clinic(clinic).count()
+    total_visits = Visit.objects.for_clinic(clinic).count()
+    total_files = Attachment.objects.for_clinic(clinic).count()
+
+    # Recent activity (last 30 days)
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    recent_patients = Patient.objects.for_clinic(clinic).filter(created_at__gte=thirty_days_ago).count()
+    recent_visits = Visit.objects.for_clinic(clinic).filter(visit_datetime__gte=thirty_days_ago).count()
+
+    # User statistics
+    users = User.objects.filter(clinic=clinic).select_related('clinic')
+    total_users = users.count()
+    users_by_role = users.values('role').annotate(count=Count('id')).order_by('role')
+
+    # Recent audit events
+    recent_audit = (
+        AuditEvent.objects
+        .for_clinic(clinic)
+        .select_related('actor')
+        .order_by('-created_at')[:20]
+    )
+
+    context = {
+        'clinic': clinic,
+        'total_patients': total_patients,
+        'total_visits': total_visits,
+        'total_files': total_files,
+        'recent_patients': recent_patients,
+        'recent_visits': recent_visits,
+        'total_users': total_users,
+        'users_by_role': users_by_role,
+        'recent_audit': recent_audit,
+        'users': users,
+    }
+
+    return render(request, 'admin/dashboard.html', context)
+
 
 @login_required
 @role_required("doctor", "assistant", "admin")

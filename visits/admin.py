@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Visit
 
+
 @admin.register(Visit)
 class VisitAdmin(admin.ModelAdmin):
     list_display = (
@@ -9,9 +10,10 @@ class VisitAdmin(admin.ModelAdmin):
         "doctor",
         "chief_complaint",
         "follow_up_date",
+        "clinic",
     )
 
-    list_filter = ("visit_datetime", "doctor")
+    list_filter = ("visit_datetime", "doctor", "clinic")
     search_fields = (
         "patient__full_name",
         "patient__phone",
@@ -20,6 +22,10 @@ class VisitAdmin(admin.ModelAdmin):
     )
 
     autocomplete_fields = ("patient", "doctor")
-from django.contrib import admin
 
-# Register your models here.
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        # If user has a clinic, filter by that clinic
+        if hasattr(request.user, 'clinic') and request.user.clinic:
+            return qs.filter(clinic=request.user.clinic)
+        return qs

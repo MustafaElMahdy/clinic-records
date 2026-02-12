@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - {{ clinic.name }}{% endblock %}
+{% block content %}
+
+<div class="row" style="align-items:center; justify-content:space-between; margin-bottom: 20px;">
+  <div>
+    <h1>Admin Dashboard</h1>
+    <div class="muted">{{ clinic.name }}</div>
+  </div>
+  <a class="btn" href="{% url 'patients:list' %}">← Back to Patients</a>
+</div>
+
+<div class="row" style="margin-bottom: 14px;">
+  <div class="card">
+    <h3>Total Patients</h3>
+    <div style="font-size: 32px; font-weight: 700; color: #111827;">{{ total_patients }}</div>
+    <div class="muted" style="font-size: 13px;">{{ recent_patients }} added in last 30 days</div>
+  </div>
+
+  <div class="card">
+    <h3>Total Visits</h3>
+    <div style="font-size: 32px; font-weight: 700; color: #111827;">{{ total_visits }}</div>
+    <div class="muted" style="font-size: 13px;">{{ recent_visits }} in last 30 days</div>
+  </div>
+
+  <div class="card">
+    <h3>Medical Files</h3>
+    <div style="font-size: 32px; font-weight: 700; color: #111827;">{{ total_files }}</div>
+    <div class="muted" style="font-size: 13px;">Total documents uploaded</div>
+  </div>
+
+  <div class="card">
+    <h3>Users</h3>
+    <div style="font-size: 32px; font-weight: 700; color: #111827;">{{ total_users }}</div>
+    <div class="muted" style="font-size: 13px;">
+      {% for role_data in users_by_role %}
+        {{ role_data.count }} {{ role_data.role }}{{ role_data.count|pluralize }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom: 14px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <h2 style="margin: 0;">Clinic Users</h2>
+    <a href="/admin/accounts/user/add/" class="btn primary">Add User</a>
+  </div>
+
+  {% if users %}
+    <table class="table">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      {% for user_obj in users %}
+        <tr>
+          <td><strong>{{ user_obj.username }}</strong></td>
+          <td class="muted">{{ user_obj.email|default:"—" }}</td>
+          <td><span class="badge">{{ user_obj.get_role_display }}</span></td>
+          <td>
+            {% if user_obj.is_active %}
+              <span style="color: #059669;">Active</span>
+            {% else %}
+              <span class="muted">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="/admin/accounts/user/{{ user_obj.pk }}/change/" class="btn" style="padding: 6px 10px; font-size: 13px;">Edit</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p class="muted">No users found.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Recent Activity</h2>
+  <div class="muted" style="margin-bottom: 12px;">Last 20 audit events</div>
+
+  {% if recent_audit %}
+    <table class="table">
+      <tr>
+        <th>Time</th>
+        <th>Action</th>
+        <th>User</th>
+        <th>Details</th>
+      </tr>
+      {% for event in recent_audit %}
+        <tr>
+          <td class="muted" style="font-size: 13px;">{{ event.created_at|date:"Y-m-d H:i" }}</td>
+          <td><span class="badge">{{ event.action }}</span></td>
+          <td>
+            {% if event.actor %}
+              {{ event.actor.username }}
+            {% else %}
+              <span class="muted">System</span>
+            {% endif %}
+          </td>
+          <td class="muted" style="font-size: 13px;">
+            {% if event.patient_id %}
+              Patient #{{ event.patient_id }}
+            {% endif %}
+            {% if event.visit_id %}
+              • Visit #{{ event.visit_id }}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p class="muted">No recent activity.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

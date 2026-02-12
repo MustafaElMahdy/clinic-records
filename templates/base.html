@@ -10,7 +10,13 @@
 <body>
   <div class="nav">
     <div class="nav-inner">
-      <a class="brand" href="/">Clinic Records</a>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <a class="brand" href="/">Clinic Records</a>
+
+        {% if user.is_authenticated and user.role == "admin" %}
+          <a href="{% url 'patients:admin_dashboard' %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Admin Dashboard</a>
+        {% endif %}
+      </div>
 
       <div class="muted">
         {% if user.is_authenticated %}
