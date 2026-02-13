@@ -118,6 +118,8 @@ p  { margin: 0 0 10px; }
 }
 .brand:hover { text-decoration: none; color: var(--text); }
 
+.brand-accent { color: var(--blue); }
+
 /* ── Card ── */
 .card {
   background: var(--surface);

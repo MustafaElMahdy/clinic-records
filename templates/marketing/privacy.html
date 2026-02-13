@@ -1,0 +1,168 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — DocuMed</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="{% static 'landing.css' %}">
+  <style>
+    .legal-body { max-width: 720px; margin: 0 auto; padding: 60px 32px 100px; }
+    .legal-back { display: inline-flex; align-items: center; gap: 6px; color: var(--lp-muted); font-size: 14px; margin-bottom: 40px; text-decoration: none; transition: color 0.15s; }
+    .legal-back:hover { color: var(--lp-text); text-decoration: none; }
+    .legal-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.7px; text-transform: uppercase; color: var(--lp-blue); margin-bottom: 10px; display: block; }
+    .legal-title { font-size: 38px; font-weight: 700; letter-spacing: -0.8px; color: var(--lp-text); margin-bottom: 8px; }
+    .legal-date { font-size: 13px; color: var(--lp-muted); margin-bottom: 48px; display: block; }
+    .legal-section { margin-bottom: 40px; }
+    .legal-section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; color: var(--lp-text); margin-bottom: 12px; }
+    .legal-section p, .legal-section li { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 12px; }
+    .legal-section ul { padding-left: 20px; }
+    .legal-section ul li { list-style: disc; margin-bottom: 6px; }
+    .legal-placeholder {
+      background: rgba(0,113,227,0.05);
+      border: 1px dashed rgba(0,113,227,0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-size: 13px;
+      color: var(--lp-muted);
+      margin-bottom: 16px;
+    }
+    .legal-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 40px 0; }
+  </style>
+</head>
+<body style="background:#f5f5f7;">
+
+  <!-- Minimal nav -->
+  <nav class="lp-nav">
+    <div class="lp-nav-inner">
+      <a class="lp-brand" href="{% url 'landing' %}">Docu<span class="lp-brand-accent">Med</span></a>
+      <div class="lp-nav-links">
+        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">Log in</a>
+        <a href="{% url 'landing' %}#demo" class="lp-btn lp-btn-primary">Request a Demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="legal-body">
+    <a class="legal-back" href="{% url 'landing' %}">
+      ← Back to DocuMed
+    </a>
+
+    <span class="legal-eyebrow">Legal</span>
+    <h1 class="legal-title">Privacy Policy</h1>
+    <span class="legal-date">Last updated: January 2026</span>
+
+    <div class="legal-placeholder">
+      ⚠️ This is a placeholder document. Replace the sections below with your actual privacy policy before going live. Consider consulting a legal professional familiar with healthcare data regulations applicable in your jurisdiction (e.g. HIPAA, GDPR, or local equivalents).
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Introduction</h2>
+      <p>DocuMed ("we", "us", or "our") operates the DocuMed electronic health records platform (the "Service"). This Privacy Policy explains how we collect, use, disclose, and protect information about you and your patients when you use our Service.</p>
+      <p>By using DocuMed, you agree to the collection and use of information as described in this policy.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>2. Information We Collect</h2>
+      <p>We collect information you provide directly when you:</p>
+      <ul>
+        <li>Create an account or set up your clinic</li>
+        <li>Add patients and record clinical visits</li>
+        <li>Upload files and attachments</li>
+        <li>Contact us for support</li>
+      </ul>
+      <p>This may include names, contact information, clinical notes, diagnoses, and uploaded documents.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>3. How We Use Your Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Provide and operate the DocuMed Service</li>
+        <li>Maintain the security and integrity of your clinic's data</li>
+        <li>Respond to support requests</li>
+        <li>Comply with legal obligations</li>
+      </ul>
+      <p>We do not sell, trade, or otherwise transfer patient data to third parties.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>4. Data Security</h2>
+      <p>DocuMed uses clinic-level data isolation, role-based access control, and authenticated file delivery to protect patient records. All data is stored with access restricted to authorised users of the specific clinic.</p>
+      <p>No system is 100% secure. We encourage clinic administrators to enforce strong passwords and promptly deactivate departing staff accounts.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>5. Data Retention</h2>
+
+      <p><strong>Active accounts.</strong> All patient data — including records, visit notes, uploaded files, and audit logs — is retained for as long as your clinic's account remains active. There is no automatic deletion of data during an active subscription.</p>
+
+      <p><strong>Upon termination or non-renewal.</strong> When a subscription ends or is not renewed, your clinic's data is held securely for a <strong>30-day grace period</strong>. During this window your data remains intact and you may request an export (see below). After 30 days, all data associated with your clinic is permanently and irreversibly deleted from our systems and backups.</p>
+
+      <p><strong>Data export.</strong> You may request a structured export of your clinic's patient data at any time during an active subscription, or within the 30-day grace period following termination, by emailing <a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a>. We will respond within 10 business days. Exports are provided at no additional charge.</p>
+
+      <p><strong>Your obligations as data controller.</strong> DocuMed acts as a data processor on your behalf; your clinic is the data controller. Medical records legislation varies by country and may require you to retain certain records for a defined period (commonly 7–10 years) regardless of which system you use. You are responsible for ensuring that terminating your DocuMed subscription does not cause you to breach your local medical records retention obligations. We recommend exporting and archiving your data before your account closes if required by your jurisdiction.</p>
+
+      <p><strong>Backups.</strong> We maintain system backups for disaster recovery purposes. Backup copies of data may persist for up to <strong>30 days</strong> after deletion from live systems, after which they are purged as part of our regular backup rotation.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>6. Your Rights</h2>
+
+      <p>Depending on the data protection laws applicable in your jurisdiction, you and/or your patients may have the following rights with respect to personal data held by DocuMed. Requests should be submitted to <a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a> and we will respond within <strong>30 days</strong>.</p>
+
+      <p><strong>Right of access.</strong> You may request a copy of the personal data we hold about your clinic, its users, and its patients. We will provide this in a structured, machine-readable format (such as CSV).</p>
+
+      <p><strong>Right to rectification.</strong> If any data we hold is inaccurate or incomplete, you may request that we correct it. In most cases, clinic administrators can correct patient and user data directly within the application without needing to contact us.</p>
+
+      <p><strong>Right to erasure ("right to be forgotten").</strong> You may request deletion of personal data. We will delete the requested data unless we are legally required to retain it (for example, where local law mandates a minimum medical records retention period). Please note that as your clinic is the data controller for patient records, requests for erasure of patient data should be handled by your clinic in the first instance.</p>
+
+      <p><strong>Right to restriction of processing.</strong> You may request that we restrict our processing of your data in certain circumstances — for example, while a dispute about accuracy is being resolved.</p>
+
+      <p><strong>Right to data portability.</strong> You may request a copy of your clinic's data in a structured, portable format so it can be transferred to another provider. See the data export section above for details.</p>
+
+      <p><strong>Right to object.</strong> You may object to our processing of your data where we rely on legitimate interest as a legal basis. We will assess the objection and cease processing unless we have compelling legitimate grounds that override your interests.</p>
+
+      <p><strong>Rights related to automated decision-making.</strong> DocuMed does not make automated decisions with legal or significant effects based on patient data.</p>
+
+      <p><strong>Note for patient rights requests.</strong> Patients wishing to exercise their data rights (such as requesting access to or deletion of their records) should contact their clinic directly. The clinic, as data controller, is the appropriate party to handle such requests. DocuMed will co-operate fully with a clinic's legally compliant request to assist in fulfilling patient rights.</p>
+    </div>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-section">
+      <h2>7. Contact Us</h2>
+      <p>If you have questions about this Privacy Policy or how we handle your data, please contact us at:</p>
+      <p><a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="lp-footer">
+    <div class="lp-container lp-footer-inner">
+      <div class="lp-footer-brand">
+        <span class="lp-brand">Docu<span class="lp-brand-accent-footer">Med</span></span>
+        <span class="lp-footer-domain">dcumed.health</span>
+      </div>
+      <div class="lp-footer-links">
+        <a href="{% url 'privacy' %}">Privacy</a>
+        <a href="{% url 'terms' %}">Terms</a>
+        <a href="mailto:hello@dcumed.health">Contact</a>
+      </div>
+      <div class="lp-footer-copy">&copy; 2026 DocuMed. All rights reserved.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
