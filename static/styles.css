@@ -103,6 +103,28 @@ textarea { min-height: 120px; resize: vertical; }
 .split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; }
 @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
 
+/* ── Mobile responsive ── */
+@media (max-width: 640px) {
+  .container { padding: 16px; }
+
+  /* Navbar: allow buttons to wrap onto a second line */
+  .nav-inner { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
+
+  /* Tighten up cards */
+  .card { padding: 12px; }
+
+  /* Stat cards: 2 per row on small screens */
+  .row > .card { min-width: calc(50% - 6px); }
+
+  /* Tables: scroll horizontally instead of overflowing */
+  .table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+}
+
 /* Visit list item layout */
 .visit-row{
   display: flex;
