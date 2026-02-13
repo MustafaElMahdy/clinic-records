@@ -9,5 +9,9 @@
     {{ form.as_p }}
     <button class="btn primary" type="submit">Login</button>
   </form>
+
+  <div style="margin-top: 16px;">
+    <a href="{% url 'password_reset' %}" class="muted" style="font-size: 13px;">Forgot your password?</a>
+  </div>
 </div>
 {% endblock %}
