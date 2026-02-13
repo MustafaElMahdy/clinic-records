@@ -24,6 +24,8 @@ urlpatterns = [
         name="password_reset_complete"),
 
     path("landing/", TemplateView.as_view(template_name="marketing/landing.html"), name="landing"),
+    path("privacy/", TemplateView.as_view(template_name="marketing/privacy.html"), name="privacy"),
+    path("terms/", TemplateView.as_view(template_name="marketing/terms.html"), name="terms"),
 
     path("", include("patients.urls")),
     path("visits/", include("visits.urls")),

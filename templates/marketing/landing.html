@@ -20,6 +20,7 @@
       <div class="lp-nav-links">
         <a href="#features">Features</a>
         <a href="#how-it-works">How It Works</a>
+        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">Log in</a>
         <a href="#demo" class="lp-btn lp-btn-primary">Request a Demo</a>
       </div>
     </div>
@@ -460,8 +461,8 @@
         <span class="lp-footer-domain">dcumed.health</span>
       </div>
       <div class="lp-footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+        <a href="{% url 'privacy' %}">Privacy</a>
+        <a href="{% url 'terms' %}">Terms</a>
         <a href="mailto:hello@dcumed.health">Contact</a>
       </div>
       <div class="lp-footer-copy">
