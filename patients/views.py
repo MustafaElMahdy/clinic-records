@@ -2,7 +2,9 @@ import time
 from datetime import timedelta
 from django.utils import timezone
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.db.models import Q, Count
 from django.http import HttpResponseForbidden
@@ -80,7 +82,10 @@ def patient_list(request):
             | Q(national_id__icontains=q)
         )
 
-    return render(request, "patients/patient_list.html", {"patients": patients, "q": q})
+    paginator = Paginator(patients, 25)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    return render(request, "patients/patient_list.html", {"page_obj": page_obj, "q": q})
 
 
 @login_required
@@ -184,6 +189,7 @@ def patient_create(request):
                 patient_id=patient.pk,
             )
 
+            messages.success(request, f'Patient "{patient.full_name}" created successfully.')
             return redirect("patients:detail", pk=patient.pk)
     else:
         form = PatientForm()
@@ -263,6 +269,7 @@ def patient_detail(request, pk: int):
                 },
             )
 
+            messages.success(request, "Visit added successfully.")
             return redirect("patients:detail", pk=patient.pk)
     else:
         visit_form = VisitForm()

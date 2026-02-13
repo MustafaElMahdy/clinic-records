@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
@@ -26,6 +27,7 @@ def clinic_settings(request):
                     "address": clinic.address,
                 },
             )
+            messages.success(request, "Clinic settings saved.")
             return redirect("clinics:settings")
     else:
         form = ClinicSettingsForm(instance=clinic)

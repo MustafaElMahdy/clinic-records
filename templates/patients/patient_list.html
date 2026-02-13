@@ -5,7 +5,12 @@
 <div class="row" style="align-items:center; justify-content:space-between;">
   <div>
     <h1>Patients</h1>
-    <div class="muted">Search by name, phone, or national ID.</div>
+    <div class="muted">
+      Search by name, phone, or national ID.
+      {% if page_obj.paginator.count %}
+        <span style="margin-left: 6px;">{{ page_obj.paginator.count }} patient{{ page_obj.paginator.count|pluralize }} total</span>
+      {% endif %}
+    </div>
   </div>
   {% if user.role == "doctor" or user.role == "assistant" or user.role == "admin" %}
         <a class="btn primary" href="{% url 'patients:create' %}">+ Add patient</a>
@@ -33,7 +38,7 @@
       <th>National ID</th>
       <th>Sex</th>
     </tr>
-    {% for p in patients %}
+    {% for p in page_obj %}
       <tr>
         <td><a href="{% url 'patients:detail' p.pk %}"><b>{{ p.full_name }}</b></a></td>
         <td>{{ p.phone }}</td>
@@ -44,6 +49,18 @@
       <tr><td colspan="4" class="muted">No patients found.</td></tr>
     {% endfor %}
   </table>
+
+  {% if page_obj.has_other_pages %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">← Previous</a>
+      {% endif %}
+      <span class="muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">Next →</a>
+      {% endif %}
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}

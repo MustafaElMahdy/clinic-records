@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -31,6 +32,7 @@ def user_create(request):
                 obj=user,
                 metadata={"username": user.username, "role": user.role},
             )
+            messages.success(request, f'User "{user.username}" created successfully.')
             return redirect("accounts:list")
     else:
         form = UserCreateForm()
@@ -79,6 +81,7 @@ def user_edit(request, pk):
                 obj=user,
                 metadata={"username": user.username, "role": user.role},
             )
+            messages.success(request, f'User "{user.username}" updated successfully.')
             return redirect("accounts:list")
     else:
         form = UserEditForm(instance=user)
@@ -115,4 +118,6 @@ def user_toggle_active(request, pk):
         obj=user,
         metadata={"username": user.username, "is_active": user.is_active},
     )
+    status = "activated" if user.is_active else "deactivated"
+    messages.success(request, f'User "{user.username}" {status}.')
     return redirect("accounts:list")

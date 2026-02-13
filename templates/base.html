@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Clinic Records{% endblock %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link rel="stylesheet" href="{% static 'styles.css' %}?v=7">
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=8">
 </head>
 <body>
   <div class="nav">
@@ -37,6 +37,14 @@
       </div>
     </div>
   </div>
+
+  {% if messages %}
+    <div class="messages-wrap">
+      {% for message in messages %}
+        <div class="message message-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
 
   <div class="container">
     {% block content %}{% endblock %}
