@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -31,6 +29,5 @@ urlpatterns = [
     path("clinic/", include("clinics.urls")),
 ]
 
-# Serve media files in development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Media files are intentionally NOT served at /media/ directly.
+# All file access must go through files:download (authenticated, clinic-scoped).
