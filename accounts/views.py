@@ -41,6 +41,7 @@ def user_create(request):
 @role_required("admin")
 def user_edit(request, pk):
     user = get_object_or_404(User, pk=pk, clinic=request.clinic)
+    original_role = user.role  # capture before form.is_valid() mutates the instance
 
     if request.method == "POST":
         form = UserEditForm(request.POST, instance=user)
@@ -48,8 +49,13 @@ def user_edit(request, pk):
             new_role = form.cleaned_data.get("role")
             new_active = form.cleaned_data.get("is_active")
 
+            # Guard: admin cannot demote their own account
+            if user.pk == request.user.pk and original_role == "admin" and new_role != "admin":
+                form.add_error("role", "You cannot change your own admin role.")
+                return render(request, "accounts/user_form.html", {"form": form, "is_create": False, "target_user": user})
+
             # Guard: don't remove last active admin
-            if user.role == "admin" and new_role != "admin":
+            if original_role == "admin" and new_role != "admin":
                 active_admins = User.objects.filter(
                     clinic=request.clinic, role="admin", is_active=True
                 ).count()
@@ -58,7 +64,7 @@ def user_edit(request, pk):
                     return render(request, "accounts/user_form.html", {"form": form, "is_create": False, "target_user": user})
 
             # Guard: don't deactivate last active admin
-            if user.role == "admin" and not new_active:
+            if original_role == "admin" and not new_active:
                 active_admins = User.objects.filter(
                     clinic=request.clinic, role="admin", is_active=True
                 ).count()
@@ -89,7 +95,7 @@ def user_toggle_active(request, pk):
     user = get_object_or_404(User, pk=pk, clinic=request.clinic)
 
     # Guard: cannot deactivate yourself
-    if user == request.user:
+    if user.pk == request.user.pk:
         return redirect("accounts:list")
 
     # Guard: cannot deactivate the last active admin
