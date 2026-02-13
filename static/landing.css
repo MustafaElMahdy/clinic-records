@@ -112,31 +112,14 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.15; letter-spacing: -0.5px; }
   letter-spacing: -0.4px;
   text-decoration: none;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
 }
 .lp-brand:hover { text-decoration: none; color: var(--lp-text); }
 
-/* ── Logo images ── */
-.lp-logo-nav {
-  height: 28px;
-  width: auto;
-  display: block;
-}
-.lp-logo-footer {
-  height: 22px;
-  width: auto;
-  display: block;
-  /* White-out for dark footer background */
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
-}
-.lp-mockup-favicon {
-  height: 14px;
-  width: 14px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
+/* "Med" accent — blue on light backgrounds (nav) */
+.lp-brand-accent { color: var(--lp-blue); }
+
+/* "Med" accent — lighter blue on dark footer/CTA backgrounds */
+.lp-brand-accent-footer { color: #6ab4ff; }
 
 .lp-nav-links {
   display: flex;
