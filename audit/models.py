@@ -7,6 +7,7 @@ from clinics.managers import ClinicManager
 class AuditEvent(models.Model):
     class Action(models.TextChoices):
         PATIENT_CREATED = "patient_created", "Patient created"
+        PATIENT_EDITED = "patient_edited", "Patient edited"
         VISIT_CREATED = "visit_created", "Visit created"
         VISIT_EDITED = "visit_edited", "Visit edited"
         PATIENT_VIEWED = "patient_viewed", "Patient viewed"

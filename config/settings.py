@@ -10,22 +10,31 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load .env file if it exists (development only — production uses real env vars)
+load_dotenv(BASE_DIR / ".env")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-$qz6v-^o=&9hkf@verwp0+8m+pou48e*_)mga092zpz10piu-v"
+# ── Environment helpers ──────────────────────────────────────────────────────
+# Read sensitive values from environment variables.
+# In development, defaults are used so nothing breaks.
+# In production, set these as real environment variables (never commit them).
+# -----------------------------------------------------------------------------
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-$qz6v-^o=&9hkf@verwp0+8m+pou48e*_)mga092zpz10piu-v",
+)
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DEBUG", "True") == "True"
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
 # Application definition
@@ -137,15 +146,20 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
 
 
-# Email — prints to console in development; swap for SMTP in production
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "noreply@clinicrecords.local"
+# ── Email ────────────────────────────────────────────────────────────────────
+# Development default: prints emails to the terminal (no SMTP needed).
+# Production: set EMAIL_BACKEND, EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+# as environment variables on your server.
+# -----------------------------------------------------------------------------
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@clinicrecords.local")
 
-# Production SMTP example (set via environment variables):
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "smtp.sendgrid.net"
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "apikey"
-# EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
+EMAIL_HOST          = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT          = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS       = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+EMAIL_HOST_USER     = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 

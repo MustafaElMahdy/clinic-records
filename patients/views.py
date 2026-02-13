@@ -194,7 +194,41 @@ def patient_create(request):
     else:
         form = PatientForm()
 
-    return render(request, "patients/patient_form.html", {"form": form})
+    return render(request, "patients/patient_form.html", {"form": form, "is_edit": False})
+
+
+@login_required
+@role_required("doctor", "admin")
+def patient_edit(request, pk: int):
+    patient = get_object_or_404(Patient.objects.for_clinic(request.clinic), pk=pk)
+
+    if request.method == "POST":
+        form = PatientForm(request.POST, instance=patient)
+        if form.is_valid():
+            try:
+                form.save()
+            except IntegrityError as e:
+                error_msg = str(e).lower()
+                if "unique_national_id_per_clinic" in error_msg or ("national_id" in error_msg and "unique" in error_msg):
+                    form.add_error("national_id", "A patient with this National ID already exists in your clinic.")
+                elif "unique_phone_per_clinic" in error_msg or ("phone" in error_msg and "unique" in error_msg):
+                    form.add_error("phone", "A patient with this phone number already exists in your clinic.")
+                else:
+                    form.add_error(None, "A patient with these details already exists in your clinic.")
+                return render(request, "patients/patient_form.html", {"form": form, "is_edit": True, "patient": patient})
+
+            log_event(
+                request,
+                action=AuditEvent.Action.PATIENT_EDITED,
+                obj=patient,
+                patient_id=patient.pk,
+            )
+            messages.success(request, f'Patient "{patient.full_name}" updated successfully.')
+            return redirect("patients:detail", pk=patient.pk)
+    else:
+        form = PatientForm(instance=patient)
+
+    return render(request, "patients/patient_form.html", {"form": form, "is_edit": True, "patient": patient})
 
 
 @login_required

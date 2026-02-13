@@ -1,19 +1,25 @@
 {% extends "base.html" %}
-{% block title %}New Patient{% endblock %}
+{% block title %}{% if is_edit %}Edit {{ patient.full_name }}{% else %}New Patient{% endif %}{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 760px;">
   <div class="row" style="align-items:center; justify-content:space-between;">
     <div>
-      <h1>Add Patient</h1>
-      <div class="muted">Basic info only for now; you can add more later.</div>
+      <h1>{% if is_edit %}Edit Patient{% else %}Add Patient{% endif %}</h1>
+      <div class="muted">
+        {% if is_edit %}{{ patient.full_name }}{% else %}Basic info only for now; you can add more later.{% endif %}
+      </div>
     </div>
-    <a class="btn" href="/">Back</a>
+    {% if is_edit %}
+      <a class="btn" href="{% url 'patients:detail' patient.pk %}">← Back</a>
+    {% else %}
+      <a class="btn" href="/">← Back</a>
+    {% endif %}
   </div>
 
   <form method="post" style="margin-top:10px;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn primary" type="submit">Save</button>
+    <button class="btn primary" type="submit">{% if is_edit %}Save Changes{% else %}Save{% endif %}</button>
   </form>
 </div>
 {% endblock %}

@@ -9,7 +9,12 @@
       {{ patient.phone }} {% if patient.national_id %} • {{ patient.national_id }}{% endif %}
     </div>
   </div>
-  <a class="btn" href="/">← Back</a>
+  <div style="display: flex; gap: 8px;">
+    {% if user.role == "doctor" or user.role == "admin" %}
+      <a class="btn" href="{% url 'patients:edit' patient.pk %}">Edit Patient</a>
+    {% endif %}
+    <a class="btn" href="/">← Back</a>
+  </div>
 </div>
 
 <div class="split" style="margin-top:14px;">
@@ -168,6 +173,9 @@
 
               {% elif e.action == "patient_created" %}
                 Patient created
+
+              {% elif e.action == "patient_edited" %}
+                Patient details edited
 
               {% elif e.action == "file_uploaded" %}
                 Uploaded: <strong>{{ e.metadata.filename }}</strong>
