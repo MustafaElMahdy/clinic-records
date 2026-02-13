@@ -10,34 +10,28 @@
 <body>
   <div class="nav">
     <div class="nav-inner">
-      <div style="display: flex; gap: 16px; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a class="brand" href="/">Clinic Records</a>
 
         {% if user.is_authenticated and user.role == "admin" %}
-          <a href="{% url 'patients:admin_dashboard' %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Admin Dashboard</a>
-          <a href="{% url 'accounts:list' %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Users</a>
-          <a href="{% url 'clinics:settings' %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Settings</a>
+          <a href="{% url 'patients:admin_dashboard' %}" class="btn">Admin Dashboard</a>
+          <a href="{% url 'accounts:list' %}" class="btn">Users</a>
+          <a href="{% url 'clinics:settings' %}" class="btn">Settings</a>
         {% endif %}
       </div>
 
-      <div class="muted">
+      <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
         {% if user.is_authenticated %}
-          {{ user.username }} •
+          <span class="muted" style="font-size: 13px;">{{ user.username }}</span>
 
           <!-- Django 6+ logout must be POST -->
-          <form method="post" action="{% url 'logout' %}" style="display:inline;">
+          <form method="post" action="{% url 'logout' %}" style="margin: 0;">
             {% csrf_token %}
-            <button
-              type="submit"
-              class="btn"
-              style="padding: 6px 10px; font-size: 13px;"
-            >
-              Logout
-            </button>
+            <button type="submit" class="btn">Logout</button>
           </form>
 
         {% else %}
-          <a href="{% url 'login' %}">Login</a>
+          <a href="{% url 'login' %}" class="btn">Login</a>
         {% endif %}
       </div>
     </div>
