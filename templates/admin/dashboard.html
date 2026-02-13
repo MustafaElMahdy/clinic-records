@@ -7,7 +7,10 @@
     <h1>Admin Dashboard</h1>
     <div class="muted">{{ clinic.name }}</div>
   </div>
-  <a class="btn" href="{% url 'patients:list' %}">← Back to Patients</a>
+  <div style="display: flex; gap: 10px;">
+    <a class="btn" href="{% url 'clinics:settings' %}">Clinic Settings</a>
+    <a class="btn" href="{% url 'patients:list' %}">← Back to Patients</a>
+  </div>
 </div>
 
 <div class="row" style="margin-bottom: 14px;">

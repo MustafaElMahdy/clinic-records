@@ -16,6 +16,7 @@ class AuditEvent(models.Model):
         USER_CREATED = "user_created", "User created"
         USER_EDITED = "user_edited", "User edited"
         USER_DEACTIVATED = "user_deactivated", "User deactivated"
+        CLINIC_UPDATED = "clinic_updated", "Clinic settings updated"
 
     created_at = models.DateTimeField(auto_now_add=True)
 
