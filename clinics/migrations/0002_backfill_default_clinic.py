@@ -22,10 +22,10 @@ def backfill_default_clinic(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("clinics", "0001_initial"),
-        ("patients", "0001_initial"),  # adjust if different
-        ("visits", "0001_initial"),
-        ("audit", "0001_initial"),
-        ("accounts", "0001_initial"),
+        ("patients", "0002_patient_clinic_and_more"),
+        ("visits", "0002_visit_clinic_visit_visits_visi_clinic__7cd38f_idx"),
+        ("audit", "0003_auditevent_clinic"),
+        ("accounts", "0002_user_clinic"),
     ]
 
     operations = [
