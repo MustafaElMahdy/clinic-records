@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DocuMed — Clinical records, simplified.</title>
   <meta name="description" content="DocuMed is the EHR built for private practices and small clinics. Patient records, visit notes, file attachments, audit logs — all in one elegant system.">
+  <link rel="icon" type="image/png" href="{% static 'img/documed_middle.png' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="{% static 'landing.css' %}">
 </head>
@@ -16,7 +17,9 @@
   ════════════════════════════════════════════ -->
   <nav class="lp-nav" id="top">
     <div class="lp-nav-inner">
-      <a class="lp-brand" href="#top">DocuMed</a>
+      <a class="lp-brand" href="#top">
+        <img src="{% static 'img/documed_top.png' %}" alt="DocuMed" class="lp-logo-nav">
+      </a>
       <div class="lp-nav-links">
         <a href="#features">Features</a>
         <a href="#how-it-works">How It Works</a>
@@ -52,7 +55,8 @@
             <span class="lp-dot lp-dot-red"></span>
             <span class="lp-dot lp-dot-yellow"></span>
             <span class="lp-dot lp-dot-green"></span>
-            <span class="lp-mockup-title">Patient Record</span>
+            <img src="{% static 'img/documed_middle.png' %}" alt="" class="lp-mockup-favicon">
+          <span class="lp-mockup-title">Patient Record</span>
           </div>
           <div class="lp-mockup-body">
             <div class="lp-mock-row">
@@ -457,7 +461,7 @@
   <footer class="lp-footer">
     <div class="lp-container lp-footer-inner">
       <div class="lp-footer-brand">
-        <span class="lp-brand">DocuMed</span>
+        <img src="{% static 'img/documed_top.png' %}" alt="DocuMed" class="lp-logo-footer">
         <span class="lp-footer-domain">dcumed.health</span>
       </div>
       <div class="lp-footer-links">

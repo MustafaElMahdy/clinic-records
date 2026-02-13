@@ -115,8 +115,16 @@ p  { margin: 0 0 10px; }
   text-decoration: none;
   letter-spacing: -0.2px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 .brand:hover { text-decoration: none; color: var(--text); }
+
+.app-logo {
+  height: 24px;
+  width: auto;
+  display: block;
+}
 
 /* ── Card ── */
 .card {

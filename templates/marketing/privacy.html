@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy — DocuMed</title>
+  <link rel="icon" type="image/png" href="{% static 'img/documed_middle.png' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="{% static 'landing.css' %}">
   <style>
@@ -36,7 +37,9 @@
   <!-- Minimal nav -->
   <nav class="lp-nav">
     <div class="lp-nav-inner">
-      <a class="lp-brand" href="{% url 'landing' %}">DocuMed</a>
+      <a class="lp-brand" href="{% url 'landing' %}">
+        <img src="{% static 'img/documed_top.png' %}" alt="DocuMed" class="lp-logo-nav">
+      </a>
       <div class="lp-nav-links">
         <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">Log in</a>
         <a href="{% url 'landing' %}#demo" class="lp-btn lp-btn-primary">Request a Demo</a>
@@ -152,7 +155,7 @@
   <footer class="lp-footer">
     <div class="lp-container lp-footer-inner">
       <div class="lp-footer-brand">
-        <span class="lp-brand">DocuMed</span>
+        <img src="{% static 'img/documed_top.png' %}" alt="DocuMed" class="lp-logo-footer">
         <span class="lp-footer-domain">dcumed.health</span>
       </div>
       <div class="lp-footer-links">
