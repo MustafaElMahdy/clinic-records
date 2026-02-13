@@ -14,6 +14,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+try:
+    import dj_database_url as _dj_db
+except ImportError:
+    _dj_db = None
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +45,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(","
 # Application definition
 
 INSTALLED_APPS = [
+    "storages",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,6 +62,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -88,12 +95,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+_DATABASE_URL = os.environ.get("DATABASE_URL")
+if _DATABASE_URL and _dj_db:
+    DATABASES = {"default": _dj_db.parse(_DATABASE_URL, conn_max_age=600)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 
 # Password validation
@@ -162,4 +173,44 @@ EMAIL_PORT          = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_USE_TLS       = os.environ.get("EMAIL_USE_TLS", "True") == "True"
 EMAIL_HOST_USER     = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+
+
+# ── File Storage ─────────────────────────────────────────────────────────────
+# If R2 credentials are present → store media files in Cloudflare R2.
+# Otherwise fall back to local filesystem (development default).
+# -----------------------------------------------------------------------------
+
+_R2_KEY = os.environ.get("R2_ACCESS_KEY_ID", "")
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "storages.backends.s3boto3.S3Boto3Storage"
+            if _R2_KEY
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+if _R2_KEY:
+    AWS_ACCESS_KEY_ID       = _R2_KEY
+    AWS_SECRET_ACCESS_KEY   = os.environ.get("R2_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME", "documed-media")
+    AWS_S3_ENDPOINT_URL     = os.environ.get("R2_ENDPOINT_URL", "")
+    AWS_S3_REGION_NAME      = "auto"
+    AWS_DEFAULT_ACL         = "private"
+    AWS_QUERYSTRING_AUTH    = True   # pre-signed URLs — files are not publicly accessible
+    AWS_S3_FILE_OVERWRITE   = False  # never silently replace an existing file
+
+
+# ── Security ──────────────────────────────────────────────────────────────────
+# CSRF_TRUSTED_ORIGINS must include the Render domain and any custom domain.
+# Set in environment: CSRF_TRUSTED_ORIGINS=https://documed.onrender.com,https://dcumed.health
+# ------------------------------------------------------------------------------
+
+_csrf_raw = os.environ.get("CSRF_TRUSTED_ORIGINS", "")
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_raw.split(",") if o.strip()]
 
