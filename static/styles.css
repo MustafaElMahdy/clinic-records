@@ -190,53 +190,68 @@ p  { margin: 0 0 10px; }
   color: var(--red);
 }
 
-/* ── Form inputs ── */
+/* ── Form inputs — catch ALL input types ── */
 .input,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-input[type="number"],
-input[type="search"],
-input[type="tel"],
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="image"]),
 select,
 textarea {
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 13px;
   border-radius: var(--r-md);
   border: 1px solid var(--border-input);
   background: var(--surface);
   color: var(--text);
   font-family: var(--font);
   font-size: 15px;
-  line-height: 1.4;
+  line-height: 1.45;
   outline: none;
   transition: border-color var(--t), box-shadow var(--t);
   appearance: none;
   -webkit-appearance: none;
 }
 .input:focus,
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="date"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="image"]):focus,
 select:focus,
 textarea:focus {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.18);
 }
-textarea { min-height: 100px; resize: vertical; line-height: 1.5; }
+textarea { min-height: 100px; resize: vertical; line-height: 1.55; }
 
-/* Don't stretch checkboxes/radios */
+/* File input — needs its own treatment */
+input[type="file"] {
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.025);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--muted-color);
+}
+input[type="file"]::file-selector-button {
+  border: 1px solid var(--border-input);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: background var(--t);
+}
+input[type="file"]::file-selector-button:hover {
+  background: #f0f0f2;
+}
+
+/* Checkboxes / radios */
 input[type="checkbox"],
 input[type="radio"] {
   width: auto;
   padding: 0;
   margin-right: 6px;
   accent-color: var(--blue);
+  appearance: auto;
+  -webkit-appearance: auto;
 }
 
 /* ── Django form.as_p rendering ── */
@@ -302,7 +317,7 @@ label.muted {
 .form-text   { display: block; margin-top: 4px; font-size: 12px; }
 .text-muted  { color: var(--muted-color); }
 .text-danger { color: var(--red); font-size: 12px; margin-top: 4px; }
-.mb-3        { margin-bottom: 18px; }
+.mb-3        { margin-bottom: 22px; }
 .my-4        { margin-top: 24px; margin-bottom: 24px; }
 .d-flex      { display: flex; }
 .gap-2       { gap: 8px; }
@@ -441,6 +456,13 @@ label.muted {
 }
 .file-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .file-actions .btn { flex: 1; min-width: 80px; font-size: 12px; padding: 6px 10px; }
+
+/* ── Nested container fix (attachment_upload wraps in .container again) ── */
+.container .container { max-width: none; margin: 0; padding: 0; }
+.container .container > .card { max-width: 580px; }
+
+/* ── form.as_p extra spacing ── */
+form p { margin: 0 0 20px; }
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
