@@ -18,7 +18,10 @@ class ClinicMiddleware:
         "/admin/",
         "/static/",
         "/media/",
+        "/privacy/",
+        "/terms/",
     )
+    EXEMPT_PATHS = {"/"}  # exact matches
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -26,8 +29,10 @@ class ClinicMiddleware:
     def __call__(self, request):
         path = request.path
 
-        # Allow unauthenticated users + exempt paths
+        # Allow unauthenticated users, superusers, and exempt paths
         if (not getattr(request, "user", None) or not request.user.is_authenticated
+            or request.user.is_superuser
+            or path in self.EXEMPT_PATHS
             or path.startswith(self.EXEMPT_PREFIXES)):
             return self.get_response(request)
 
