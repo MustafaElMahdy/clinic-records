@@ -59,10 +59,4 @@ class Patient(models.Model):
                 name='unique_national_id_per_clinic',
                 condition=models.Q(national_id__isnull=False) & ~models.Q(national_id='')
             ),
-            # Ensure phone is unique within each clinic (when provided)
-            models.UniqueConstraint(
-                fields=['clinic', 'phone'],
-                name='unique_phone_per_clinic',
-                condition=models.Q(phone__isnull=False) & ~models.Q(phone='')
-            ),
         ]
