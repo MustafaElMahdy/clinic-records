@@ -29,15 +29,18 @@ class ClinicMiddleware:
     def __call__(self, request):
         path = request.path
 
-        # Allow unauthenticated users, superusers, and exempt paths
+        # Allow unauthenticated users and exempt paths
         if (not getattr(request, "user", None) or not request.user.is_authenticated
-            or request.user.is_superuser
             or path in self.EXEMPT_PATHS
             or path.startswith(self.EXEMPT_PREFIXES)):
             return self.get_response(request)
 
-        # Attach clinic to request
+        # Attach clinic to request (may be None for superusers)
         request.clinic = getattr(request.user, "clinic", None)
+
+        # Superusers can proceed without a clinic
+        if request.user.is_superuser:
+            return self.get_response(request)
 
         # If user has no clinic, log them out and redirect to login
         if request.clinic is None:
