@@ -14,7 +14,7 @@ def role_required(*allowed_roles: str):
             if not user.is_authenticated:
                 # Let @login_required handle redirects in views.
                 return HttpResponseForbidden("Not authenticated.")
-            if getattr(user, "role", None) not in allowed_roles:
+            if not user.is_superuser and getattr(user, "role", None) not in allowed_roles:
                 return HttpResponseForbidden("You do not have permission to perform this action.")
             return view_func(request, *args, **kwargs)
         return _wrapped

@@ -102,6 +102,10 @@ def patient_create(request):
             s = "0" + s[2:]
         return s
 
+    if request.clinic is None:
+        messages.error(request, "You are not assigned to a clinic. Use Django admin to manage data.")
+        return redirect("patients:list")
+
     if request.method == "POST":
         form = PatientForm(request.POST)
         if form.is_valid():

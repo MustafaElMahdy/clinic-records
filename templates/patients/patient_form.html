@@ -12,7 +12,7 @@
     {% if is_edit %}
       <a class="btn" href="{% url 'patients:detail' patient.pk %}">← Back</a>
     {% else %}
-      <a class="btn" href="/">← Back</a>
+      <a class="btn" href="{% url 'patients:list' %}">← Back</a>
     {% endif %}
   </div>
 
