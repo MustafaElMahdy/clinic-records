@@ -13,7 +13,7 @@
     {% if user.role == "doctor" or user.role == "admin" %}
       <a class="btn" href="{% url 'patients:edit' patient.pk %}">Edit Patient</a>
     {% endif %}
-    <a class="btn" href="/">← Back</a>
+    <a class="btn" href="{% url 'patients:list' %}">← Back</a>
   </div>
 </div>
 
