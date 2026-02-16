@@ -3,7 +3,7 @@ services:
     name: documed
     runtime: python
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
-    startCommand: gunicorn config.wsgi:application
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120
     envVars:
       - key: DEBUG
         value: "False"
@@ -16,7 +16,7 @@ services:
           name: documed-db
           property: connectionString
       - key: CSRF_TRUSTED_ORIGINS
-        value: "https://documed.onrender.com"
+        value: "https://clinic-records.onrender.com"
       - key: R2_BUCKET_NAME
         value: "documed-media"
       - key: R2_ACCOUNT_ID
