@@ -9,7 +9,11 @@
     <div class="muted">
       {% trans "Search by name, phone, or national ID." %}
       {% if page_obj.paginator.count %}
-        <span style="margin-left: 6px;">{% blocktrans with count=page_obj.paginator.count %}{{ count }} patient total{% plural %}{{ count }} patients total{% endblocktrans %}</span>
+        {% with count=page_obj.paginator.count %}
+          <span style="margin-left: 6px;">
+            {% if count == 1 %}{% blocktrans with count=count %}{{ count }} patient total{% endblocktrans %}{% else %}{% blocktrans with count=count %}{{ count }} patients total{% endblocktrans %}{% endif %}
+          </span>
+        {% endwith %}
       {% endif %}
     </div>
   </div>
