@@ -1,25 +1,26 @@
 {% extends "base.html" %}
-{% block title %}{% if is_edit %}Edit {{ patient.full_name }}{% else %}New Patient{% endif %}{% endblock %}
+{% load i18n %}
+{% block title %}{% if is_edit %}{% blocktrans with name=patient.full_name %}Edit {{ name }}{% endblocktrans %}{% else %}{% trans "New Patient" %}{% endif %}{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 760px;">
   <div class="row" style="align-items:center; justify-content:space-between;">
     <div>
-      <h1>{% if is_edit %}Edit Patient{% else %}Add Patient{% endif %}</h1>
+      <h1>{% if is_edit %}{% trans "Edit Patient" %}{% else %}{% trans "Add Patient" %}{% endif %}</h1>
       <div class="muted">
-        {% if is_edit %}{{ patient.full_name }}{% else %}Basic info only for now; you can add more later.{% endif %}
+        {% if is_edit %}{{ patient.full_name }}{% else %}{% trans "Basic info only for now; you can add more later." %}{% endif %}
       </div>
     </div>
     {% if is_edit %}
-      <a class="btn" href="{% url 'patients:detail' patient.pk %}">← Back</a>
+      <a class="btn" href="{% url 'patients:detail' patient.pk %}">{% trans "← Back" %}</a>
     {% else %}
-      <a class="btn" href="{% url 'patients:list' %}">← Back</a>
+      <a class="btn" href="{% url 'patients:list' %}">{% trans "← Back" %}</a>
     {% endif %}
   </div>
 
   <form method="post" style="margin-top:10px;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn primary" type="submit">{% if is_edit %}Save Changes{% else %}Save{% endif %}</button>
+    <button class="btn primary" type="submit">{% if is_edit %}{% trans "Save Changes" %}{% else %}{% trans "Save" %}{% endif %}</button>
   </form>
 </div>
 {% endblock %}

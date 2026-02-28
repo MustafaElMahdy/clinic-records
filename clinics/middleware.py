@@ -20,6 +20,7 @@ class ClinicMiddleware:
         "/media/",
         "/privacy/",
         "/terms/",
+        "/set-language/",
     )
     EXEMPT_PATHS = {"/"}  # exact matches
 

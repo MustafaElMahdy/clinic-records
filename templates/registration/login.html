@@ -1,17 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Login" %}{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 520px; margin: 40px auto;">
-  <h1>Login</h1>
-  <p class="muted" style="margin-top:0;">Sign in to access patient records.</p>
+  <h1>{% trans "Login" %}</h1>
+  <p class="muted" style="margin-top:0;">{% trans "Sign in to access patient records." %}</p>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn primary" type="submit">Login</button>
+    <button class="btn primary" type="submit">{% trans "Login" %}</button>
   </form>
 
   <div style="margin-top: 16px;">
-    <a href="{% url 'password_reset' %}" class="muted" style="font-size: 13px;">Forgot your password?</a>
+    <a href="{% url 'password_reset' %}" class="muted" style="font-size: 13px;">{% trans "Forgot your password?" %}</a>
   </div>
 </div>
 {% endblock %}

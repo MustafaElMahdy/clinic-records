@@ -1,13 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Clinic Settings - {{ clinic.name }}{% endblock %}
+{% load i18n %}
+{% block title %}{% blocktrans with name=clinic.name %}Clinic Settings - {{ name }}{% endblocktrans %}{% endblock %}
 {% block content %}
 
 <div class="row" style="align-items:center; justify-content:space-between; margin-bottom: 20px;">
   <div>
-    <h1>Clinic Settings</h1>
+    <h1>{% trans "Clinic Settings" %}</h1>
     <div class="muted">{{ clinic.name }}</div>
   </div>
-  <a class="btn" href="{% url 'patients:admin_dashboard' %}">← Back to Dashboard</a>
+  <a class="btn" href="{% url 'patients:admin_dashboard' %}">{% trans "← Back to Dashboard" %}</a>
 </div>
 
 <div class="card" style="max-width: 540px;">
@@ -32,7 +33,7 @@
     {% endfor %}
 
     <div style="margin-top: 20px;">
-      <button type="submit" class="btn primary">Save Settings</button>
+      <button type="submit" class="btn primary">{% trans "Save Settings" %}</button>
     </div>
   </form>
 </div>

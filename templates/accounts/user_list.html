@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Manage Users - {{ request.clinic.name }}{% endblock %}
+{% load i18n %}
+{% block title %}{% blocktrans with name=request.clinic.name %}Manage Users - {{ name }}{% endblocktrans %}{% endblock %}
 {% block content %}
 
 <div class="row" style="align-items:center; justify-content:space-between; margin-bottom: 20px;">
   <div>
-    <h1>Manage Users</h1>
+    <h1>{% trans "Manage Users" %}</h1>
     <div class="muted">{{ request.clinic.name }}</div>
   </div>
   <div style="display: flex; gap: 10px;">
-    <a href="{% url 'patients:admin_dashboard' %}" class="btn">← Admin Dashboard</a>
-    <a href="{% url 'accounts:create' %}" class="btn primary">Add User</a>
+    <a href="{% url 'patients:admin_dashboard' %}" class="btn">{% trans "← Admin Dashboard" %}</a>
+    <a href="{% url 'accounts:create' %}" class="btn primary">{% trans "Add User" %}</a>
   </div>
 </div>
 
@@ -17,38 +18,38 @@
   {% if users %}
     <table class="table">
       <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th>{% trans "Username" %}</th>
+        <th>{% trans "Email" %}</th>
+        <th>{% trans "Role" %}</th>
+        <th>{% trans "Status" %}</th>
+        <th>{% trans "Actions" %}</th>
       </tr>
       {% for u in users %}
         <tr>
           <td>
             <strong>{{ u.username }}</strong>
-            {% if u == request.user %}<span class="badge" style="margin-left: 6px;">You</span>{% endif %}
+            {% if u == request.user %}<span class="badge" style="margin-left: 6px;">{% trans "You" %}</span>{% endif %}
           </td>
           <td class="muted">{{ u.email|default:"—" }}</td>
           <td><span class="badge">{{ u.get_role_display }}</span></td>
           <td>
             {% if u.is_active %}
-              <span style="color: #059669; font-size: 13px;">Active</span>
+              <span style="color: #059669; font-size: 13px;">{% trans "Active" %}</span>
             {% else %}
-              <span class="muted" style="font-size: 13px;">Inactive</span>
+              <span class="muted" style="font-size: 13px;">{% trans "Inactive" %}</span>
             {% endif %}
           </td>
           <td>
             <div style="display: flex; gap: 8px;">
-              <a href="{% url 'accounts:edit' u.pk %}" class="btn" style="padding: 6px 10px; font-size: 13px;">Edit</a>
+              <a href="{% url 'accounts:edit' u.pk %}" class="btn" style="padding: 6px 10px; font-size: 13px;">{% trans "Edit" %}</a>
 
               {% if u != request.user %}
                 <form method="post" action="{% url 'accounts:toggle_active' u.pk %}" style="display:inline;">
                   {% csrf_token %}
                   {% if u.is_active %}
-                    <button type="submit" class="btn danger" style="padding: 6px 10px; font-size: 13px;">Deactivate</button>
+                    <button type="submit" class="btn danger" style="padding: 6px 10px; font-size: 13px;">{% trans "Deactivate" %}</button>
                   {% else %}
-                    <button type="submit" class="btn" style="padding: 6px 10px; font-size: 13px; color: #059669; border-color: #059669;">Activate</button>
+                    <button type="submit" class="btn" style="padding: 6px 10px; font-size: 13px; color: #059669; border-color: #059669;">{% trans "Activate" %}</button>
                   {% endif %}
                 </form>
               {% endif %}
@@ -58,7 +59,7 @@
       {% endfor %}
     </table>
   {% else %}
-    <p class="muted">No users found.</p>
+    <p class="muted">{% trans "No users found." %}</p>
   {% endif %}
 </div>
 

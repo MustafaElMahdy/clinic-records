@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
+from django.conf.urls.i18n import set_language
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -22,6 +23,8 @@ urlpatterns = [
     path("password-reset/complete/",
         auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_reset_complete.html"),
         name="password_reset_complete"),
+
+    path("set-language/", set_language, name="set_language"),
 
     path("", TemplateView.as_view(template_name="marketing/landing.html"), name="landing"),
     path("privacy/", TemplateView.as_view(template_name="marketing/privacy.html"), name="privacy"),

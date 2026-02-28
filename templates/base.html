@@ -1,12 +1,16 @@
 {% load static %}
+{% load i18n %}
 <!doctype html>
-<html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}DocuMed{% endblock %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link rel="stylesheet" href="{% static 'styles.css' %}?v=9">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=10">
 </head>
 <body>
   <div class="nav">
@@ -15,9 +19,9 @@
         <a class="brand" href="/">Docu<span class="brand-accent">Med</span></a>
 
         {% if user.is_authenticated and user.role == "admin" %}
-          <a href="{% url 'patients:admin_dashboard' %}" class="btn">Admin Dashboard</a>
-          <a href="{% url 'accounts:list' %}" class="btn">Users</a>
-          <a href="{% url 'clinics:settings' %}" class="btn">Settings</a>
+          <a href="{% url 'patients:admin_dashboard' %}" class="btn">{% trans "Admin Dashboard" %}</a>
+          <a href="{% url 'accounts:list' %}" class="btn">{% trans "Users" %}</a>
+          <a href="{% url 'clinics:settings' %}" class="btn">{% trans "Settings" %}</a>
         {% endif %}
       </div>
 
@@ -28,12 +32,25 @@
           <!-- Django 6+ logout must be POST -->
           <form method="post" action="{% url 'logout' %}" style="margin: 0;">
             {% csrf_token %}
-            <button type="submit" class="btn">Logout</button>
+            <button type="submit" class="btn">{% trans "Logout" %}</button>
           </form>
 
         {% else %}
-          <a href="{% url 'login' %}" class="btn">Login</a>
+          <a href="{% url 'login' %}" class="btn">{% trans "Login" %}</a>
         {% endif %}
+
+        <!-- Language toggle -->
+        <form method="post" action="{% url 'set_language' %}" style="margin: 0;">
+          {% csrf_token %}
+          {% if LANGUAGE_CODE == 'ar' %}
+            <input type="hidden" name="language" value="en">
+            <button type="submit" class="btn">EN</button>
+          {% else %}
+            <input type="hidden" name="language" value="ar">
+            <button type="submit" class="btn">ع</button>
+          {% endif %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+        </form>
       </div>
     </div>
   </div>

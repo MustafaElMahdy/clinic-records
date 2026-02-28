@@ -1,0 +1,837 @@
+# Arabic translations for DocuMed
+# Copyright (C) 2026 DocuMed
+msgid ""
+msgstr ""
+"Project-Id-Version: DocuMed 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-28 00:00+0000\n"
+"PO-Revision-Date: 2026-02-28 00:00+0000\n"
+"Last-Translator: DocuMed Team\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+# Navigation / Base
+msgid "Admin Dashboard"
+msgstr "لوحة تحكم المسؤول"
+
+msgid "Users"
+msgstr "المستخدمون"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+msgid "English"
+msgstr "الإنجليزية"
+
+msgid "Arabic"
+msgstr "العربية"
+
+# User management
+msgid "Add User"
+msgstr "إضافة مستخدم"
+
+msgid "Create User"
+msgstr "إنشاء مستخدم"
+
+msgid "Save Changes"
+msgstr "حفظ التغييرات"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "← Back to Users"
+msgstr "← العودة إلى المستخدمين"
+
+msgid "Manage Users"
+msgstr "إدارة المستخدمين"
+
+msgid "← Admin Dashboard"
+msgstr "← لوحة تحكم المسؤول"
+
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Role"
+msgstr "الدور"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Actions"
+msgstr "الإجراءات"
+
+msgid "You"
+msgstr "أنت"
+
+msgid "Active"
+msgstr "نشط"
+
+msgid "Inactive"
+msgstr "غير نشط"
+
+msgid "Edit"
+msgstr "تعديل"
+
+msgid "Deactivate"
+msgstr "تعطيل"
+
+msgid "Activate"
+msgstr "تفعيل"
+
+msgid "No users found."
+msgstr "لا يوجد مستخدمون."
+
+# Admin dashboard
+msgid "Clinic Settings"
+msgstr "إعدادات العيادة"
+
+msgid "← Back to Patients"
+msgstr "← العودة إلى المرضى"
+
+msgid "Total Patients"
+msgstr "إجمالي المرضى"
+
+msgid "Total Visits"
+msgstr "إجمالي الزيارات"
+
+msgid "Medical Files"
+msgstr "الملفات الطبية"
+
+msgid "Total documents uploaded"
+msgstr "إجمالي المستندات المرفوعة"
+
+msgid "Clinic Users"
+msgstr "مستخدمو العيادة"
+
+msgid "Recent Activity"
+msgstr "النشاط الأخير"
+
+msgid "Last 20 audit events"
+msgstr "آخر 20 حدث تدقيق"
+
+msgid "Time"
+msgstr "الوقت"
+
+msgid "Action"
+msgstr "الإجراء"
+
+msgid "User"
+msgstr "المستخدم"
+
+msgid "Details"
+msgstr "التفاصيل"
+
+msgid "System"
+msgstr "النظام"
+
+msgid "No recent activity."
+msgstr "لا يوجد نشاط حديث."
+
+# Clinic settings
+msgid "← Back to Dashboard"
+msgstr "← العودة إلى لوحة التحكم"
+
+msgid "Save Settings"
+msgstr "حفظ الإعدادات"
+
+# File management
+msgid "Delete File Attachment"
+msgstr "حذف المرفق"
+
+msgid "← Back"
+msgstr "← رجوع"
+
+msgid "Warning:"
+msgstr "تحذير:"
+
+msgid "This action cannot be undone!"
+msgstr "لا يمكن التراجع عن هذا الإجراء!"
+
+msgid "Patient:"
+msgstr "المريض:"
+
+msgid "Type:"
+msgstr "النوع:"
+
+msgid "Size:"
+msgstr "الحجم:"
+
+msgid "Uploaded:"
+msgstr "تاريخ الرفع:"
+
+msgid "Title:"
+msgstr "العنوان:"
+
+msgid "Are you sure you want to delete this file?"
+msgstr "هل أنت متأكد من حذف هذا الملف؟"
+
+msgid "Yes, Delete"
+msgstr "نعم، احذف"
+
+msgid "Upload Medical Document"
+msgstr "رفع مستند طبي"
+
+msgid "File"
+msgstr "الملف"
+
+msgid "File Type"
+msgstr "نوع الملف"
+
+msgid "Title"
+msgstr "العنوان"
+
+msgid "Notes"
+msgstr "الملاحظات"
+
+msgid "Link to Visit (Optional)"
+msgstr "ربط بزيارة (اختياري)"
+
+msgid "Allowed: Images (JPG, PNG), PDF, Word documents. Max size: 10MB"
+msgstr "المسموح به: صور (JPG, PNG)، PDF، مستندات Word. الحد الأقصى: 10 ميجابايت"
+
+msgid "Upload"
+msgstr "رفع"
+
+# Patient list
+msgid "Patients"
+msgstr "المرضى"
+
+msgid "Search by name, phone, or national ID."
+msgstr "ابحث بالاسم أو الهاتف أو الرقم القومي."
+
+msgid "+ Add patient"
+msgstr "+ إضافة مريض"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Clear"
+msgstr "مسح"
+
+msgid "e.g., Ahmed Hassan / 010… / National ID"
+msgstr "مثال: أحمد حسن / 010… / الرقم القومي"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Phone"
+msgstr "الهاتف"
+
+msgid "National ID"
+msgstr "الرقم القومي"
+
+msgid "Sex"
+msgstr "الجنس"
+
+msgid "No patients found."
+msgstr "لا يوجد مرضى."
+
+msgid "← Previous"
+msgstr "→ التالي"
+
+msgid "Next →"
+msgstr "← السابق"
+
+# Patient detail
+msgid "Edit Patient"
+msgstr "تعديل بيانات المريض"
+
+msgid "Add Visit"
+msgstr "إضافة زيارة"
+
+msgid "You don't have permission to add visits."
+msgstr "ليس لديك صلاحية لإضافة زيارات."
+
+msgid "Patient Info"
+msgstr "بيانات المريض"
+
+msgid "Sex:"
+msgstr "الجنس:"
+
+msgid "DOB:"
+msgstr "تاريخ الميلاد:"
+
+msgid "Address:"
+msgstr "العنوان:"
+
+msgid "Notes:"
+msgstr "الملاحظات:"
+
+msgid "Visit History"
+msgstr "سجل الزيارات"
+
+msgid "Complaint:"
+msgstr "الشكوى:"
+
+msgid "Diagnosis:"
+msgstr "التشخيص:"
+
+msgid "Plan:"
+msgstr "خطة العلاج:"
+
+msgid "Medical Documents & Files"
+msgstr "المستندات والملفات الطبية"
+
+msgid "Upload File"
+msgstr "رفع ملف"
+
+msgid "View/Download"
+msgstr "عرض/تحميل"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "No files uploaded yet."
+msgstr "لم يتم رفع ملفات بعد."
+
+msgid "Audit"
+msgstr "سجل التدقيق"
+
+msgid "Recent activity for this patient (views, visit creation/edits)."
+msgstr "النشاط الأخير لهذا المريض (مشاهدات، إنشاء/تعديل الزيارات)."
+
+msgid "By"
+msgstr "بواسطة"
+
+msgid "Viewed patient record"
+msgstr "تم عرض ملف المريض"
+
+msgid "Visit created"
+msgstr "تم إنشاء الزيارة"
+
+msgid "Visit edited"
+msgstr "تم تعديل الزيارة"
+
+msgid "Patient created"
+msgstr "تم إنشاء المريض"
+
+msgid "Patient details edited"
+msgstr "تم تعديل بيانات المريض"
+
+msgid "Downloaded:"
+msgstr "تم تحميل:"
+
+msgid "Deleted:"
+msgstr "تم حذف:"
+
+msgid "No audit events yet."
+msgstr "لا يوجد أحداث تدقيق بعد."
+
+msgid "open"
+msgstr "فتح"
+
+# Patient form
+msgid "New Patient"
+msgstr "مريض جديد"
+
+msgid "Add Patient"
+msgstr "إضافة مريض"
+
+msgid "Basic info only for now; you can add more later."
+msgstr "معلومات أساسية فقط الآن؛ يمكنك إضافة المزيد لاحقاً."
+
+msgid "Save"
+msgstr "حفظ"
+
+# Duplicate warning
+msgid "Possible Duplicate Patient"
+msgstr "احتمال تكرار مريض"
+
+msgid "We found existing patient records that may match what you entered. This helps prevent duplicates."
+msgstr "وجدنا سجلات مرضى موجودة قد تتطابق مع ما أدخلته. هذا يساعد في منع التكرار."
+
+msgid "What you entered"
+msgstr "ما أدخلته"
+
+msgid "Name:"
+msgstr "الاسم:"
+
+msgid "Phone:"
+msgstr "الهاتف:"
+
+msgid "National ID:"
+msgstr "الرقم القومي:"
+
+msgid "Possible matches"
+msgstr "التطابقات المحتملة"
+
+msgid "Matched by:"
+msgstr "تطابق بواسطة:"
+
+msgid "Open"
+msgstr "فتح"
+
+msgid "If this is the same patient, click"
+msgstr "إذا كان هذا نفس المريض، انقر"
+
+msgid "and use the existing record. If it's a different patient, click"
+msgstr "واستخدم السجل الموجود. إذا كان مريضاً مختلفاً، انقر"
+
+msgid "Go back"
+msgstr "رجوع"
+
+msgid "Create anyway"
+msgstr "إنشاء على أي حال"
+
+# Visit edit
+msgid "Edit Visit"
+msgstr "تعديل الزيارة"
+
+msgid "Original date:"
+msgstr "التاريخ الأصلي:"
+
+# Login / Auth
+msgid "Sign in to access patient records."
+msgstr "سجّل الدخول للوصول إلى سجلات المرضى."
+
+msgid "Forgot your password?"
+msgstr "نسيت كلمة المرور؟"
+
+msgid "You're logged out"
+msgstr "تم تسجيل الخروج"
+
+msgid "Please log in again to access patient records."
+msgstr "يرجى تسجيل الدخول مرة أخرى للوصول إلى سجلات المرضى."
+
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+# Password reset
+msgid "Reset Password"
+msgstr "إعادة تعيين كلمة المرور"
+
+msgid "Enter your email address and we'll send you a link to reset your password."
+msgstr "أدخل عنوان بريدك الإلكتروني وسنرسل لك رابطاً لإعادة تعيين كلمة المرور."
+
+msgid "Send Reset Link"
+msgstr "إرسال رابط الإعادة"
+
+msgid "← Back to Login"
+msgstr "← العودة إلى تسجيل الدخول"
+
+msgid "Check Your Email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+msgid "If an account exists for that email address, you'll receive a password reset link shortly."
+msgstr "إذا كان هناك حساب مرتبط بهذا البريد الإلكتروني، ستصلك رسالة إعادة تعيين قريباً."
+
+msgid "Didn't receive it? Check your spam folder, or make sure you entered the email address associated with your account."
+msgstr "لم تستلمها؟ تحقق من مجلد الرسائل غير المرغوب فيها، أو تأكد من إدخال البريد الإلكتروني المرتبط بحسابك."
+
+msgid "Back to Login"
+msgstr "العودة إلى تسجيل الدخول"
+
+msgid "Set New Password"
+msgstr "تعيين كلمة مرور جديدة"
+
+msgid "Enter and confirm your new password below."
+msgstr "أدخل وأكّد كلمة مرورك الجديدة أدناه."
+
+msgid "Link Expired"
+msgstr "انتهت صلاحية الرابط"
+
+msgid "This password reset link is invalid or has already been used. Reset links expire after 3 days."
+msgstr "رابط إعادة التعيين هذا غير صالح أو تم استخدامه بالفعل. تنتهي صلاحية الروابط بعد 3 أيام."
+
+msgid "Request a New Link"
+msgstr "طلب رابط جديد"
+
+msgid "Password Reset Complete"
+msgstr "اكتملت إعادة تعيين كلمة المرور"
+
+msgid "Password Changed"
+msgstr "تم تغيير كلمة المرور"
+
+msgid "Your password has been set. You can now log in with your new password."
+msgstr "تم تعيين كلمة مرورك. يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة."
+
+msgid "Log In"
+msgstr "تسجيل الدخول"
+
+# Password reset email
+msgid "You're receiving this email because a password reset was requested for your account at DocuMed."
+msgstr "تلقيت هذا البريد الإلكتروني لأنه تم طلب إعادة تعيين كلمة المرور لحسابك في دوكيوميد."
+
+msgid "Click the link below to set a new password:"
+msgstr "انقر على الرابط أدناه لتعيين كلمة مرور جديدة:"
+
+msgid "This link will expire in 3 days."
+msgstr "سينتهي صلاحية هذا الرابط بعد 3 أيام."
+
+msgid "If you did not request a password reset, you can ignore this email. Your password will not change."
+msgstr "إذا لم تطلب إعادة تعيين كلمة المرور، يمكنك تجاهل هذا البريد الإلكتروني. لن تتغير كلمة مرورك."
+
+msgid "Username:"
+msgstr "اسم المستخدم:"
+
+# blocktrans strings
+msgid "Admin Dashboard - %(name)s"
+msgstr "لوحة تحكم المسؤول - %(name)s"
+
+msgid "Manage Users - %(name)s"
+msgstr "إدارة المستخدمين - %(name)s"
+
+msgid "Clinic Settings - %(name)s"
+msgstr "إعدادات العيادة - %(name)s"
+
+msgid "Delete File - %(fname)s"
+msgstr "حذف الملف - %(fname)s"
+
+msgid "Upload File - %(name)s"
+msgstr "رفع ملف - %(name)s"
+
+msgid "Edit %(username)s"
+msgstr "تعديل %(username)s"
+
+msgid "Edit %(name)s"
+msgstr "تعديل %(name)s"
+
+msgid "%(count)s added in last 30 days"
+msgstr "%(count)s مضاف في آخر 30 يوماً"
+
+msgid "%(count)s in last 30 days"
+msgstr "%(count)s في آخر 30 يوماً"
+
+msgid "Patient #%(pid)s"
+msgstr "المريض #%(pid)s"
+
+msgid "Visit #%(vid)s"
+msgstr "الزيارة #%(vid)s"
+
+msgid "%(count)s patient total"
+msgstr "%(count)s مريض"
+
+msgid "%(count)s patients total"
+msgstr "%(count)s مرضى"
+
+msgid "Page %(num)s of %(total)s"
+msgstr "الصفحة %(num)s من %(total)s"
+
+msgid "Dr. %(doc)s"
+msgstr "د. %(doc)s"
+
+msgid "Follow-up: %(d)s"
+msgstr "متابعة: %(d)s"
+
+msgid "Linked to visit: %(d)s"
+msgstr "مرتبط بزيارة: %(d)s"
+
+# Landing page — nav
+msgid "Features"
+msgstr "الميزات"
+
+msgid "How It Works"
+msgstr "كيف يعمل"
+
+msgid "Request a Demo"
+msgstr "طلب عرض تجريبي"
+
+msgid "See Features"
+msgstr "استعرض الميزات"
+
+# Landing page — hero
+msgid "Clinical records, simplified."
+msgstr "سجلات طبية مبسّطة."
+
+msgid "DocuMed is the EHR built for private practices and small clinics. Patient records, visit notes, file attachments, audit logs — all in one elegant system."
+msgstr "دوكيوميد هو نظام السجلات الصحية الإلكترونية المصمم للعيادات الخاصة والمستشفيات الصغيرة. سجلات المرضى، ملاحظات الزيارات، مرفقات الملفات، وسجلات التدقيق — كل ذلك في نظام أنيق واحد."
+
+msgid "Your clinic's records, beautifully organized."
+msgstr "سجلات عيادتك، منظّمة بشكل رائع."
+
+msgid "DocuMed gives doctors and their teams a single, secure place to manage patients, record visits, and track every clinical detail — with an interface as refined as the care you provide."
+msgstr "يمنح دوكيوميد الأطباء وفرقهم مكاناً واحداً آمناً لإدارة المرضى وتسجيل الزيارات وتتبع كل تفاصيل العلاج — بواجهة راقية بقدر رقي الرعاية التي تقدمها."
+
+msgid "Electronic Health Records for Private Practices"
+msgstr "السجلات الصحية الإلكترونية للعيادات الخاصة"
+
+# Landing page — mockup labels
+msgid "Patient Record"
+msgstr "سجل المريض"
+
+msgid "Recent Visits"
+msgstr "الزيارات الأخيرة"
+
+msgid "Today"
+msgstr "اليوم"
+
+msgid "3 days ago"
+msgstr "منذ 3 أيام"
+
+msgid "Attached Files"
+msgstr "الملفات المرفقة"
+
+msgid "Lab Results.pdf"
+msgstr "نتائج المختبر.pdf"
+
+msgid "X-Ray 2024.jpg"
+msgstr "أشعة 2024.jpg"
+
+# Landing page — problem section
+msgid "The Challenge"
+msgstr "التحدي"
+
+msgid "Running a clinic is hard enough."
+msgstr "إدارة عيادة أمر صعب بما يكفي."
+
+msgid "Paper folders, scattered spreadsheets, and legacy software slow you down — and put your patients at risk."
+msgstr "الملفات الورقية وجداول البيانات المتفرقة والبرامج القديمة تُبطئك — وتعرّض مرضاك للخطر."
+
+msgid "Paper records pile up"
+msgstr "تتراكم السجلات الورقية"
+
+msgid "Files get lost, damaged, or simply become impossible to search through as your practice grows."
+msgstr "تُفقد الملفات أو تتلف أو يصبح البحث فيها مستحيلاً كلما نمت عيادتك."
+
+msgid "Disorganized visits"
+msgstr "زيارات غير منظمة"
+
+msgid "Diagnoses, prescriptions, and notes scattered across notebooks with no clear timeline or structure."
+msgstr "التشخيصات والوصفات والملاحظات مبعثرة في دفاتر دون جدول زمني أو هيكل واضح."
+
+msgid "No audit trail"
+msgstr "لا توجد سجلات مراجعة"
+
+msgid "No way to know who accessed a record, made a change, or when — a liability risk for any practice."
+msgstr "لا توجد طريقة لمعرفة من اطلع على السجل أو أجرى تغييراً أو متى — مما يشكّل خطراً قانونياً على أي عيادة."
+
+msgid "Duplicate patients"
+msgstr "ازدواجية في سجلات المرضى"
+
+msgid "The same patient registered twice under different spellings — creating conflicting records and confusion."
+msgstr "نفس المريض مسجّل مرتين بتهجئات مختلفة — مما يخلق سجلات متعارضة وارتباكاً."
+
+# Landing page — solution section
+msgid "The Solution"
+msgstr "الحل"
+
+msgid "DocuMed brings order to your clinic."
+msgstr "دوكيوميد يجلب النظام إلى عيادتك."
+
+msgid "A single, elegant system purpose-built for private practices — handling everything from patient intake to visit documentation, file management, and team access, all with a clean interface your staff will actually want to use."
+msgstr "نظام أنيق واحد مصمم خصيصاً للعيادات الخاصة — يتولى كل شيء من استقبال المرضى إلى توثيق الزيارات وإدارة الملفات وصلاحيات الفريق، بواجهة نظيفة سيُحبّ طاقمك استخدامها فعلاً."
+
+msgid "Structured patient profiles"
+msgstr "ملفات مرضى منظمة"
+
+msgid "Complete visit history"
+msgstr "سجل زيارات كامل"
+
+msgid "Full audit trail"
+msgstr "سجل مراجعة شامل"
+
+msgid "Smart duplicate detection"
+msgstr "كشف ذكي للتكرار"
+
+# Landing page — features section
+msgid "Everything your practice needs."
+msgstr "كل ما تحتاجه عيادتك."
+
+msgid "Built feature by feature around the real workflow of a busy clinic."
+msgstr "مبني ميزة بميزة حول سير العمل الحقيقي لعيادة مزدحمة."
+
+msgid "Patient Management"
+msgstr "إدارة المرضى"
+
+msgid "Create structured patient profiles with full demographics, contact details, and medical identifiers."
+msgstr "أنشئ ملفات مرضى منظمة تشمل البيانات الديموغرافية الكاملة ومعلومات الاتصال والمعرّفات الطبية."
+
+msgid "Instant search by name, phone, or national ID"
+msgstr "بحث فوري بالاسم أو الهاتف أو الرقم القومي"
+
+msgid "Clean profile view with complete history"
+msgstr "عرض ملف نظيف مع سجل كامل"
+
+msgid "Sex, date of birth, address — all in one place"
+msgstr "الجنس وتاريخ الميلاد والعنوان — كل شيء في مكان واحد"
+
+msgid "Visit Tracking"
+msgstr "تتبع الزيارات"
+
+msgid "Document every encounter with rich clinical notes, structured findings, and treatment plans."
+msgstr "وثّق كل زيارة بملاحظات سريرية غنية ونتائج منظمة وخطط علاجية."
+
+msgid "Detailed clinical notes per visit"
+msgstr "ملاحظات سريرية تفصيلية لكل زيارة"
+
+msgid "Diagnosis, prescription, and treatment fields"
+msgstr "حقول التشخيص والوصفة وخطة العلاج"
+
+msgid "Chronological visit timeline"
+msgstr "جدول زمني للزيارات بترتيب تاريخي"
+
+msgid "File Attachments"
+msgstr "مرفقات الملفات"
+
+msgid "Upload and securely store lab results, X-rays, referral letters, and any document linked to a patient."
+msgstr "ارفع وخزّن بأمان نتائج المختبر والأشعة وخطابات الإحالة وأي مستند مرتبط بالمريض."
+
+msgid "PDFs, images, and documents"
+msgstr "ملفات PDF والصور والمستندات"
+
+msgid "Authenticated downloads only"
+msgstr "التنزيل للمخوّلين فقط"
+
+msgid "Files scoped to clinic — never cross-visible"
+msgstr "الملفات مقيّدة بالعيادة — لا تُرى من عيادات أخرى أبداً"
+
+msgid "Role-Based Access"
+msgstr "صلاحيات مبنية على الدور"
+
+msgid "Every team member gets the right level of access — no more, no less."
+msgstr "كل عضو في الفريق يحصل على مستوى الوصول الصحيح — لا أكثر ولا أقل."
+
+msgid "Doctors, assistants, and admins"
+msgstr "أطباء ومساعدون ومسؤولون"
+
+msgid "Granular permissions per action"
+msgstr "صلاحيات دقيقة لكل إجراء"
+
+msgid "Clinic admin manages their own users"
+msgstr "مسؤول العيادة يدير مستخدميه بنفسه"
+
+msgid "Audit Logging"
+msgstr "سجل التدقيق"
+
+msgid "A tamper-evident log of every action taken in the system — who did what, and when."
+msgstr "سجل محمي من التلاعب لكل إجراء في النظام — من فعل ماذا ومتى."
+
+msgid "View, edit, create, and delete events"
+msgstr "أحداث العرض والتعديل والإنشاء والحذف"
+
+msgid "Per-patient audit history"
+msgstr "سجل تدقيق لكل مريض"
+
+msgid "Compliance-ready from day one"
+msgstr "جاهز للامتثال من اليوم الأول"
+
+msgid "Duplicate Detection"
+msgstr "كشف التكرار"
+
+msgid "Before a new patient is saved, DocuMed automatically checks for likely duplicates."
+msgstr "قبل حفظ مريض جديد، يتحقق دوكيوميد تلقائياً من وجود تكرارات محتملة."
+
+msgid "Smart matching by phone & national ID"
+msgstr "مطابقة ذكية بالهاتف والرقم القومي"
+
+msgid "Fuzzy name similarity check"
+msgstr "فحص تشابه الأسماء بمرونة"
+
+msgid "Warning shown before saving — never blocked"
+msgstr "تحذير يظهر قبل الحفظ — دون حظر"
+
+msgid "Multi-Clinic Ready"
+msgstr "جاهز للعيادات المتعددة"
+
+msgid "Designed from day one for practices with multiple branches or a growing team."
+msgstr "مصمم من اليوم الأول للعيادات متعددة الفروع أو الفرق المتنامية."
+
+msgid "Full clinic-level data isolation"
+msgstr "عزل كامل للبيانات على مستوى العيادة"
+
+msgid "Users belong to exactly one clinic"
+msgstr "ينتمي كل مستخدم إلى عيادة واحدة فقط"
+
+msgid "Scales as your practice grows"
+msgstr "يتوسع مع نمو عيادتك"
+
+msgid "Privacy by Design"
+msgstr "الخصوصية في صميم التصميم"
+
+msgid "Patient data is never exposed by accident — every access point is authenticated and clinic-scoped."
+msgstr "لا تُكشف بيانات المرضى أبداً بالخطأ — كل نقطة وصول مصادق عليها ومقيّدة بالعيادة."
+
+msgid "No direct file URL access"
+msgstr "لا وصول مباشر لروابط الملفات"
+
+msgid "Session-based authentication"
+msgstr "مصادقة قائمة على الجلسة"
+
+msgid "Role checks on every action"
+msgstr "فحص الصلاحيات عند كل إجراء"
+
+# Landing page — how it works section
+msgid "Up and running in minutes."
+msgstr "جاهز للعمل في دقائق."
+
+msgid "No lengthy onboarding. No IT department required."
+msgstr "لا تأهيل مطوّل. لا قسم تقنية معلومات مطلوب."
+
+msgid "Add your patients"
+msgstr "أضف مرضاك"
+
+msgid "Import existing patients or start fresh. DocuMed checks for duplicates automatically so your records stay clean from day one."
+msgstr "استورد المرضى الحاليين أو ابدأ من الصفر. يتحقق دوكيوميد من التكرارات تلقائياً لتبقى سجلاتك نظيفة من اليوم الأول."
+
+msgid "Record every visit"
+msgstr "سجّل كل زيارة"
+
+msgid "Log clinical notes, diagnoses, prescriptions, and attach lab results or imaging — everything in one visit record."
+msgstr "سجّل الملاحظات السريرية والتشخيصات والوصفات وأرفق نتائج المختبر أو الأشعة — كل شيء في سجل زيارة واحد."
+
+msgid "Access everything instantly"
+msgstr "الوصول لكل شيء فوراً"
+
+msgid "Search by name, phone, or ID. Pull up a complete patient history in seconds — from any device, any time."
+msgstr "ابحث بالاسم أو الهاتف أو الرقم القومي. اعرض سجل مريض كامل في ثوانٍ — من أي جهاز وفي أي وقت."
+
+# Landing page — trust section
+msgid "Built for real clinics"
+msgstr "مصمم للعيادات الحقيقية"
+
+msgid "Designed around the actual daily workflow of doctors and their staff — not generic enterprise software retrofitted for healthcare."
+msgstr "مصمم حول سير العمل اليومي الفعلي للأطباء وموظفيهم — وليس برنامجاً مؤسسياً عاماً تم تكييفه للرعاية الصحية."
+
+msgid "Secure architecture"
+msgstr "بنية آمنة"
+
+msgid "Role-based access control, authenticated file delivery, full audit trails, and clinic-level data isolation built in from the start."
+msgstr "التحكم في الوصول المبني على الأدوار، وتسليم الملفات المصادق عليه، وسجلات المراجعة الكاملة، وعزل البيانات على مستوى العيادة — مدمجة من البداية."
+
+msgid "Designed for simplicity"
+msgstr "مصمم للبساطة"
+
+msgid "Staff should spend their time on patients, not on software. DocuMed is intuitive enough that training takes minutes, not days."
+msgstr "يجب أن يقضي الموظفون وقتهم مع المرضى لا مع البرامج. دوكيوميد بديهي بما يكفي ليستغرق التدريب دقائق لا أياماً."
+
+# Landing page — CTA section
+msgid "Get Started"
+msgstr "ابدأ الآن"
+
+msgid "Start using DocuMed today."
+msgstr "ابدأ استخدام دوكيوميد اليوم."
+
+msgid "See how DocuMed transforms your clinic's record-keeping in a live, personalised demo. No commitment, no credit card."
+msgstr "شاهد كيف يحوّل دوكيوميد إدارة سجلات عيادتك في عرض تجريبي حي ومخصص. بلا التزام ولا بطاقة ائتمان."
+
+msgid "Book a Demo"
+msgstr "احجز عرضاً تجريبياً"
+
+msgid "or email us at"
+msgstr "أو راسلنا على"
+
+# Landing page — footer
+msgid "Privacy"
+msgstr "الخصوصية"
+
+msgid "Terms"
+msgstr "الشروط"
+
+msgid "Contact"
+msgstr "تواصل معنا"
+
+msgid "All rights reserved."
+msgstr "جميع الحقوق محفوظة."

@@ -1,31 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Patients{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Patients" %}{% endblock %}
 {% block content %}
 
 <div class="row" style="align-items:center; justify-content:space-between;">
   <div>
-    <h1>Patients</h1>
+    <h1>{% trans "Patients" %}</h1>
     <div class="muted">
-      Search by name, phone, or national ID.
+      {% trans "Search by name, phone, or national ID." %}
       {% if page_obj.paginator.count %}
-        <span style="margin-left: 6px;">{{ page_obj.paginator.count }} patient{{ page_obj.paginator.count|pluralize }} total</span>
+        <span style="margin-left: 6px;">{% blocktrans with count=page_obj.paginator.count %}{{ count }} patient total{% plural %}{{ count }} patients total{% endblocktrans %}</span>
       {% endif %}
     </div>
   </div>
   {% if user.role == "doctor" or user.role == "assistant" or user.role == "admin" %}
-        <a class="btn primary" href="{% url 'patients:create' %}">+ Add patient</a>
+        <a class="btn primary" href="{% url 'patients:create' %}">{% trans "+ Add patient" %}</a>
   {% endif %}
 </div>
 
 <div class="card" style="margin-top:14px;">
   <form method="get" class="row" style="align-items:end;">
     <div style="flex: 1 1 520px;">
-      <label class="muted">Search</label>
-      <input class="input" name="q" placeholder="e.g., Ahmed Hassan / 010… / National ID" value="{{ q }}">
+      <label class="muted">{% trans "Search" %}</label>
+      <input class="input" name="q" placeholder="{% trans "e.g., Ahmed Hassan / 010… / National ID" %}" value="{{ q }}">
     </div>
     <div style="flex: 0 0 auto;">
-      <button class="btn" type="submit">Search</button>
-      {% if q %}<a class="btn" href="{% url 'patients:list' %}">Clear</a>{% endif %}
+      <button class="btn" type="submit">{% trans "Search" %}</button>
+      {% if q %}<a class="btn" href="{% url 'patients:list' %}">{% trans "Clear" %}</a>{% endif %}
     </div>
   </form>
 </div>
@@ -33,10 +34,10 @@
 <div class="card">
   <table class="table">
     <tr>
-      <th>Name</th>
-      <th>Phone</th>
-      <th>National ID</th>
-      <th>Sex</th>
+      <th>{% trans "Name" %}</th>
+      <th>{% trans "Phone" %}</th>
+      <th>{% trans "National ID" %}</th>
+      <th>{% trans "Sex" %}</th>
     </tr>
     {% for p in page_obj %}
       <tr>
@@ -46,18 +47,18 @@
         <td><span class="badge">{{ p.sex }}</span></td>
       </tr>
     {% empty %}
-      <tr><td colspan="4" class="muted">No patients found.</td></tr>
+      <tr><td colspan="4" class="muted">{% trans "No patients found." %}</td></tr>
     {% endfor %}
   </table>
 
   {% if page_obj.has_other_pages %}
     <div class="pagination">
       {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">← Previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">{% trans "← Previous" %}</a>
       {% endif %}
-      <span class="muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      <span class="muted">{% blocktrans with num=page_obj.number total=page_obj.paginator.num_pages %}Page {{ num }} of {{ total }}{% endblocktrans %}</span>
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">Next →</a>
+        <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn">{% trans "Next →" %}</a>
       {% endif %}
     </div>
   {% endif %}
