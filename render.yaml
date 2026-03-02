@@ -16,7 +16,7 @@ services:
           name: documed-db
           property: connectionString
       - key: CSRF_TRUSTED_ORIGINS
-        value: "https://clinic-records.onrender.com,https://www.documed.health"
+        value: "https://clinic-records.onrender.com,https://www.documed.health,https://documed.health"
       - key: R2_BUCKET_NAME
         value: "documed-media"
       - key: R2_ACCOUNT_ID
