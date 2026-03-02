@@ -835,3 +835,32 @@ msgstr "تواصل معنا"
 
 msgid "All rights reserved."
 msgstr "جميع الحقوق محفوظة."
+
+# Patient form labels
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+msgid "Address"
+msgstr "العنوان"
+
+# Visit form labels
+msgid "Visit Date & Time"
+msgstr "تاريخ ووقت الزيارة"
+
+msgid "Chief Complaint"
+msgstr "الشكوى الرئيسية"
+
+msgid "Clinical Notes"
+msgstr "الملاحظات السريرية"
+
+msgid "Diagnosis"
+msgstr "التشخيص"
+
+msgid "Treatment Plan"
+msgstr "خطة العلاج"
+
+msgid "Follow-up Date"
+msgstr "تاريخ المتابعة"
