@@ -9,7 +9,11 @@ class CustomUserAdmin(UserAdmin):
         ("Clinic & Role", {"fields": ("clinic", "role")}),
     )
 
-    add_fieldsets = UserAdmin.add_fieldsets + (
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": ("username", "email", "password1", "password2"),
+        }),
         ("Clinic & Role", {"fields": ("clinic", "role")}),
     )
 
