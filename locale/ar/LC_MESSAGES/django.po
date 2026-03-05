@@ -869,11 +869,11 @@ msgstr "تاريخ المتابعة"
 msgid "Export Data"
 msgstr "تصدير البيانات"
 
-msgid "Download all patient records and visit history for your clinic as a CSV file."
-msgstr "تنزيل جميع سجلات المرضى وتاريخ الزيارات لعيادتك كملف CSV."
+msgid "Download all patient records and visit history for your clinic as an Excel file."
+msgstr "تنزيل جميع سجلات المرضى وتاريخ الزيارات لعيادتك كملف Excel."
 
-msgid "Download CSV"
-msgstr "تنزيل CSV"
+msgid "Download Excel"
+msgstr "تنزيل Excel"
 
 msgid "Data Exported"
 msgstr "تم تصدير البيانات"

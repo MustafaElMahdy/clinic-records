@@ -1,10 +1,11 @@
-import csv
 from datetime import date
+from io import BytesIO
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from openpyxl import Workbook
 
 from accounts.permissions import role_required
 from audit.models import AuditEvent
@@ -50,44 +51,53 @@ def export_data(request):
         .order_by("full_name")
     )
 
-    response = HttpResponse(content_type="text/csv; charset=utf-8")
-    safe_name = clinic.name.replace(" ", "_")
-    filename = f"{safe_name}_export_{date.today()}.csv"
-    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    wb = Workbook()
 
-    # UTF-8 BOM so Excel opens Arabic text correctly
-    response.write("\ufeff")
-
-    writer = csv.writer(response)
-    writer.writerow([
+    # ── Patients sheet ──
+    ws_patients = wb.active
+    ws_patients.title = "Patients"
+    ws_patients.append([
         "Patient ID", "Full Name", "Phone", "National ID", "Sex",
-        "Date of Birth", "Address", "Notes", "Patient Created",
-        "Visit Date", "Chief Complaint", "Clinical Notes",
-        "Diagnosis", "Treatment Plan", "Follow-up Date", "Doctor",
+        "Date of Birth", "Address", "Notes", "Created",
     ])
+    for p in patients:
+        ws_patients.append([
+            p.pk, p.full_name, p.phone, p.national_id, p.get_sex_display(),
+            str(p.date_of_birth) if p.date_of_birth else "",
+            p.address, p.notes, str(p.created_at.date()),
+        ])
 
-    for patient in patients:
-        visits = patient.visits.all()
-        if visits:
-            for visit in visits:
-                writer.writerow([
-                    patient.pk, patient.full_name, patient.phone,
-                    patient.national_id, patient.get_sex_display(),
-                    patient.date_of_birth or "", patient.address, patient.notes,
-                    patient.created_at.date(),
-                    visit.visit_datetime.date(), visit.chief_complaint,
-                    visit.clinical_notes, visit.diagnosis,
-                    visit.treatment_plan, visit.follow_up_date or "",
-                    visit.doctor.get_full_name() if visit.doctor else "",
-                ])
-        else:
-            writer.writerow([
-                patient.pk, patient.full_name, patient.phone,
-                patient.national_id, patient.get_sex_display(),
-                patient.date_of_birth or "", patient.address, patient.notes,
-                patient.created_at.date(),
-                "", "", "", "", "", "", "",
+    # ── Visits sheet ──
+    ws_visits = wb.create_sheet("Visits")
+    ws_visits.append([
+        "Patient ID", "Patient Name", "Visit Date", "Chief Complaint",
+        "Clinical Notes", "Diagnosis", "Treatment Plan",
+        "Follow-up Date", "Doctor",
+    ])
+    for p in patients:
+        for visit in p.visits.all():
+            ws_visits.append([
+                p.pk, p.full_name,
+                str(visit.visit_datetime.date()),
+                visit.chief_complaint, visit.clinical_notes,
+                visit.diagnosis, visit.treatment_plan,
+                str(visit.follow_up_date) if visit.follow_up_date else "",
+                visit.doctor.get_full_name() if visit.doctor else "",
             ])
+
+    # Write to response
+    buf = BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+
+    safe_name = clinic.name.replace(" ", "_")
+    filename = f"{safe_name}_export_{date.today()}.xlsx"
+
+    response = HttpResponse(
+        buf.getvalue(),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
     log_event(
         request,
