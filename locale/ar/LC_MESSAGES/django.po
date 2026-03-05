@@ -864,3 +864,16 @@ msgstr "خطة العلاج"
 
 msgid "Follow-up Date"
 msgstr "تاريخ المتابعة"
+
+# Data export
+msgid "Export Data"
+msgstr "تصدير البيانات"
+
+msgid "Download all patient records and visit history for your clinic as a CSV file."
+msgstr "تنزيل جميع سجلات المرضى وتاريخ الزيارات لعيادتك كملف CSV."
+
+msgid "Download CSV"
+msgstr "تنزيل CSV"
+
+msgid "Data Exported"
+msgstr "تم تصدير البيانات"
