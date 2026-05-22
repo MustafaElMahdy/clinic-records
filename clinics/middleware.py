@@ -4,18 +4,11 @@ from django.urls import reverse
 
 
 class ClinicMiddleware:
-    """
-    Middleware that attaches the user's clinic to the request object.
-
-    For authenticated users without a clinic, they are logged out and redirected
-    to the login page with a query parameter indicating the reason.
-
-    Exempt paths (login, logout, admin, static, media) are not affected.
-    """
     EXEMPT_PREFIXES = (
         "/login/",
         "/logout/",
         "/signup/",
+        "/clinic/subscription/",
         "/admin/",
         "/static/",
         "/media/",
@@ -25,6 +18,8 @@ class ClinicMiddleware:
         "/set-language/",
     )
     EXEMPT_PATHS = {"/"}  # exact matches
+
+    TRIAL_WARNING_DAYS = 3
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -50,5 +45,13 @@ class ClinicMiddleware:
             from django.contrib.auth import logout
             logout(request)
             return redirect(reverse("login") + "?no_clinic=1")
+
+        # Block access if trial expired or subscription lapsed
+        if not request.clinic.is_access_allowed:
+            return redirect(reverse("clinics:subscription"))
+
+        # Warn when trial is almost over
+        days = request.clinic.trial_days_remaining
+        request.trial_days_remaining = days if 0 < days <= self.TRIAL_WARNING_DAYS else None
 
         return self.get_response(request)

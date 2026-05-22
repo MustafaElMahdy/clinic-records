@@ -113,6 +113,12 @@ def export_data(request):
     return response
 
 
+@login_required
+def subscription(request):
+    clinic = getattr(request.user, "clinic", None)
+    return render(request, "clinics/subscription.html", {"clinic": clinic})
+
+
 def clinic_signup(request):
     if request.user.is_authenticated:
         return redirect("patients:list")
