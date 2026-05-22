@@ -27,7 +27,7 @@
 
       <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
         {% if user.is_authenticated %}
-          <span class="muted" style="font-size: 13px;">{{ user.username }}</span>
+          <span class="muted" style="font-size: 13px;">{{ user.get_full_name|default:user.username }}</span>
 
           <!-- Django 6+ logout must be POST -->
           <form method="post" action="{% url 'logout' %}" style="margin: 0;">
