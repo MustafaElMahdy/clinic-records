@@ -11,8 +11,9 @@
     <button class="btn primary" type="submit">{% trans "Login" %}</button>
   </form>
 
-  <div style="margin-top: 16px;">
+  <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
     <a href="{% url 'password_reset' %}" class="muted" style="font-size: 13px;">{% trans "Forgot your password?" %}</a>
+    <a href="{% url 'signup' %}" class="muted" style="font-size: 13px;">{% trans "Create an account" %}</a>
   </div>
 </div>
 {% endblock %}

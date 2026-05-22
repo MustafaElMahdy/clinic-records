@@ -1,17 +1,21 @@
-from datetime import date
+from datetime import date, timedelta
 from io import BytesIO
 
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from openpyxl import Workbook
 
+from accounts.models import User
 from accounts.permissions import role_required
 from audit.models import AuditEvent
 from audit.utils import log_event
 from patients.models import Patient
-from .forms import ClinicSettingsForm
+from .forms import ClinicSettingsForm, ClinicSignupForm
+from .models import Clinic
 
 
 @login_required
@@ -107,3 +111,35 @@ def export_data(request):
     )
 
     return response
+
+
+def clinic_signup(request):
+    if request.user.is_authenticated:
+        return redirect("patients:list")
+
+    if request.method == "POST":
+        form = ClinicSignupForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                clinic = Clinic.objects.create(
+                    name=form.cleaned_data["clinic_name"],
+                    trial_ends_at=date.today() + timedelta(days=14),
+                    subscription_status=Clinic.SubscriptionStatus.TRIALING,
+                )
+                email = form.cleaned_data["email"]
+                user = User.objects.create_user(
+                    username=email,
+                    email=email,
+                    password=form.cleaned_data["password"],
+                    first_name=form.cleaned_data["first_name"],
+                    last_name=form.cleaned_data["last_name"],
+                    role="admin",
+                    clinic=clinic,
+                )
+            login(request, user)
+            messages.success(request, f"Welcome to DocuMed! Your 14-day free trial has started.")
+            return redirect("patients:list")
+    else:
+        form = ClinicSignupForm()
+
+    return render(request, "registration/signup.html", {"form": form})

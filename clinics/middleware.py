@@ -15,11 +15,13 @@ class ClinicMiddleware:
     EXEMPT_PREFIXES = (
         "/login/",
         "/logout/",
+        "/signup/",
         "/admin/",
         "/static/",
         "/media/",
         "/privacy/",
         "/terms/",
+        "/password-reset/",
         "/set-language/",
     )
     EXEMPT_PATHS = {"/"}  # exact matches

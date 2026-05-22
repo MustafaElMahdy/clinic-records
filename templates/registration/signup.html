@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Sign Up — DocuMed{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 560px; margin: 40px auto;">
+  <h1>Start your free trial</h1>
+  <p class="muted" style="margin-top: 0;">14 days free. No credit card required.</p>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="message message-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <h3 style="margin-bottom: 8px;">Your clinic</h3>
+    <p>
+      {{ form.clinic_name.label_tag }}
+      {{ form.clinic_name }}
+      {% if form.clinic_name.errors %}<span class="field-error">{{ form.clinic_name.errors.0 }}</span>{% endif %}
+    </p>
+
+    <h3 style="margin-bottom: 8px; margin-top: 24px;">Your account</h3>
+    <p>
+      {{ form.first_name.label_tag }}
+      {{ form.first_name }}
+      {% if form.first_name.errors %}<span class="field-error">{{ form.first_name.errors.0 }}</span>{% endif %}
+    </p>
+    <p>
+      {{ form.last_name.label_tag }}
+      {{ form.last_name }}
+      {% if form.last_name.errors %}<span class="field-error">{{ form.last_name.errors.0 }}</span>{% endif %}
+    </p>
+    <p>
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}
+    </p>
+    <p>
+      {{ form.password.label_tag }}
+      {{ form.password }}
+      {% if form.password.errors %}<span class="field-error">{{ form.password.errors.0 }}</span>{% endif %}
+      {% if form.password.help_text %}<span class="muted" style="font-size:12px;">{{ form.password.help_text }}</span>{% endif %}
+    </p>
+    <p>
+      {{ form.password_confirm.label_tag }}
+      {{ form.password_confirm }}
+      {% if form.password_confirm.errors %}<span class="field-error">{{ form.password_confirm.errors.0 }}</span>{% endif %}
+    </p>
+
+    <button class="btn primary" type="submit" style="width: 100%; margin-top: 8px;">Create account</button>
+  </form>
+
+  <div style="margin-top: 16px; font-size: 13px;" class="muted">
+    Already have an account? <a href="{% url 'login' %}">Log in</a>
+  </div>
+  <div style="margin-top: 8px; font-size: 12px;" class="muted">
+    By signing up you agree to our <a href="{% url 'terms' %}">Terms</a> and <a href="{% url 'privacy' %}">Privacy Policy</a>.
+  </div>
+</div>
+{% endblock %}
