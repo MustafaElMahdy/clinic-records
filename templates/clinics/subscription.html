@@ -2,26 +2,37 @@
 {% load i18n %}
 {% block title %}{% trans "Subscription Required" %} — DocuMed{% endblock %}
 {% block content %}
-<div class="card" style="max-width: 520px; margin: 80px auto; text-align: center;">
-  <h1 style="margin-bottom: 8px;">{% trans "Your trial has ended" %}</h1>
-  <p class="muted">{% trans "Subscribe to continue accessing your clinic's records." %}</p>
+<div class="card" style="max-width: 480px; margin: 64px auto; text-align: center;">
+  <div style="width: 48px; height: 48px; border-radius: 14px; background: oklch(95% 0.015 240); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+  </div>
 
-  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin: 32px 0;">
-    <div style="font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">{% trans "Monthly plan" %}</div>
-    <div style="font-size: 48px; font-weight: 700; margin: 8px 0;">$29</div>
-    <div class="muted" style="font-size: 14px;">{% trans "per clinic per month" %}</div>
-    <ul style="text-align: left; margin: 24px 0; padding-left: 20px; line-height: 2;">
-      <li>{% trans "Unlimited patients & visits" %}</li>
-      <li>{% trans "Unlimited staff accounts" %}</li>
-      <li>{% trans "Data export (Excel)" %}</li>
-      <li>{% trans "Priority support" %}</li>
+  <h1 style="font-size: 22px; margin-bottom: 8px;">{% trans "Your trial has ended" %}</h1>
+  <p class="muted" style="margin-bottom: 0; font-size: 14px; line-height: 1.6;">{% trans "Subscribe to continue accessing your clinic's records." %}</p>
+
+  <div class="pricing-card">
+    <div class="pricing-card-label">{% trans "Monthly plan" %}</div>
+    <div class="pricing-card-price">$29</div>
+    <div class="pricing-card-period">{% trans "per clinic per month" %}</div>
+
+    <ul class="pricing-card-features">
+      {% for feature in features %}
+      <li>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ feature }}
+      </li>
+      {% endfor %}
     </ul>
-    <a href="mailto:support@documed.health?subject=Subscribe — {{ clinic.name }}" class="btn primary" style="width: 100%; display: block; text-align: center; padding: 12px;">
+
+    <a href="mailto:support@documed.health?subject=Subscribe — {{ clinic.name }}" class="btn primary" style="width: 100%; padding: 11px 14px; font-size: 15px; display: block;">
       {% trans "Contact us to subscribe" %}
     </a>
   </div>
 
-  <p class="muted" style="font-size: 13px;">
+  <p class="muted" style="font-size: 13px; margin: 0;">
     {% trans "Questions? Email us at" %} <a href="mailto:support@documed.health">support@documed.health</a>
   </p>
 </div>

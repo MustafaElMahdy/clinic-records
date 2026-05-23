@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'styles.css' %}?v=10">
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=11">
 </head>
 <body>
   <div class="nav">
@@ -56,9 +56,9 @@
   </div>
 
   {% if request.trial_days_remaining %}
-    <div style="background: #fff3cd; border-bottom: 1px solid #ffc107; padding: 10px 20px; text-align: center; font-size: 14px;">
+    <div class="trial-banner">
       {% blocktrans with days=request.trial_days_remaining %}Your free trial ends in <strong>{{ days }} day{{ days|pluralize }}</strong>.{% endblocktrans %}
-      <a href="mailto:support@documed.health?subject=Subscribe" style="margin-left: 8px; font-weight: 600;">{% trans "Subscribe now" %}</a>
+      <a href="mailto:support@documed.health?subject=Subscribe">{% trans "Subscribe now" %}</a>
     </div>
   {% endif %}
 

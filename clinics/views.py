@@ -113,10 +113,22 @@ def export_data(request):
     return response
 
 
+SUBSCRIPTION_FEATURES = [
+    "Unlimited patients & visits",
+    "Unlimited staff accounts",
+    "File attachments (labs, X-rays, docs)",
+    "Full audit trail",
+    "Data export to Excel",
+    "Priority support",
+]
+
 @login_required
 def subscription(request):
     clinic = getattr(request.user, "clinic", None)
-    return render(request, "clinics/subscription.html", {"clinic": clinic})
+    return render(request, "clinics/subscription.html", {
+        "clinic": clinic,
+        "features": SUBSCRIPTION_FEATURES,
+    })
 
 
 def clinic_signup(request):
