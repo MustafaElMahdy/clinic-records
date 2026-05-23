@@ -41,8 +41,9 @@
       <div class="lp-nav-links">
         <a href="#features">{% trans "Features" %}</a>
         <a href="#how-it-works">{% trans "How It Works" %}</a>
+        <a href="#pricing">{% trans "Pricing" %}</a>
         <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
-        <a href="#demo" class="lp-btn lp-btn-primary">{% trans "Request a Demo" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
         <!-- Language toggle -->
         <form method="post" action="{% url 'set_language' %}" style="margin:0; display:inline;">
           {% csrf_token %}
@@ -71,7 +72,7 @@
           {% trans "DocuMed gives doctors and their teams a single, secure place to manage patients, record visits, and track every clinical detail — with an interface as refined as the care you provide." %}
         </p>
         <div class="lp-hero-ctas">
-          <a href="#demo" class="lp-btn lp-btn-primary lp-btn-lg">{% trans "Request a Demo" %}</a>
+          <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg">{% trans "Start free trial" %}</a>
           <a href="#features" class="lp-btn lp-btn-ghost lp-btn-lg">{% trans "See Features" %}</a>
         </div>
       </div>
@@ -460,6 +461,35 @@
   </section>
 
   <!-- ═══════════════════════════════════════
+       PRICING
+  ════════════════════════════════════════════ -->
+  <section class="lp-section lp-pricing-section" id="pricing">
+    <div class="lp-container">
+      <p class="lp-eyebrow lp-eyebrow-center">{% trans "Pricing" %}</p>
+      <h2 class="lp-section-title lp-section-title-center">{% trans "Simple, transparent pricing." %}</h2>
+      <p class="lp-section-sub lp-section-sub-center">{% trans "One plan. Everything included. No hidden fees." %}</p>
+
+      <div style="max-width: 420px; margin: 48px auto 0; background: var(--surface, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+        <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted, #6b7280);">{% trans "Clinic Plan" %}</div>
+        <div style="font-size: 56px; font-weight: 800; line-height: 1.1; margin: 12px 0 4px;">$29</div>
+        <div style="color: var(--muted, #6b7280); font-size: 15px; margin-bottom: 32px;">{% trans "per clinic / per month" %}</div>
+
+        <ul style="text-align: left; list-style: none; padding: 0; margin: 0 0 32px; line-height: 1;">
+          {% for feature in pricing_features %}
+          <li style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border, #f3f4f6); font-size: 15px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {% trans feature %}
+          </li>
+          {% endfor %}
+        </ul>
+
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg" style="width: 100%; display: block; text-align: center;">{% trans "Start 14-day free trial" %}</a>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--muted, #6b7280);">{% trans "No credit card required." %}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
        FINAL CTA
   ════════════════════════════════════════════ -->
   <section class="lp-section lp-cta-section" id="demo">
@@ -470,8 +500,8 @@
         {% trans "See how DocuMed transforms your clinic's record-keeping in a live, personalised demo. No commitment, no credit card." %}
       </p>
       <div class="lp-cta-actions">
-        <a href="mailto:hello@documed.health?subject=Demo Request" class="lp-btn lp-btn-white lp-btn-lg">{% trans "Book a Demo" %}</a>
-        <span class="lp-cta-note">{% trans "or email us at" %} <a href="mailto:hello@documed.health">hello@documed.health</a></span>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-white lp-btn-lg">{% trans "Start free trial" %}</a>
+        <span class="lp-cta-note">{% trans "Questions? Email us at" %} <a href="mailto:hello@documed.health">hello@documed.health</a></span>
       </div>
     </div>
     <!-- CTA blobs -->

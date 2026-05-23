@@ -225,3 +225,15 @@ if _R2_KEY:
 _csrf_raw = os.environ.get("CSRF_TRUSTED_ORIGINS", "")
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_raw.split(",") if o.strip()]
 
+
+# ── Sentry ────────────────────────────────────────────────────────────────────
+_sentry_dsn = os.environ.get("SENTRY_DSN", "")
+if _sentry_dsn:
+    import sentry_sdk
+    sentry_sdk.init(
+        dsn=_sentry_dsn,
+        environment="production" if not DEBUG else "development",
+        traces_sample_rate=0.2,
+        send_default_pii=False,
+    )
+

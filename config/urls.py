@@ -1,9 +1,24 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf.urls.i18n import set_language
 from clinics.views import clinic_signup
+
+
+PRICING_FEATURES = [
+    "Unlimited patients and visits",
+    "Unlimited staff accounts",
+    "File attachments (labs, X-rays, docs)",
+    "Full audit trail",
+    "Data export to Excel",
+    "Role-based access control",
+    "14-day free trial included",
+]
+
+def landing(request):
+    return render(request, "marketing/landing.html", {"pricing_features": PRICING_FEATURES})
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,7 +43,7 @@ urlpatterns = [
 
     path("set-language/", set_language, name="set_language"),
 
-    path("", TemplateView.as_view(template_name="marketing/landing.html"), name="landing"),
+    path("", landing, name="landing"),
     path("privacy/", TemplateView.as_view(template_name="marketing/privacy.html"), name="privacy"),
     path("terms/", TemplateView.as_view(template_name="marketing/terms.html"), name="terms"),
 
