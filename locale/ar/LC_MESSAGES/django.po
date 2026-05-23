@@ -865,6 +865,149 @@ msgstr "خطة العلاج"
 msgid "Follow-up Date"
 msgstr "تاريخ المتابعة"
 
+# Trial warning banner
+msgid "Your free trial ends in <strong>{{ days }} day{{ days|pluralize }}</strong>."
+msgstr "تنتهي تجربتك المجانية خلال <strong>{{ days }} يوم</strong>."
+
+msgid "Subscribe now"
+msgstr "اشترك الآن"
+
+# Signup page
+msgid "Sign Up"
+msgstr "إنشاء حساب"
+
+msgid "Start your free trial"
+msgstr "ابدأ تجربتك المجانية"
+
+msgid "14 days free. No credit card required."
+msgstr "14 يوماً مجاناً. لا تحتاج إلى بطاقة ائتمان."
+
+msgid "Your clinic"
+msgstr "عيادتك"
+
+msgid "Your account"
+msgstr "حسابك"
+
+msgid "Create account"
+msgstr "إنشاء الحساب"
+
+msgid "Already have an account?"
+msgstr "هل لديك حساب بالفعل؟"
+
+msgid "Create an account"
+msgstr "إنشاء حساب"
+
+msgid "By signing up you agree to our"
+msgstr "بالتسجيل، فإنك توافق على"
+
+msgid "and"
+msgstr "و"
+
+msgid "Privacy Policy"
+msgstr "سياسة الخصوصية"
+
+# Subscription / paywall page
+msgid "Subscription Required"
+msgstr "الاشتراك مطلوب"
+
+msgid "Your trial has ended"
+msgstr "انتهت فترة تجربتك"
+
+msgid "Subscribe to continue accessing your clinic's records."
+msgstr "اشترك للاستمرار في الوصول إلى سجلات عيادتك."
+
+msgid "Monthly plan"
+msgstr "الخطة الشهرية"
+
+msgid "per clinic per month"
+msgstr "لكل عيادة شهرياً"
+
+msgid "Unlimited patients & visits"
+msgstr "مرضى وزيارات غير محدودة"
+
+msgid "Unlimited staff accounts"
+msgstr "حسابات موظفين غير محدودة"
+
+msgid "Data export (Excel)"
+msgstr "تصدير البيانات (Excel)"
+
+msgid "Priority support"
+msgstr "دعم ذو أولوية"
+
+msgid "Contact us to subscribe"
+msgstr "تواصل معنا للاشتراك"
+
+msgid "Questions? Email us at"
+msgstr "هل لديك أسئلة؟ راسلنا على"
+
+# Onboarding empty state
+msgid "Welcome to DocuMed!"
+msgstr "مرحباً بك في دوكيوميد!"
+
+msgid "Your clinic is set up and ready. Start by adding your first patient."
+msgstr "عيادتك جاهزة. ابدأ بإضافة أول مريض."
+
+msgid "Add your first patient"
+msgstr "أضف أول مريض"
+
+msgid "Name, phone, date of birth, and more."
+msgstr "الاسم والهاتف وتاريخ الميلاد والمزيد."
+
+msgid "Record their first visit"
+msgstr "سجّل أول زيارة"
+
+msgid "Diagnosis, notes, treatment plan, attachments."
+msgstr "التشخيص والملاحظات وخطة العلاج والمرفقات."
+
+msgid "Invite your team"
+msgstr "ادعُ فريقك"
+
+msgid "Add doctors and assistants under Users."
+msgstr "أضف أطباء ومساعدين من قسم المستخدمين."
+
+msgid "+ Add your first patient"
+msgstr "+ إضافة أول مريض"
+
+# Landing page — new strings
+msgid "Pricing"
+msgstr "الأسعار"
+
+msgid "Start free trial"
+msgstr "ابدأ التجربة المجانية"
+
+msgid "Simple, transparent pricing."
+msgstr "أسعار بسيطة وشفافة."
+
+msgid "One plan. Everything included. No hidden fees."
+msgstr "خطة واحدة. كل شيء مشمول. لا رسوم خفية."
+
+msgid "Clinic Plan"
+msgstr "خطة العيادة"
+
+msgid "per clinic / per month"
+msgstr "لكل عيادة / شهرياً"
+
+msgid "Unlimited patients and visits"
+msgstr "مرضى وزيارات غير محدودة"
+
+msgid "File attachments (labs, X-rays, docs)"
+msgstr "مرفقات الملفات (مختبر، أشعة، مستندات)"
+
+msgid "Data export to Excel"
+msgstr "تصدير البيانات إلى Excel"
+
+msgid "Role-based access control"
+msgstr "التحكم في الوصول حسب الدور"
+
+msgid "14-day free trial included"
+msgstr "تجربة مجانية 14 يوماً مشمولة"
+
+msgid "Start 14-day free trial"
+msgstr "ابدأ التجربة المجانية لمدة 14 يوماً"
+
+msgid "No credit card required."
+msgstr "لا تحتاج إلى بطاقة ائتمان."
+
 # Data export
 msgid "Export Data"
 msgstr "تصدير البيانات"

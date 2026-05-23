@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Sign Up — DocuMed{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Sign Up" %} — DocuMed{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 560px; margin: 40px auto;">
-  <h1>Start your free trial</h1>
-  <p class="muted" style="margin-top: 0;">14 days free. No credit card required.</p>
+  <h1>{% trans "Start your free trial" %}</h1>
+  <p class="muted" style="margin-top: 0;">{% trans "14 days free. No credit card required." %}</p>
 
   <form method="post" novalidate>
     {% csrf_token %}
@@ -12,14 +13,14 @@
       <div class="message message-error">{{ form.non_field_errors }}</div>
     {% endif %}
 
-    <h3 style="margin-bottom: 8px;">Your clinic</h3>
+    <h3 style="margin-bottom: 8px;">{% trans "Your clinic" %}</h3>
     <p>
       {{ form.clinic_name.label_tag }}
       {{ form.clinic_name }}
       {% if form.clinic_name.errors %}<span class="field-error">{{ form.clinic_name.errors.0 }}</span>{% endif %}
     </p>
 
-    <h3 style="margin-bottom: 8px; margin-top: 24px;">Your account</h3>
+    <h3 style="margin-bottom: 8px; margin-top: 24px;">{% trans "Your account" %}</h3>
     <p>
       {{ form.first_name.label_tag }}
       {{ form.first_name }}
@@ -47,14 +48,14 @@
       {% if form.password_confirm.errors %}<span class="field-error">{{ form.password_confirm.errors.0 }}</span>{% endif %}
     </p>
 
-    <button class="btn primary" type="submit" style="width: 100%; margin-top: 8px;">Create account</button>
+    <button class="btn primary" type="submit" style="width: 100%; margin-top: 8px;">{% trans "Create account" %}</button>
   </form>
 
   <div style="margin-top: 16px; font-size: 13px;" class="muted">
-    Already have an account? <a href="{% url 'login' %}">Log in</a>
+    {% trans "Already have an account?" %} <a href="{% url 'login' %}">{% trans "Log in" %}</a>
   </div>
   <div style="margin-top: 8px; font-size: 12px;" class="muted">
-    By signing up you agree to our <a href="{% url 'terms' %}">Terms</a> and <a href="{% url 'privacy' %}">Privacy Policy</a>.
+    {% trans "By signing up you agree to our" %} <a href="{% url 'terms' %}">{% trans "Terms" %}</a> {% trans "and" %} <a href="{% url 'privacy' %}">{% trans "Privacy Policy" %}</a>.
   </div>
 </div>
 {% endblock %}

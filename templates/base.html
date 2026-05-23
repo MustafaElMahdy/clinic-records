@@ -57,8 +57,8 @@
 
   {% if request.trial_days_remaining %}
     <div style="background: #fff3cd; border-bottom: 1px solid #ffc107; padding: 10px 20px; text-align: center; font-size: 14px;">
-      Your free trial ends in <strong>{{ request.trial_days_remaining }} day{{ request.trial_days_remaining|pluralize }}</strong>.
-      <a href="mailto:support@documed.health?subject=Subscribe" style="margin-left: 8px; font-weight: 600;">Subscribe now</a>
+      {% blocktrans with days=request.trial_days_remaining %}Your free trial ends in <strong>{{ days }} day{{ days|pluralize }}</strong>.{% endblocktrans %}
+      <a href="mailto:support@documed.health?subject=Subscribe" style="margin-left: 8px; font-weight: 600;">{% trans "Subscribe now" %}</a>
     </div>
   {% endif %}
 

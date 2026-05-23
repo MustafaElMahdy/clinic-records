@@ -1,27 +1,28 @@
 {% extends "base.html" %}
-{% block title %}Subscription Required — DocuMed{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Subscription Required" %} — DocuMed{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 520px; margin: 80px auto; text-align: center;">
-  <h1 style="margin-bottom: 8px;">Your trial has ended</h1>
-  <p class="muted">Subscribe to continue accessing your clinic's records.</p>
+  <h1 style="margin-bottom: 8px;">{% trans "Your trial has ended" %}</h1>
+  <p class="muted">{% trans "Subscribe to continue accessing your clinic's records." %}</p>
 
   <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin: 32px 0;">
-    <div style="font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Monthly plan</div>
+    <div style="font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">{% trans "Monthly plan" %}</div>
     <div style="font-size: 48px; font-weight: 700; margin: 8px 0;">$29</div>
-    <div class="muted" style="font-size: 14px;">per clinic per month</div>
+    <div class="muted" style="font-size: 14px;">{% trans "per clinic per month" %}</div>
     <ul style="text-align: left; margin: 24px 0; padding-left: 20px; line-height: 2;">
-      <li>Unlimited patients &amp; visits</li>
-      <li>Unlimited staff accounts</li>
-      <li>Data export (Excel)</li>
-      <li>Priority support</li>
+      <li>{% trans "Unlimited patients & visits" %}</li>
+      <li>{% trans "Unlimited staff accounts" %}</li>
+      <li>{% trans "Data export (Excel)" %}</li>
+      <li>{% trans "Priority support" %}</li>
     </ul>
     <a href="mailto:support@documed.health?subject=Subscribe — {{ clinic.name }}" class="btn primary" style="width: 100%; display: block; text-align: center; padding: 12px;">
-      Contact us to subscribe
+      {% trans "Contact us to subscribe" %}
     </a>
   </div>
 
   <p class="muted" style="font-size: 13px;">
-    Questions? Email us at <a href="mailto:support@documed.health">support@documed.health</a>
+    {% trans "Questions? Email us at" %} <a href="mailto:support@documed.health">support@documed.health</a>
   </p>
 </div>
 {% endblock %}
