@@ -51,7 +51,36 @@
         <td><span class="badge">{{ p.sex }}</span></td>
       </tr>
     {% empty %}
-      <tr><td colspan="4" class="muted">{% trans "No patients found." %}</td></tr>
+      {% if q %}
+        <tr><td colspan="4" class="muted">{% trans "No patients found." %}</td></tr>
+      {% else %}
+        <tr>
+          <td colspan="4">
+            <div style="padding: 48px 24px; text-align: center;">
+              <div style="font-size: 40px; margin-bottom: 16px;">🏥</div>
+              <h2 style="margin: 0 0 8px;">{% trans "Welcome to DocuMed!" %}</h2>
+              <p class="muted" style="margin: 0 0 32px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                {% trans "Your clinic is set up and ready. Start by adding your first patient." %}
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px; margin: 0 auto 32px; text-align: left;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <div style="width: 32px; height: 32px; border-radius: 50%; background: #e0f2fe; color: #0369a1; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+                  <div><strong>{% trans "Add your first patient" %}</strong><br><span class="muted" style="font-size: 13px;">{% trans "Name, phone, date of birth, and more." %}</span></div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <div style="width: 32px; height: 32px; border-radius: 50%; background: #f3e8ff; color: #7c3aed; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+                  <div><strong>{% trans "Record their first visit" %}</strong><br><span class="muted" style="font-size: 13px;">{% trans "Diagnosis, notes, treatment plan, attachments." %}</span></div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <div style="width: 32px; height: 32px; border-radius: 50%; background: #dcfce7; color: #15803d; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+                  <div><strong>{% trans "Invite your team" %}</strong><br><span class="muted" style="font-size: 13px;">{% trans "Add doctors and assistants under Users." %}</span></div>
+                </div>
+              </div>
+              <a href="{% url 'patients:create' %}" class="btn primary">{% trans "+ Add your first patient" %}</a>
+            </div>
+          </td>
+        </tr>
+      {% endif %}
     {% endfor %}
   </table>
 
