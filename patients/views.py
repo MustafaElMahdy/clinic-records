@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.db.models import Q, Count
@@ -193,7 +194,7 @@ def patient_create(request):
                 patient_id=patient.pk,
             )
 
-            messages.success(request, f'Patient "{patient.full_name}" created successfully.')
+            messages.success(request, _('Patient "%(name)s" created successfully.') % {'name': patient.full_name})
             return redirect("patients:detail", pk=patient.pk)
     else:
         form = PatientForm()
@@ -227,7 +228,7 @@ def patient_edit(request, pk: int):
                 obj=patient,
                 patient_id=patient.pk,
             )
-            messages.success(request, f'Patient "{patient.full_name}" updated successfully.')
+            messages.success(request, _('Patient "%(name)s" updated successfully.') % {'name': patient.full_name})
             return redirect("patients:detail", pk=patient.pk)
     else:
         form = PatientForm(instance=patient)
@@ -307,7 +308,7 @@ def patient_detail(request, pk: int):
                 },
             )
 
-            messages.success(request, "Visit added successfully.")
+            messages.success(request, _("Visit added successfully."))
             return redirect("patients:detail", pk=patient.pk)
     else:
         visit_form = VisitForm()

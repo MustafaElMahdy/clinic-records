@@ -1020,3 +1020,72 @@ msgstr "تنزيل Excel"
 
 msgid "Data Exported"
 msgstr "تم تصدير البيانات"
+
+# Flash messages (views)
+msgid "Patient \"%(name)s\" created successfully."
+msgstr "تم إضافة المريض \"%(name)s\" بنجاح."
+
+msgid "Patient \"%(name)s\" updated successfully."
+msgstr "تم تحديث بيانات المريض \"%(name)s\" بنجاح."
+
+msgid "Visit added successfully."
+msgstr "تم إضافة الزيارة بنجاح."
+
+msgid "Visit saved successfully."
+msgstr "تم حفظ الزيارة بنجاح."
+
+msgid "Clinic settings saved."
+msgstr "تم حفظ إعدادات العيادة."
+
+msgid "Welcome to DocuMed! Your 14-day free trial has started."
+msgstr "مرحباً بك في DocuMed! بدأت تجربتك المجانية لمدة 14 يوماً."
+
+msgid "User \"%(u)s\" created successfully."
+msgstr "تم إنشاء المستخدم \"%(u)s\" بنجاح."
+
+msgid "User \"%(u)s\" updated successfully."
+msgstr "تم تحديث بيانات المستخدم \"%(u)s\" بنجاح."
+
+msgid "User \"%(u)s\" activated."
+msgstr "تم تفعيل المستخدم \"%(u)s\"."
+
+msgid "User \"%(u)s\" deactivated."
+msgstr "تم تعطيل المستخدم \"%(u)s\"."
+
+msgid "File \"%(f)s\" uploaded successfully."
+msgstr "تم رفع الملف \"%(f)s\" بنجاح."
+
+msgid "File \"%(f)s\" deleted."
+msgstr "تم حذف الملف \"%(f)s\"."
+
+# Signup form labels
+msgid "Clinic name"
+msgstr "اسم العيادة"
+
+msgid "Your first name"
+msgstr "الاسم الأول"
+
+msgid "Your last name"
+msgstr "اسم العائلة"
+
+msgid "Email address"
+msgstr "البريد الإلكتروني"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Minimum 8 characters."
+msgstr "8 أحرف على الأقل."
+
+msgid "Confirm password"
+msgstr "تأكيد كلمة المرور"
+
+msgid "An account with this email already exists."
+msgstr "يوجد حساب مرتبط بهذا البريد الإلكتروني بالفعل."
+
+msgid "Passwords do not match."
+msgstr "كلمتا المرور غير متطابقتين."
+
+# Pricing
+msgid "EGP"
+msgstr "ج.م."

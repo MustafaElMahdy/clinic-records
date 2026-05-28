@@ -3,6 +3,7 @@ import os
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 from django.http import FileResponse, HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -52,7 +53,7 @@ def attachment_upload(request, patient_pk):
                 }
             )
 
-            messages.success(request, f'File "{attachment.original_filename}" uploaded successfully.')
+            messages.success(request, _('File "%(f)s" uploaded successfully.') % {'f': attachment.original_filename})
             return redirect("patients:detail", pk=patient.pk)
     else:
         form = AttachmentForm(patient=patient, clinic=request.clinic)
@@ -136,7 +137,7 @@ def attachment_delete(request, pk):
         # Delete the database record
         attachment.delete()
 
-        messages.success(request, f'File "{filename}" deleted.')
+        messages.success(request, _('File "%(f)s" deleted.') % {'f': filename})
         return redirect("patients:detail", pk=patient_pk)
 
     return render(request, "files/attachment_delete_confirm.html", {

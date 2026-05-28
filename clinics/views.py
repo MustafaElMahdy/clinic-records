@@ -3,6 +3,7 @@ from io import BytesIO
 
 from django.contrib import messages
 from django.contrib.auth import login
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
@@ -37,7 +38,7 @@ def clinic_settings(request):
                     "address": clinic.address,
                 },
             )
-            messages.success(request, "Clinic settings saved.")
+            messages.success(request, _("Clinic settings saved."))
             return redirect("clinics:settings")
     else:
         form = ClinicSettingsForm(instance=clinic)
@@ -155,7 +156,7 @@ def clinic_signup(request):
                     clinic=clinic,
                 )
             login(request, user)
-            messages.success(request, f"Welcome to DocuMed! Your 14-day free trial has started.")
+            messages.success(request, _("Welcome to DocuMed! Your 14-day free trial has started."))
             return redirect("patients:list")
     else:
         form = ClinicSignupForm()

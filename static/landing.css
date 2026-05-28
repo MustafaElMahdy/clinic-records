@@ -158,12 +158,12 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.15; letter-spacing: -0.5px; }
 .lp-btn:hover { text-decoration: none; }
 .lp-btn:active { transform: scale(0.97); }
 
-.lp-btn-primary {
+.lp-btn.lp-btn-primary {
   background: var(--lp-blue);
   color: #fff;
   box-shadow: 0 2px 8px rgba(0,113,227,0.28);
 }
-.lp-btn-primary:hover {
+.lp-btn.lp-btn-primary:hover {
   background: #0064cc;
   box-shadow: 0 4px 16px rgba(0,113,227,0.36);
   color: #fff;

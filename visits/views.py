@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.permissions import role_required
@@ -29,7 +30,7 @@ def visit_edit(request, pk: int):
                 visit_id=visit.pk,
             )
 
-            messages.success(request, "Visit saved successfully.")
+            messages.success(request, _("Visit saved successfully."))
             return redirect("patients:detail", pk=visit.patient.pk)
     else:
         form = VisitForm(instance=visit)
