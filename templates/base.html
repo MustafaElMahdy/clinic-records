@@ -10,31 +10,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'styles.css' %}?v=12">
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=13">
 </head>
 <body>
   <div class="nav">
     <div class="nav-inner">
-      <div class="nav-left">
-        <a class="brand" href="/">Docu<span class="brand-accent">Med</span></a>
+      <a class="brand" href="/">Docu<span class="brand-accent">Med</span></a>
 
+      <div class="nav-scroll">
         {% if user.is_authenticated and user.role == "admin" %}
           <a href="{% url 'patients:admin_dashboard' %}" class="btn">{% trans "Admin Dashboard" %}</a>
           <a href="{% url 'accounts:list' %}" class="btn">{% trans "Users" %}</a>
           <a href="{% url 'clinics:settings' %}" class="btn">{% trans "Settings" %}</a>
         {% endif %}
-      </div>
 
-      <div class="nav-right">
         {% if user.is_authenticated %}
-          <span class="muted" style="font-size: 13px;">{{ user.get_full_name|default:user.username }}</span>
-
-          <!-- Django 6+ logout must be POST -->
+          <span class="muted nav-username">{{ user.get_full_name|default:user.username }}</span>
           <form method="post" action="{% url 'logout' %}" style="margin: 0;">
             {% csrf_token %}
             <button type="submit" class="btn">{% trans "Logout" %}</button>
           </form>
-
         {% else %}
           <a href="{% url 'login' %}" class="btn">{% trans "Login" %}</a>
         {% endif %}

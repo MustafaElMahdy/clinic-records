@@ -108,18 +108,15 @@ p  { margin: 0 0 10px; }
   gap: 12px;
 }
 
-.nav-left {
+.nav-scroll {
   display: flex;
-  gap: 10px;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+.nav-username {
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .brand {
@@ -744,21 +741,20 @@ textarea.input-error:focus {
   .container { padding: 16px; }
 
   .nav-inner {
-    flex-wrap: nowrap;
     height: 52px;
     padding: 0 12px;
-    gap: 6px;
+    gap: 8px;
+  }
+  .nav-scroll {
+    flex: 1;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    gap: 6px;
     justify-content: flex-start;
   }
-  .nav-inner::-webkit-scrollbar { display: none; }
-  .nav-left,
-  .nav-right {
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-  }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-username { display: none; }
 
   .card { padding: 14px; border-radius: var(--r-lg); }
   .row > .card { min-width: calc(50% - 6px); }
@@ -792,6 +788,7 @@ textarea.input-error:focus {
 }
 
 [dir="rtl"] .nav-inner { flex-direction: row-reverse; }
+[dir="rtl"] .nav-scroll { direction: ltr; }
 
 [dir="rtl"] .table th,
 [dir="rtl"] .table td { text-align: right; }
