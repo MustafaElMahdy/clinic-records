@@ -117,6 +117,9 @@ p  { margin: 0 0 10px; }
 .nav-username {
   font-size: 13px;
   white-space: nowrap;
+  padding-left: 12px;
+  margin-left: 4px;
+  border-left: 1px solid var(--border-input);
 }
 
 .brand {
