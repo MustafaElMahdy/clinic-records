@@ -954,8 +954,20 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.15; letter-spacing: -0.5px; }
   .lp-hero { padding: 100px 0 64px; }
   .lp-container { padding: 0 20px; }
 
-  .lp-nav-inner { padding: 0 20px; }
-  .lp-nav-links > a:not(.lp-btn) { display: none; }
+  .lp-nav-inner {
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .lp-nav-inner::-webkit-scrollbar { display: none; }
+  .lp-nav-links {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
 
   .lp-features-grid {
     grid-template-columns: 1fr;

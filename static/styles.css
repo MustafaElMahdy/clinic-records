@@ -108,6 +108,20 @@ p  { margin: 0 0 10px; }
   gap: 12px;
 }
 
+.nav-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 .brand {
   font-size: 15px;
   font-weight: 700;
@@ -730,11 +744,20 @@ textarea.input-error:focus {
   .container { padding: 16px; }
 
   .nav-inner {
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 52px;
-    gap: 8px;
-    padding: 10px 16px;
+    flex-wrap: nowrap;
+    height: 52px;
+    padding: 0 12px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-left,
+  .nav-right {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
   }
 
   .card { padding: 14px; border-radius: var(--r-lg); }
