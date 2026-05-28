@@ -1,0 +1,33 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ("audit", "0006_alter_auditevent_action"),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name="auditevent",
+            name="action",
+            field=models.CharField(
+                choices=[
+                    ("patient_created", "Patient created"),
+                    ("patient_edited", "Patient edited"),
+                    ("visit_created", "Visit created"),
+                    ("visit_edited", "Visit edited"),
+                    ("patient_viewed", "Patient viewed"),
+                    ("file_uploaded", "File uploaded"),
+                    ("file_downloaded", "File downloaded"),
+                    ("file_deleted", "File deleted"),
+                    ("user_created", "User created"),
+                    ("user_edited", "User edited"),
+                    ("user_deactivated", "User deactivated"),
+                    ("clinic_updated", "Clinic settings updated"),
+                    ("data_exported", "Data exported"),
+                ],
+                max_length=50,
+            ),
+        ),
+    ]
