@@ -186,6 +186,17 @@ EMAIL_HOST_USER     = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 
 
+# ── Billing (manual InstaPay) ─────────────────────────────────────────────────
+# INSTAPAY_ADDRESS: your IPA shown to clinics on the paywall.
+# PAYMENT_NOTIFICATION_EMAIL: where new-payment alerts are sent for you to review.
+# -----------------------------------------------------------------------------
+INSTAPAY_ADDRESS = os.environ.get("INSTAPAY_ADDRESS", "documed@instapay")
+MONTHLY_PRICE_EGP = int(os.environ.get("MONTHLY_PRICE_EGP", "1500"))
+PAYMENT_NOTIFICATION_EMAIL = os.environ.get(
+    "PAYMENT_NOTIFICATION_EMAIL", "mustafaelmahdy52@gmail.com"
+)
+
+
 # ── File Storage ─────────────────────────────────────────────────────────────
 # If R2 credentials are present → store media files in Cloudflare R2.
 # Otherwise fall back to local filesystem (development default).

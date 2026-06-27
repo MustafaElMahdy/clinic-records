@@ -27,12 +27,43 @@
       {% endfor %}
     </ul>
 
-    <a href="mailto:support@documed.health?subject=Subscribe — {{ clinic.name }}" class="btn primary" style="width: 100%; padding: 11px 14px; font-size: 15px; display: block;">
-      {% trans "Contact us to subscribe" %}
-    </a>
   </div>
+</div>
 
-  <p class="muted" style="font-size: 13px; margin: 0;">
+<div class="card pay-card" style="max-width: 480px; margin: 16px auto;">
+  {% if pending %}
+    <div class="message message-info" style="margin: 0;">
+      {% trans "We've received your payment and it's under review. We'll activate your clinic as soon as it's verified, usually within a few hours." %}
+    </div>
+  {% else %}
+    <h2 style="font-size: 17px; margin-bottom: 16px;">{% trans "How to pay" %}</h2>
+    <ol class="pay-steps">
+      <li>{% blocktrans %}Open your bank or InstaPay app and send <strong>{{ price }} EGP</strong>.{% endblocktrans %}</li>
+      <li>
+        {% trans "Send to this InstaPay address:" %}
+        <code class="instapay-addr">{{ instapay_address }}</code>
+      </li>
+      <li>{% trans "Copy the transaction reference number, then enter it below." %}</li>
+    </ol>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <p>
+        {{ form.reference.label_tag }}
+        {{ form.reference }}
+        {% if form.reference.errors %}<span class="field-error">{{ form.reference.errors.0 }}</span>{% endif %}
+      </p>
+      <p>
+        {{ form.screenshot.label_tag }}
+        {{ form.screenshot }}
+      </p>
+      <button class="btn primary" type="submit" style="width: 100%; padding: 11px 14px; font-size: 15px;">
+        {% trans "I've paid — submit for review" %}
+      </button>
+    </form>
+  {% endif %}
+
+  <p class="muted" style="font-size: 13px; margin: 16px 0 0; text-align: center;">
     {% trans "Questions? Email us at" %} <a href="mailto:support@documed.health">support@documed.health</a>
   </p>
 </div>

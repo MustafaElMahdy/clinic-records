@@ -1,8 +1,10 @@
 from datetime import date, timedelta
 from io import BytesIO
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
+from django.core.mail import send_mail
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -15,7 +17,7 @@ from accounts.permissions import role_required
 from audit.models import AuditEvent
 from audit.utils import log_event
 from patients.models import Patient
-from .forms import ClinicSettingsForm, ClinicSignupForm
+from .forms import ClinicSettingsForm, ClinicSignupForm, PaymentSubmissionForm
 from .models import Clinic
 
 
@@ -126,9 +128,52 @@ SUBSCRIPTION_FEATURES = [
 @login_required
 def subscription(request):
     clinic = getattr(request.user, "clinic", None)
+
+    if request.method == "POST" and clinic is not None:
+        form = PaymentSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.clinic = clinic
+            submission.amount = settings.MONTHLY_PRICE_EGP
+            submission.submitted_by = request.user
+            submission.save()
+
+            # Notify the owner so they can verify the transfer and approve.
+            admin_link = request.build_absolute_uri(
+                f"/admin/clinics/paymentsubmission/{submission.pk}/change/"
+            )
+            send_mail(
+                subject=f"[DocuMed] Payment submitted: {clinic.name}",
+                message=(
+                    f"Clinic: {clinic.name}\n"
+                    f"Amount: {submission.amount} EGP\n"
+                    f"Reference: {submission.reference}\n"
+                    f"Submitted by: {request.user.get_full_name()} ({request.user.email})\n\n"
+                    f"Review & approve: {admin_link}"
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.PAYMENT_NOTIFICATION_EMAIL],
+                fail_silently=True,
+            )
+            messages.success(request, _(
+                "Payment submitted. We'll verify it and activate your clinic shortly."
+            ))
+            return redirect("clinics:subscription")
+    else:
+        form = PaymentSubmissionForm()
+
+    pending = (
+        clinic.payment_submissions.filter(status="pending").exists()
+        if clinic else False
+    )
+
     return render(request, "clinics/subscription.html", {
         "clinic": clinic,
         "features": SUBSCRIPTION_FEATURES,
+        "form": form,
+        "instapay_address": settings.INSTAPAY_ADDRESS,
+        "price": settings.MONTHLY_PRICE_EGP,
+        "pending": pending,
     })
 
 

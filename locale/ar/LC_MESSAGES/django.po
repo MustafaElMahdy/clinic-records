@@ -940,6 +940,49 @@ msgstr "تواصل معنا للاشتراك"
 msgid "Questions? Email us at"
 msgstr "هل لديك أسئلة؟ راسلنا على"
 
+# InstaPay manual payment
+msgid "How to pay"
+msgstr "طريقة الدفع"
+
+#, python-format
+msgid "Open your bank or InstaPay app and send <strong>%(price)s EGP</strong>."
+msgstr "افتح تطبيق البنك أو إنستاباي وأرسل <strong>%(price)s ج.م.</strong>."
+
+msgid "Send to this InstaPay address:"
+msgstr "أرسل إلى عنوان إنستاباي التالي:"
+
+msgid "Copy the transaction reference number, then enter it below."
+msgstr "انسخ الرقم المرجعي للمعاملة ثم أدخله أدناه."
+
+msgid "InstaPay transaction reference"
+msgstr "الرقم المرجعي لمعاملة إنستاباي"
+
+msgid "Payment screenshot (optional)"
+msgstr "صورة إثبات الدفع (اختياري)"
+
+msgid "e.g. 1234567890"
+msgstr "مثال: 1234567890"
+
+msgid "I've paid — submit for review"
+msgstr "لقد دفعت — إرسال للمراجعة"
+
+msgid "Payment submitted. We'll verify it and activate your clinic shortly."
+msgstr "تم إرسال الدفعة. سنتحقق منها ونفعّل عيادتك قريباً."
+
+msgid ""
+"We've received your payment and it's under review. We'll activate your "
+"clinic as soon as it's verified, usually within a few hours."
+msgstr ""
+"لقد استلمنا دفعتك وهي قيد المراجعة. سنفعّل عيادتك بمجرد التحقق منها، عادةً "
+"خلال ساعات قليلة."
+
+# Signup password requirements (live feedback)
+msgid "At least 8 characters"
+msgstr "8 أحرف على الأقل"
+
+msgid "Passwords match"
+msgstr "كلمتا المرور متطابقتان"
+
 # Onboarding empty state
 msgid "Welcome to DocuMed!"
 msgstr "مرحباً بك في دوكيوميد!"

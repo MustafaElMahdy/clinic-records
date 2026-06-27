@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from accounts.models import User
-from .models import Clinic
+from .models import Clinic, PaymentSubmission
 
 
 class ClinicSettingsForm(forms.ModelForm):
@@ -42,3 +42,19 @@ class ClinicSignupForm(forms.Form):
         if p1 and p2 and p1 != p2:
             self.add_error("password_confirm", _("Passwords do not match."))
         return cleaned_data
+
+
+class PaymentSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = PaymentSubmission
+        fields = ["reference", "screenshot"]
+        widgets = {
+            "reference": forms.TextInput(attrs={
+                "placeholder": _("e.g. 1234567890"),
+                "autocomplete": "off",
+            }),
+        }
+        labels = {
+            "reference": _("InstaPay transaction reference"),
+            "screenshot": _("Payment screenshot (optional)"),
+        }
