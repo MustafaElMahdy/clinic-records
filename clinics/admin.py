@@ -36,7 +36,10 @@ class PaymentSubmissionAdmin(admin.ModelAdmin):
     )
     list_filter = ("status", "submitted_at")
     search_fields = ("clinic__name", "reference")
-    readonly_fields = ("submitted_by", "submitted_at", "reviewed_by", "reviewed_at")
+    # status is read-only on purpose: approving/rejecting must go through the
+    # actions below so the clinic actually gets activated and emailed. Editing
+    # the status field by hand would skip that logic.
+    readonly_fields = ("status", "submitted_by", "submitted_at", "reviewed_by", "reviewed_at")
     actions = ["approve_payments", "reject_payments"]
 
     @admin.action(description="✓ Approve — activate clinic for 30 days")
