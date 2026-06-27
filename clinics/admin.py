@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.core.mail import send_mail
 
-from .models import Clinic, PaymentSubmission
+from .models import Clinic, PaymentSubmission, RenewalReminder
 
 
 @admin.register(Clinic)
@@ -66,3 +66,14 @@ class PaymentSubmissionAdmin(admin.ModelAdmin):
             sub.reject(reviewed_by=request.user)
             count += 1
         self.message_user(request, f"{count} payment(s) rejected.")
+
+
+@admin.register(RenewalReminder)
+class RenewalReminderAdmin(admin.ModelAdmin):
+    list_display = ("clinic", "kind", "days_before", "period_end", "sent_at")
+    list_filter = ("kind", "days_before", "sent_at")
+    search_fields = ("clinic__name",)
+    readonly_fields = ("clinic", "kind", "period_end", "days_before", "sent_at")
+
+    def has_add_permission(self, request):
+        return False  # rows are created by the reminder command only

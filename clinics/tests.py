@@ -3,13 +3,14 @@ from datetime import timedelta
 from django.contrib.admin.sites import AdminSite
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
+from django.core.management import call_command
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from accounts.models import User
 from clinics.admin import PaymentSubmissionAdmin
-from clinics.models import Clinic, PaymentSubmission
+from clinics.models import Clinic, PaymentSubmission, RenewalReminder
 
 
 def make_clinic(**kwargs):
@@ -197,3 +198,95 @@ class AdminApproveActionTests(TestCase):
         self.clinic.refresh_from_db()
         self.assertEqual(sub.status, PaymentSubmission.Status.REJECTED)
         self.assertFalse(self.clinic.is_access_allowed)
+
+
+@override_settings(
+    INSTAPAY_ADDRESS="test@instapay",
+    MONTHLY_PRICE_EGP=1500,
+    SITE_URL="https://documed.health",
+)
+class RenewalReminderCommandTests(TestCase):
+    def setUp(self):
+        self.today = timezone.now().date()
+
+    def _clinic_with_admin(self, **kwargs):
+        clinic = make_clinic(**kwargs)
+        User.objects.create_user(
+            username=f"admin{clinic.pk}@x.com", password="pw", role="admin",
+            clinic=clinic, email=f"admin{clinic.pk}@x.com",
+        )
+        return clinic
+
+    def test_paid_reminder_3_days_before(self):
+        c = self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today + timedelta(days=3)
+        )
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(c.renewal_reminders.count(), 1)
+        r = c.renewal_reminders.get()
+        self.assertEqual(r.kind, RenewalReminder.Kind.PAID)
+        self.assertEqual(r.days_before, 3)
+
+    def test_paid_reminder_day_of(self):
+        c = self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today
+        )
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(c.renewal_reminders.get().days_before, 0)
+
+    def test_trial_reminder(self):
+        c = self._clinic_with_admin(trial_ends_at=self.today + timedelta(days=3))
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(c.renewal_reminders.get().kind, RenewalReminder.Kind.TRIAL)
+
+    def test_no_reminder_outside_window(self):
+        self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today + timedelta(days=5)
+        )
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_idempotent_no_duplicate_on_second_run(self):
+        c = self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today + timedelta(days=3)
+        )
+        call_command("send_renewal_reminders")
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(c.renewal_reminders.count(), 1)
+
+    def test_pending_payment_suppresses_reminder(self):
+        c = self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today + timedelta(days=3)
+        )
+        PaymentSubmission.objects.create(clinic=c, reference="ALREADY-PAID")
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(c.renewal_reminders.count(), 0)
+
+    def test_no_email_recipient_skips_without_recording(self):
+        # Clinic whose only user has no email -> can't notify, don't record so it retries.
+        c = make_clinic(subscription_status="active", paid_until=self.today + timedelta(days=3))
+        User.objects.create_user(username="noemail", password="pw", role="admin", clinic=c)
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(c.renewal_reminders.count(), 0)
+
+    def test_dry_run_sends_nothing_and_records_nothing(self):
+        c = self._clinic_with_admin(
+            subscription_status="active", paid_until=self.today + timedelta(days=3)
+        )
+        call_command("send_renewal_reminders", "--dry-run")
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(c.renewal_reminders.count(), 0)
+
+    def test_expired_clinic_gets_no_reminder(self):
+        # Already locked out -> this is win-back, not a reminder; out of scope.
+        self._clinic_with_admin(
+            subscription_status="expired", paid_until=self.today - timedelta(days=1)
+        )
+        call_command("send_renewal_reminders")
+        self.assertEqual(len(mail.outbox), 0)

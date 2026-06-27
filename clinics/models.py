@@ -126,3 +126,34 @@ class PaymentSubmission(models.Model):
         if note:
             self.note = note
         self.save(update_fields=["status", "reviewed_by", "reviewed_at", "note"])
+
+
+class RenewalReminder(models.Model):
+    """
+    One row per reminder actually sent. Used to make the daily reminder command
+    idempotent: a given (clinic, kind, period_end, days_before) is emailed once.
+    Because period_end is the trial_ends_at / paid_until value, the dedup resets
+    naturally each cycle when the clinic renews and that date changes.
+    """
+    class Kind(models.TextChoices):
+        TRIAL = "trial", "Trial ending"
+        PAID = "paid", "Paid subscription ending"
+
+    clinic = models.ForeignKey(
+        Clinic, on_delete=models.CASCADE, related_name="renewal_reminders"
+    )
+    kind = models.CharField(max_length=10, choices=Kind.choices)
+    period_end = models.DateField(help_text="The trial_ends_at / paid_until this reminder was for")
+    days_before = models.PositiveSmallIntegerField(help_text="Days before period_end (0 = on the day)")
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["clinic", "kind", "period_end", "days_before"],
+                name="unique_reminder_per_period_offset",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.clinic.name} — {self.kind} — {self.days_before}d before {self.period_end}"

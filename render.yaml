@@ -28,6 +28,26 @@ services:
       - key: R2_SECRET_ACCESS_KEY
         sync: false   # set manually in Render dashboard
 
+  # Daily renewal-reminder emails (3 days before + on the day access ends).
+  # 07:00 UTC ≈ 09:00 in Egypt (UTC+2). Adjust if Egypt is on DST (UTC+3).
+  # NOTE: this cron must have the SAME env vars as the web service. Any var you
+  # set only in the dashboard (EMAIL_*, INSTAPAY_ADDRESS, SITE_URL, the real
+  # DATABASE_URL, etc.) must also be added to this cron job, easiest via a
+  # shared Env Group in the Render dashboard.
+  - type: cron
+    name: documed-renewal-reminders
+    runtime: python
+    schedule: "0 7 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py send_renewal_reminders
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: documed-db
+          property: connectionString
+      - key: SITE_URL
+        value: "https://documed.health"
+
 databases:
   - name: documed-db
     databaseName: documed

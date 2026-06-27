@@ -196,6 +196,10 @@ PAYMENT_NOTIFICATION_EMAIL = os.environ.get(
     "PAYMENT_NOTIFICATION_EMAIL", "mustafaelmahdy52@gmail.com"
 )
 
+# Public base URL, used to build absolute links in emails (no request available
+# in management commands / cron).
+SITE_URL = os.environ.get("SITE_URL", "https://documed.health")
+
 
 # ── File Storage ─────────────────────────────────────────────────────────────
 # If R2 credentials are present → store media files in Cloudflare R2.
