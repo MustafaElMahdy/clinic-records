@@ -290,3 +290,66 @@ class RenewalReminderCommandTests(TestCase):
         )
         call_command("send_renewal_reminders")
         self.assertEqual(len(mail.outbox), 0)
+
+
+class PurgeCancelledClinicsTests(TestCase):
+    def setUp(self):
+        self.today = timezone.now().date()
+
+    def _populate(self, clinic):
+        """Give a clinic a user, patient, visit, and audit event."""
+        user = User.objects.create_user(
+            username=f"u{clinic.pk}", password="pw", role="admin", clinic=clinic
+        )
+        from patients.models import Patient
+        from visits.models import Visit
+        p = Patient.objects.create(clinic=clinic, full_name="Test P", normalized_name="test p")
+        Visit.objects.create(clinic=clinic, patient=p, clinical_notes="x")
+        return user, p
+
+    def test_clinic_past_window_is_purged_with_commit(self):
+        from patients.models import Patient
+        c = make_clinic(subscription_status="expired",
+                        paid_until=self.today - timedelta(days=100))
+        self._populate(c)
+        cid = c.pk
+        call_command("purge_cancelled_clinics", "--commit")
+        self.assertFalse(Clinic.objects.filter(pk=cid).exists())
+        self.assertFalse(Patient.objects.filter(clinic_id=cid).exists())
+        self.assertFalse(User.objects.filter(clinic_id=cid).exists())
+
+    def test_dry_run_deletes_nothing(self):
+        c = make_clinic(subscription_status="expired",
+                        paid_until=self.today - timedelta(days=100))
+        self._populate(c)
+        cid = c.pk
+        call_command("purge_cancelled_clinics")  # no --commit
+        self.assertTrue(Clinic.objects.filter(pk=cid).exists())
+
+    def test_recently_cancelled_clinic_is_kept(self):
+        c = make_clinic(subscription_status="expired",
+                        paid_until=self.today - timedelta(days=30))
+        cid = c.pk
+        call_command("purge_cancelled_clinics", "--commit")
+        self.assertTrue(Clinic.objects.filter(pk=cid).exists())
+
+    def test_active_clinic_is_never_purged(self):
+        c = make_clinic(subscription_status="active",
+                        paid_until=self.today + timedelta(days=10))
+        cid = c.pk
+        call_command("purge_cancelled_clinics", "--commit")
+        self.assertTrue(Clinic.objects.filter(pk=cid).exists())
+
+    def test_clinic_without_end_dates_is_skipped(self):
+        # Safety guard: no paid_until/trial_ends_at -> never auto-deleted.
+        c = make_clinic(subscription_status="expired", paid_until=None, trial_ends_at=None)
+        cid = c.pk
+        call_command("purge_cancelled_clinics", "--commit")
+        self.assertTrue(Clinic.objects.filter(pk=cid).exists())
+
+    def test_trial_ended_long_ago_is_purged(self):
+        c = make_clinic(subscription_status="trialing",
+                        trial_ends_at=self.today - timedelta(days=120))
+        cid = c.pk
+        call_command("purge_cancelled_clinics", "--commit")
+        self.assertFalse(Clinic.objects.filter(pk=cid).exists())

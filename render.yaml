@@ -98,3 +98,47 @@ services:
         sync: false
       - key: INSTAPAY_ADDRESS
         sync: false
+
+  # Weekly retention purge: permanently deletes data for clinics whose access
+  # ended more than 90 days ago (honors the Privacy Policy / Terms retention
+  # window). Runs with --commit. Monday 08:00 UTC. Needs DB + R2 (to delete
+  # stored files) + email (owner summary). Destructive — keep an eye on its logs.
+  - type: cron
+    name: documed-retention-purge
+    runtime: python
+    schedule: "0 8 * * 1"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py purge_cancelled_clinics --commit
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      # ── Secrets (set in dashboard, must match the web service) ──
+      - key: DATABASE_URL
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+      - key: EMAIL_BACKEND
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: PAYMENT_NOTIFICATION_EMAIL
+        sync: false
+      # R2 — required so deleted clinics' uploaded files are removed from storage
+      - key: R2_BUCKET_NAME
+        value: "documed-media"
+      - key: R2_ACCOUNT_ID
+        value: "8bbcd32aedca41ce63e50d2c581b7794"
+      - key: R2_ENDPOINT_URL
+        value: "https://8bbcd32aedca41ce63e50d2c581b7794.r2.cloudflarestorage.com"
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
