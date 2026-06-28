@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Terms of Service — DocuMed</title>
+  <title>{% if LANGUAGE_CODE == 'ar' %}شروط الاستخدام — DocuMed{% else %}Terms of Service — DocuMed{% endif %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,7 @@
     .legal-section ul li { list-style: disc; margin-bottom: 6px; }
     .legal-section ol li { list-style: decimal; margin-bottom: 6px; }
     .legal-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 40px 0; }
+    [dir="rtl"] .legal-title, [dir="rtl"] .legal-lead, [dir="rtl"] .legal-date, [dir="rtl"] .legal-eyebrow { text-align: right; }
   </style>
 </head>
 <body style="background:#f5f5f7;">
@@ -38,20 +39,217 @@
       <div class="lp-nav-links">
         <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
         <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
+        <form method="post" action="{% url 'set_language' %}" style="margin:0; display:inline;">
+          {% csrf_token %}
+          {% if LANGUAGE_CODE == 'ar' %}
+            <input type="hidden" name="language" value="en">
+            <button type="submit" class="lp-btn lp-btn-ghost" style="cursor:pointer;">EN</button>
+          {% else %}
+            <input type="hidden" name="language" value="ar">
+            <button type="submit" class="lp-btn lp-btn-ghost" style="cursor:pointer;">ع</button>
+          {% endif %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+        </form>
       </div>
     </div>
   </nav>
 
   <div class="legal-body">
-    <a class="legal-back" href="{% url 'landing' %}">← {% trans "Back to DocuMed" %}</a>
+    {% if LANGUAGE_CODE == 'ar' %}
+    {# ═══════════════ Arabic ═══════════════ #}
+    <a class="legal-back" href="{% url 'landing' %}">→ العودة إلى DocuMed</a>
+    <span class="legal-eyebrow">قانوني</span>
+    <h1 class="legal-title">شروط الاستخدام</h1>
+    <span class="legal-date">آخر تحديث: ٢٩ مايو ٢٠٢٦</span>
 
-    <span class="legal-eyebrow">{% trans "Legal" %}</span>
-    <h1 class="legal-title">{% trans "Terms of Service" %}</h1>
-    <span class="legal-date">{% trans "Last updated: 29 May 2026" %}</span>
+    <article class="legal-article" dir="rtl" lang="ar">
+      <p class="legal-lead">تحكم شروط الاستخدام هذه ("الشروط") استخدامك لـ DocuMed، وهو منصة سجلات طبية إلكترونية يديرها <strong>مصطفى المهدي</strong>، تاجر فرد مقيم في جمهورية مصر العربية ("DocuMed" أو "نحن"). الخدمة متاحة على documed.health.</p>
+      <p class="legal-lead">بإنشاء حساب على DocuMed أو استخدام الخدمة، فإنك توافق على هذه الشروط. إذا كنت لا توافق، فلا تستخدم الخدمة. النسخة العربية من هذه الشروط هي النسخة المعتمدة في حالة أي نزاع ينشأ في مصر؛ والنسخة الإنجليزية مقدمة للتيسير فقط.</p>
 
-    {# ── English (default). Arabic version to be added when the UTF-8 source is provided. ── #}
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١. التعريفات</h2>
+        <ul>
+          <li><strong>الخدمة:</strong> برنامج DocuMed وموقعه الإلكتروني والمزايا المرتبطة به.</li>
+          <li><strong>العيادة:</strong> الممارسة الطبية أو العيادة أو الكيان الصحي الذي ينشئ حساباً على DocuMed.</li>
+          <li><strong>المسؤول (Admin):</strong> الشخص الذي يسجل العيادة ويتمتع بصلاحيات إدارية كاملة على حساب العيادة.</li>
+          <li><strong>المستخدم:</strong> أي شخص يمنحه المسؤول صلاحية الوصول إلى حساب العيادة، بما في ذلك الأطباء والمساعدين والممرضين وغيرهم.</li>
+          <li><strong>بيانات المرضى:</strong> المعلومات الخاصة بالمرضى التي تدخلها العيادة في الخدمة أو ترفعها إليها.</li>
+          <li><strong>بيانات الحساب:</strong> المعلومات الخاصة بالعيادة ومستخدميها، بما في ذلك الأسماء والبريد الإلكتروني وأرقام الهاتف وبيانات تسجيل الدخول.</li>
+        </ul>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٢. الخدمة</h2>
+        <p>DocuMed خدمة برمجية متعددة المستأجرين (multi-tenant) توفر للعيادات أدوات لتسجيل بيانات المرضى وتوثيق الزيارات وإرفاق الملفات الطبية وإدارة حسابات العاملين وتصدير السجلات.</p>
+        <p>DocuMed <strong>أداة لحفظ السجلات</strong>. وهي ليست جهازاً طبياً ولا نظام دعم قرار سريري ولا أداة تشخيص، ولا تحل محل الحكم الطبي المهني. تتحمل العيادة ومحترفوها الطبيون المسؤولية الكاملة والمنفردة عن جميع القرارات السريرية ورعاية المرضى.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٣. تسجيل الحساب</h2>
+        <p>لاستخدام DocuMed، يجب على العيادة إنشاء حساب عبر صفحة التسجيل. بإنشاء الحساب، يقر المسؤول بما يلي:</p>
+        <ol>
+          <li>أنه قد بلغ الثامنة عشرة من العمر، وأنه يملك السلطة القانونية لإلزام العيادة بهذه الشروط.</li>
+          <li>أن العيادة كيان طبي شرعي يعمل وفقاً لجميع القوانين واللوائح المعمول بها، بما في ذلك متطلبات وزارة الصحة والسكان المصرية.</li>
+          <li>أن جميع البيانات المقدمة عند التسجيل صحيحة وكاملة.</li>
+          <li>أنه سيحافظ على سرية بيانات تسجيل الدخول وسيخطر DocuMed فوراً في حال الاشتباه في وصول غير مصرح به.</li>
+        </ol>
+        <p>يتحمل المسؤول كامل المسؤولية عن جميع الأنشطة التي تتم على حساب العيادة، بما في ذلك أنشطة أي مستخدم يمنحه صلاحية.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٤. المستخدمون والأدوار</h2>
+        <p>يجوز للمسؤول إنشاء حسابات لمستخدمين إضافيين (أطباء، مساعدين، ممرضين) وتحديد دور كل منهم. يجب على كل مستخدم استخدام حسابه الخاص وعدم مشاركة بيانات الدخول.</p>
+        <p>يتحمل المسؤول مسؤولية التأكد من أن كل مستخدم مصرح له قانونياً بالاطلاع على بيانات المرضى، وتعطيل حسابات المستخدمين الذين تركوا العيادة أو تغير دورهم، وتدريب المستخدمين على التعامل السليم مع بيانات المرضى.</p>
+        <p>تطبق DocuMed صلاحيات وصول قائمة على الأدوار داخل البرنامج، ولكنها ليست مسؤولة عن السياسات الداخلية للعيادة أو قرارات التوظيف فيها.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٥. الفترة التجريبية المجانية</h2>
+        <p>تحصل العيادات الجديدة على فترة تجريبية مجانية مدتها ١٤ يوماً. لا يلزم تقديم بطاقة ائتمان لبدء الفترة التجريبية.</p>
+        <p>خلال الفترة التجريبية، تتمتع العيادة بوصول كامل إلى الخدمة. عند نهاية الفترة، يجب على العيادة الاشتراك في خطة مدفوعة لمواصلة استخدام الخدمة. في حال عدم الاشتراك، سيتم تعليق الوصول، وستُحفظ البيانات وفقاً للبند ١١.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٦. الاشتراك والأسعار والدفع</h2>
+        <p>تكلفة الاشتراك في DocuMed هي <strong>١٥٠٠ جنيه مصري لكل عيادة شهرياً</strong>.</p>
+        <p>يتم الدفع حالياً يدوياً عبر <strong>إنستاباي (InstaPay)</strong>. للاشتراك أو التجديد، ترسل العيادة المبلغ الشهري إلى عنوان إنستاباي الموضّح في صفحة الاشتراك، ثم تُدخل الرقم المرجعي للمعاملة في التطبيق. بمجرد تحقق DocuMed من الدفع، يُفعَّل وصول العيادة لمدة <strong>٣٠ يوماً</strong>.</p>
+        <p>لا تتجدد الاشتراكات تلقائياً ولا يُخصم أي مبلغ من أي بطاقة تلقائياً. لمواصلة استخدام الخدمة، تكرر العيادة الدفع كل شهر قبل انتهاء فترة وصولها. وترسل DocuMed تذكيرات قبل قرب انتهاء الوصول.</p>
+        <p>قد تتغير الأسعار بإشعار مسبق لا يقل عن ٣٠ يوماً للمشتركين الحاليين. لا تنطبق تغييرات الأسعار على فترة الوصول المدفوعة الحالية للعيادة. جميع الرسوم غير قابلة للاسترداد إلا في الحدود التي يستلزمها القانون المصري.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٧. الاستخدام المقبول</h2>
+        <p>توافق العيادة ومستخدموها على عدم القيام بما يلي:</p>
+        <ol>
+          <li>استخدام الخدمة لأي غرض غير مشروع أو بما يخالف أي قانون معمول به، بما في ذلك قانون حماية البيانات الشخصية رقم ١٥١ لسنة ٢٠٢٠.</li>
+          <li>رفع محتوى لا يتصل بالعمل المشروع للعيادة.</li>
+          <li>محاولة الوصول إلى بيانات عيادة أخرى أو إجراء هندسة عكسية للخدمة أو الالتفاف على إجراءات الأمان.</li>
+          <li>استخدام الخدمة لإرسال رسائل مزعجة أو برامج ضارة أو محتوى مؤذٍ.</li>
+          <li>إعادة بيع الخدمة أو الترخيص من الباطن أو تقديمها لأطراف ثالثة دون إذن كتابي من DocuMed.</li>
+          <li>استخدام أدوات آلية للوصول إلى الخدمة بطريقة تضع عبئاً مفرطاً عليها.</li>
+        </ol>
+        <p>يجوز لـ DocuMed تعليق أو إنهاء الحسابات المخالفة لهذا البند.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٨. ملكية البيانات</h2>
+        <p>تملك العيادة جميع بيانات المرضى وبيانات الحساب التي تدخلها في الخدمة. لا تدعي DocuMed ملكية بيانات العيادة.</p>
+        <p>تعالج DocuMed هذه البيانات فقط من أجل تقديم الخدمة للعيادة، وفقاً لسياسة الخصوصية. العيادة هي المتحكم في بيانات المرضى، وDocuMed هي المعالج لها.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٩. توفر الخدمة</h2>
+        <p>تسعى DocuMed إلى إبقاء الخدمة متاحة في جميع الأوقات، لكنها لا تضمن التشغيل دون انقطاع. قد لا تكون الخدمة متاحة بسبب أعمال الصيانة أو المشكلات التقنية أو الأحداث الخارجة عن سيطرتنا المعقولة.</p>
+        <p>DocuMed في مرحلة الوصول المبكر (early access)، ولا يوجد التزام محدد بمستوى توفر الخدمة في هذه المرحلة. ننصح العيادة بالاحتفاظ بنسخة احتياطية خاصة بها من السجلات الأساسية.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٠. الإنهاء</h2>
+        <p><strong>من قبل العيادة:</strong> يجوز للعيادة التوقف عن استخدام الخدمة في أي وقت بعدم التجديد، أو بالتواصل مع DocuMed. ينتهي الوصول عند انتهاء فترة الوصول المدفوعة الحالية.</p>
+        <p><strong>من قبل DocuMed:</strong> يجوز لـ DocuMed تعليق أو إنهاء حساب العيادة في حالات الإخلال الجوهري بهذه الشروط، أو عدم سداد الرسوم بعد إخطار، أو استخدام الخدمة بطريقة تخلق مخاطر قانونية على DocuMed أو على العيادات الأخرى، أو عدم النشاط لمدة تزيد عن ١٢ شهراً.</p>
+        <p>ستوجه DocuMed إخطاراً مدته ١٤ يوماً على الأقل قبل الإنهاء، إلا في حالات المخالفة الجسيمة أو المتطلبات القانونية.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١١. الاحتفاظ بالبيانات والتصدير بعد الإنهاء</h2>
+        <p>بعد الإنهاء أو الإلغاء، يُحتفظ ببيانات العيادة لمدة <strong>٩٠ يوماً</strong>. خلال هذه الفترة، يجوز للعيادة إعادة تفعيل الحساب بالاشتراك من جديد، أو طلب تصدير كامل للبيانات بصيغة Excel (يُقدم مجاناً مرة واحدة لكل عيادة).</p>
+        <p>بعد ٩٠ يوماً، يتم <strong>حذف جميع بيانات المرضى وبيانات الحساب نهائياً</strong> من أنظمة DocuMed النشطة. قد تبقى النسخ الاحتياطية التي تحتوي على البيانات لمدة تصل إلى ٣٠ يوماً إضافياً قبل أن تُستبدل في دورة النسخ الاحتياطي الاعتيادية.</p>
+        <p>تتحمل العيادة مسؤولية تنزيل بياناتها وحفظها بشكل آمن قبل انتهاء فترة الاحتفاظ.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٢. إخلاء المسؤولية الطبية</h2>
+        <p>DocuMed منصة لحفظ السجلات. وهي لا تقدم أي مشورة أو توصيات طبية، ولا تشخيصات للحالات أو اقتراحات للعلاج، ولا تمثل بديلاً للحكم السريري للأطباء المرخصين، ولا تُعد جهازاً طبياً بأي تعريف تنظيمي معمول به.</p>
+        <p>تظل جميع القرارات السريرية مسؤولية منفردة للطبيب المعالج. وتتحمل العيادة مسؤولية ضمان امتثال استخدامها لـ DocuMed لمعايير الرعاية الطبية وآداب المهنة والمتطلبات التنظيمية لنقابة الأطباء المصرية ووزارة الصحة والسكان.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٣. تحديد المسؤولية</h2>
+        <p>إلى أقصى حد يسمح به القانون المصري:</p>
+        <ol>
+          <li>تقتصر مسؤولية DocuMed الإجمالية تجاه العيادة عن أي مطالبة تتعلق بالخدمة على المبلغ الذي دفعته العيادة لـ DocuMed خلال الاثني عشر شهراً السابقة على المطالبة.</li>
+          <li>لا تكون DocuMed مسؤولة عن الأضرار غير المباشرة أو العرضية أو التبعية أو التأديبية، بما في ذلك خسارة الأرباح أو خسارة العلاقات مع المرضى أو ضياع فرصة تجارية.</li>
+          <li>لا تكون DocuMed مسؤولة عن الأضرار الناجمة عن استخدام العيادة للخدمة، بما في ذلك الإدخال الخاطئ للبيانات أو الوصول غير المصرح به من جانب موظفي العيادة أو القرارات السريرية المتخذة بناءً على السجلات في النظام.</li>
+        </ol>
+        <p>لا يُقيد أي بند من هذه الشروط المسؤوليةَ التي لا يجوز تقييدها بموجب القانون المصري.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٤. التعويض</h2>
+        <p>توافق العيادة على الدفاع عن DocuMed وتعويضها عن أي مطالبة يرفعها طرف ثالث (بما في ذلك المرضى أو الجهات التنظيمية أو المستخدمون الآخرون) ناشئة عن استخدام العيادة للخدمة بما يخالف هذه الشروط أو القانون المعمول به، أو دقة أو محتوى بيانات المرضى التي أدخلتها العيادة، أو القرارات السريرية التي يتخذها موظفو العيادة، أو النزاعات بين العيادة ومرضاها أو موظفيها أو غيرهم.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٥. تعديل الشروط</h2>
+        <p>يجوز لـ DocuMed تحديث هذه الشروط من وقت لآخر. سيتم الإعلان عن التغييرات الجوهرية عبر البريد الإلكتروني للمسؤول ونشرها على documed.health قبل ١٤ يوماً على الأقل من سريانها. ويُعتبر استمرار استخدام الخدمة بعد تاريخ السريان قبولاً للشروط المحدثة. إذا لم تقبل العيادة الشروط المحدثة، فعليها التوقف عن استخدام الخدمة قبل تاريخ السريان.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٦. القانون الحاكم وتسوية المنازعات</h2>
+        <p>تخضع هذه الشروط لقوانين جمهورية مصر العربية. يُسوى أي نزاع ينشأ عن هذه الشروط أو عن استخدام الخدمة أولاً عن طريق التفاوض بحسن نية بين الطرفين. إذا لم يُسفر التفاوض عن حل خلال ٣٠ يوماً، يُحال النزاع إلى المحاكم المصرية المختصة في القاهرة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٧. أحكام عامة</h2>
+        <p><strong>الاتفاق الكامل:</strong> تشكل هذه الشروط، مع سياسة الخصوصية، الاتفاق الكامل بين العيادة وDocuMed بشأن الخدمة.</p>
+        <p><strong>استقلال البنود:</strong> إذا اعتُبر أي بند من هذه الشروط غير قابل للتنفيذ، تبقى البنود المتبقية سارية.</p>
+        <p><strong>عدم التنازل:</strong> عدم قيام DocuMed بإنفاذ أي بند لا يمثل تنازلاً عن حقها في إنفاذه لاحقاً.</p>
+        <p><strong>التنازل:</strong> لا يجوز للعيادة التنازل عن هذه الشروط دون موافقة كتابية من DocuMed. يجوز لـ DocuMed التنازل عن هذه الشروط في إطار اندماج أو استحواذ أو بيع أصول، مع إخطار العيادة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٨. التواصل</h2>
+        <p>للأسئلة المتعلقة بهذه الشروط أو لممارسة أي حق بموجبها، يُرجى التواصل مع:</p>
+        <p><strong>مصطفى المهدي</strong><br>
+        البريد الإلكتروني: <a href="mailto:mustafaelmahdy52@gmail.com">mustafaelmahdy52@gmail.com</a><br>
+        الموقع الإلكتروني: documed.health</p>
+      </div>
+    </article>
+
+    {% else %}
+    {# ═══════════════ English ═══════════════ #}
+    <a class="legal-back" href="{% url 'landing' %}">← Back to DocuMed</a>
+    <span class="legal-eyebrow">Legal</span>
+    <h1 class="legal-title">Terms of Service</h1>
+    <span class="legal-date">Last updated: 29 May 2026</span>
+
     <article class="legal-article" dir="ltr" lang="en">
-
       <p class="legal-lead">These Terms of Service ("Terms") govern your use of DocuMed, an electronic health records platform operated by <strong>Mustafa El Mahdy</strong>, a sole proprietor based in Egypt ("DocuMed", "we", "us", or "our"). The service is accessible at documed.health.</p>
       <p class="legal-lead">By signing up for a DocuMed account or using the service, you agree to these Terms. If you do not agree, do not use the service. The Arabic version of these Terms is the controlling version for any dispute arising in Egypt; the English version is provided for convenience.</p>
 
@@ -229,8 +427,8 @@
         Email: <a href="mailto:mustafaelmahdy52@gmail.com">mustafaelmahdy52@gmail.com</a><br>
         Website: documed.health</p>
       </div>
-
     </article>
+    {% endif %}
   </div>
 
   <!-- Footer -->
@@ -241,11 +439,11 @@
         <span class="lp-footer-domain">documed.health</span>
       </div>
       <div class="lp-footer-links">
-        <a href="{% url 'privacy' %}">{% trans "Privacy" %}</a>
-        <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
-        <a href="mailto:mustafaelmahdy52@gmail.com">{% trans "Contact" %}</a>
+        <a href="{% url 'privacy' %}">{% if LANGUAGE_CODE == 'ar' %}الخصوصية{% else %}Privacy{% endif %}</a>
+        <a href="{% url 'terms' %}">{% if LANGUAGE_CODE == 'ar' %}الشروط{% else %}Terms{% endif %}</a>
+        <a href="mailto:mustafaelmahdy52@gmail.com">{% if LANGUAGE_CODE == 'ar' %}تواصل معنا{% else %}Contact{% endif %}</a>
       </div>
-      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% trans "All rights reserved." %}</div>
+      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% if LANGUAGE_CODE == 'ar' %}جميع الحقوق محفوظة.{% else %}All rights reserved.{% endif %}</div>
     </div>
   </footer>
 

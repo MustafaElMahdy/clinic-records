@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Privacy Policy — DocuMed</title>
+  <title>{% if LANGUAGE_CODE == 'ar' %}سياسة الخصوصية — DocuMed{% else %}Privacy Policy — DocuMed{% endif %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,8 +29,7 @@
     .legal-section th, .legal-section td { border: 1px solid rgba(0,0,0,0.10); padding: 9px 11px; text-align: start; vertical-align: top; }
     .legal-section th { background: rgba(0,0,0,0.03); font-weight: 600; color: var(--lp-text); }
     .legal-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 40px 0; }
-    /* RTL: list bullets and content follow the document direction automatically
-       via logical properties + dir on .legal-article. */
+    [dir="rtl"] .legal-title, [dir="rtl"] .legal-lead, [dir="rtl"] .legal-date, [dir="rtl"] .legal-eyebrow { text-align: right; }
   </style>
 </head>
 <body style="background:#f5f5f7;">
@@ -42,20 +41,207 @@
       <div class="lp-nav-links">
         <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
         <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
+        <form method="post" action="{% url 'set_language' %}" style="margin:0; display:inline;">
+          {% csrf_token %}
+          {% if LANGUAGE_CODE == 'ar' %}
+            <input type="hidden" name="language" value="en">
+            <button type="submit" class="lp-btn lp-btn-ghost" style="cursor:pointer;">EN</button>
+          {% else %}
+            <input type="hidden" name="language" value="ar">
+            <button type="submit" class="lp-btn lp-btn-ghost" style="cursor:pointer;">ع</button>
+          {% endif %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+        </form>
       </div>
     </div>
   </nav>
 
   <div class="legal-body">
-    <a class="legal-back" href="{% url 'landing' %}">← {% trans "Back to DocuMed" %}</a>
+    {% if LANGUAGE_CODE == 'ar' %}
+    {# ═══════════════ Arabic ═══════════════ #}
+    <a class="legal-back" href="{% url 'landing' %}">→ العودة إلى DocuMed</a>
+    <span class="legal-eyebrow">قانوني</span>
+    <h1 class="legal-title">سياسة الخصوصية</h1>
+    <span class="legal-date">آخر تحديث: ٢٩ مايو ٢٠٢٦</span>
 
-    <span class="legal-eyebrow">{% trans "Legal" %}</span>
-    <h1 class="legal-title">{% trans "Privacy Policy" %}</h1>
-    <span class="legal-date">{% trans "Last updated: 29 May 2026" %}</span>
+    <article class="legal-article" dir="rtl" lang="ar">
+      <p class="legal-lead">توضح سياسة الخصوصية هذه كيف تتعامل DocuMed مع البيانات الشخصية. تدير الخدمة <strong>مصطفى المهدي</strong>، تاجر فرد مقيم في جمهورية مصر العربية ("DocuMed" أو "نحن")، وهي متاحة على documed.health.</p>
+      <p class="legal-lead">كُتبت هذه السياسة بما يتوافق مع قانون حماية البيانات الشخصية المصري رقم ١٥١ لسنة ٢٠٢٠ ("قانون حماية البيانات")، ووفقاً للممارسات الدولية المعتمدة. النسخة العربية من هذه السياسة هي النسخة المعتمدة في حالة أي نزاع ينشأ في مصر؛ والنسخة الإنجليزية مقدمة للتيسير فقط.</p>
 
-    {# ── English (default). Arabic version to be added when the UTF-8 source is provided. ── #}
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١. من يتحكم في أي بيانات</h2>
+        <p>تتعامل DocuMed مع فئتين من البيانات الشخصية، ولكل فئة دور مختلف.</p>
+        <p><strong>بيانات الحساب — DocuMed هي المتحكم.</strong> تشمل اسم وبريد إلكتروني وهاتف ودور وبيانات تسجيل دخول المسؤول والمستخدمين في العيادة. نجمع هذه البيانات مباشرة من هؤلاء الأشخاص عند التسجيل أو عند إضافتهم إلى حساب العيادة. نحن نتحكم في كيفية استخدام هذه البيانات.</p>
+        <p><strong>بيانات المرضى — العيادة هي المتحكم، وDocuMed هي المعالج.</strong> تشمل كل ما تدخله العيادة عن مرضاها: الأسماء وبيانات الاتصال والرقم القومي وتاريخ الميلاد والنوع والعنوان والملاحظات السريرية والتشخيصات وخطط العلاج والملفات المرفقة كالتحاليل والأشعة. تحدد العيادة ما تجمعه من بيانات وما تفعله بها. تخزن DocuMed هذه البيانات وتعالجها فقط نيابة عن العيادة، وفقاً لتعليمات العيادة وهذه الشروط.</p>
+        <p>إذا كنت <strong>مريضاً</strong> في عيادة تستخدم DocuMed، فعلاقتك هي مع العيادة، وليست مع DocuMed. ستدعم DocuMed العيادات في الرد على طلبات بيانات المرضى، لكنها لا تتعامل مع المرضى مباشرة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٢. البيانات التي نجمعها</h2>
+        <p><strong>من المسؤول والمستخدمين (بيانات الحساب):</strong></p>
+        <ul>
+          <li>الاسم</li>
+          <li>البريد الإلكتروني</li>
+          <li>رقم الهاتف (اختياري)</li>
+          <li>الدور داخل العيادة</li>
+          <li>كلمة المرور (تُخزَّن كقيمة مُهَشَّمة في اتجاه واحد، ولا يمكننا قراءتها)</li>
+          <li>عنوان IP والموقع التقريبي عند تسجيل الدخول</li>
+          <li>بيانات المتصفح والجهاز</li>
+        </ul>
+        <p><strong>عن العيادة:</strong></p>
+        <ul>
+          <li>اسم العيادة وهاتفها وعنوانها</li>
+          <li>حالة الاشتراك والمعلومات المتعلقة بالفوترة</li>
+        </ul>
+        <p><strong>بيانات المرضى التي تدخلها العيادة:</strong></p>
+        <ul>
+          <li>معرّفات المريض (الاسم، الهاتف، الرقم القومي، تاريخ الميلاد، النوع، العنوان)</li>
+          <li>سجلات الزيارات (الشكوى الرئيسية، الملاحظات السريرية، التشخيص، خطة العلاج، تاريخ المتابعة)</li>
+          <li>الملفات المرفقة (التحاليل، الأشعة، المستندات)</li>
+          <li>أي معلومات سريرية أخرى تختار العيادة تسجيلها</li>
+        </ul>
+        <p><strong>البيانات التقنية التي تُجمَع تلقائياً:</strong></p>
+        <ul>
+          <li>سجلات الخادم (عنوان IP، الوقت، الصفحة المطلوبة، رمز الاستجابة)</li>
+          <li>إدخالات سجل التدقيق (أي مستخدم قام بأي إجراء، على أي سجل، في أي وقت)</li>
+          <li>تقارير الأخطاء التي يلتقطها نظام المراقبة (Sentry)</li>
+        </ul>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٣. كيف نستخدم البيانات</h2>
+        <p>نستخدم بيانات الحساب لتقديم الخدمة للعيادة ومستخدميها، والتحقق من تسجيلات الدخول وحماية الحسابات، وإرسال رسائل بريد إلكتروني تشغيلية (كإعادة تعيين كلمات المرور وتذكيرات التجربة أو التجديد)، وكشف ومنع الاحتيال وإساءة الاستخدام، والتواصل مع المسؤول في شؤون الخدمة، وتحسين الخدمة بناءً على أنماط استخدام مجمّعة.</p>
+        <p>نعالج بيانات المرضى فقط لتخزينها وعرضها للمستخدمين المصرح لهم في العيادة، وتفعيل ميزات كالبحث والتصدير، والاحتفاظ بسجلات تدقيق لصالح العيادة، والتعافي من الأعطال التقنية (النسخ الاحتياطي).</p>
+        <p><strong>لا</strong> نستخدم بيانات المرضى للإعلانات أو التحليلات أو تدريب النماذج أو أي غرض آخر بخلاف تقديم الخدمة للعيادة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٤. الأساس القانوني للمعالجة</h2>
+        <p>بموجب قانون حماية البيانات المصري والمبادئ الدولية المعمول بها، نعالج <strong>بيانات الحساب</strong> على أساس الضرورة التعاقدية لتقديم الخدمة، وعند الاقتضاء على أساس المصالح المشروعة لتشغيل الخدمة وتأمينها. ونعالج <strong>بيانات المرضى</strong> على أساس العلاقة التعاقدية بين DocuMed والعيادة، حيث تكون للعيادة الأساس القانوني الخاص بها (عادةً موافقة المريض أو أساس قانوني متعلق بالرعاية الصحية) لجمع تلك البيانات واستخدامها.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٥. كيف نشارك البيانات</h2>
+        <p>لا تبيع DocuMed البيانات الشخصية. نحن نشارك البيانات فقط في الحالات التالية.</p>
+        <p><strong>مع مزودي الخدمات ("المعالجين الفرعيين") الذين يساعدوننا في تشغيل الخدمة:</strong></p>
+        <table>
+          <thead>
+            <tr><th>المعالج الفرعي</th><th>الغرض</th><th>مكان معالجة البيانات</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Supabase</td><td>استضافة قاعدة البيانات (PostgreSQL)</td><td>خارج مصر (عادةً الاتحاد الأوروبي أو الولايات المتحدة)</td></tr>
+            <tr><td>Render</td><td>استضافة التطبيق</td><td>خارج مصر (عادةً الاتحاد الأوروبي أو الولايات المتحدة)</td></tr>
+            <tr><td>Cloudflare R2</td><td>تخزين الملفات والمرفقات (تحاليل، أشعة، مستندات)</td><td>خارج مصر (تخزين كائني عالمي)</td></tr>
+            <tr><td>Resend</td><td>إرسال البريد الإلكتروني التشغيلي</td><td>خارج مصر (عادةً الولايات المتحدة)</td></tr>
+            <tr><td>Sentry</td><td>مراقبة الأخطاء</td><td>خارج مصر (عادةً الولايات المتحدة)</td></tr>
+          </tbody>
+        </table>
+        <p>كل معالج فرعي ملزم بشروطه والتزاماته الأمنية الخاصة. نختار مزودين يحافظون على ممارسات أمنية وفق المعايير المعتمدة.</p>
+        <p><strong>مع الجهات المختصة</strong> عندما يقتضي القانون المصري ذلك أو بإجراء قانوني صحيح، أو لحماية حقوق وسلامة DocuMed أو مستخدميها أو الجمهور.</p>
+        <p><strong>في حالة نقل النشاط التجاري</strong> إذا تم الاستحواذ على DocuMed أو دمجها أو بيع أصولها الجوهرية. ستُخطَر العيادة مسبقاً ويمكنها الإلغاء وتصدير بياناتها.</p>
+        <p>لا نشارك بيانات المرضى مع أي طرف ثالث لأي غرض آخر دون توجيه صريح من العيادة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٦. نقل البيانات دولياً</h2>
+        <p>لأن بعض مزودي البنية التحتية لدينا مقرهم خارج مصر، تُنقل البيانات الشخصية دولياً. نعتمد على الحمايات التعاقدية المعيارية وشهادات الأمان لهؤلاء المزودين. إذا كنت غير مرتاح للمعالجة الدولية، تواصل معنا قبل التسجيل.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٧. الأمن</h2>
+        <p>نحمي البيانات من خلال:</p>
+        <ul>
+          <li><strong>التشفير أثناء النقل</strong> — جميع الاتصالات تستخدم HTTPS.</li>
+          <li><strong>التشفير أثناء التخزين</strong> — قاعدة البيانات وتخزين الملفات والنسخ الاحتياطي مشفّرة.</li>
+          <li><strong>عزل المستأجرين</strong> — كل استعلام لقاعدة البيانات محصور بعيادة واحدة، فلا تستطيع عيادة الوصول إلى بيانات عيادة أخرى.</li>
+          <li><strong>الوصول وفق الدور</strong> — يطّلع كل مستخدم فقط على البيانات المناسبة لدوره.</li>
+          <li><strong>تهشيم كلمات المرور</strong> — تُخزّن كلمات المرور كقيم مُهَشَّمة في اتجاه واحد، ولا تُخزَّن أبداً كنص واضح.</li>
+          <li><strong>سجل التدقيق</strong> — تُسجّل الأنشطة المهمة مع المستخدم والوقت وعنوان IP.</li>
+          <li><strong>النسخ الاحتياطي</strong> — نسخ احتياطي تلقائي مع فترة استرداد للتعافي من الأعطال.</li>
+          <li><strong>مراقبة الأخطاء</strong> — تتم متابعة المشكلات التشغيلية عبر Sentry دون كشف بيانات حساسة.</li>
+        </ul>
+        <p>لا يوجد نظام آمن بشكل مطلق. تتحمل العيادة مسؤولية حماية بيانات الدخول الخاصة بها وتدريب مستخدميها واستخدام كلمات مرور قوية.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٨. الاحتفاظ بالبيانات</h2>
+        <table>
+          <thead><tr><th>البيانات</th><th>مدة الاحتفاظ</th></tr></thead>
+          <tbody>
+            <tr><td>بيانات الحساب للعيادات النشطة</td><td>طوال مدة الاشتراك</td></tr>
+            <tr><td>بيانات المرضى للعيادات النشطة</td><td>طوال مدة الاشتراك</td></tr>
+            <tr><td>البيانات بعد الإلغاء</td><td>٩٠ يوماً، ثم حذف نهائي</td></tr>
+            <tr><td>النسخ الاحتياطية التي تحتوي على بيانات محذوفة</td><td>حتى ٣٠ يوماً إضافياً قبل استبدالها</td></tr>
+            <tr><td>سجلات التدقيق</td><td>طوال مدة الاشتراك، زائد ٩٠ يوماً</td></tr>
+            <tr><td>سجلات الخادم</td><td>٣٠ يوماً</td></tr>
+            <tr><td>تقارير الأخطاء (Sentry)</td><td>٩٠ يوماً</td></tr>
+          </tbody>
+        </table>
+        <p>بعد الحذف النهائي، لا يمكن استرداد البيانات.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>٩. حقوقك</h2>
+        <p>بموجب قانون حماية البيانات المصري، يتمتع الأفراد بحقوق تتعلق ببياناتهم الشخصية، تشمل حق الوصول والتصحيح والحذف (مع مراعاة الاستثناءات القانونية والتعاقدية) والاعتراض على أنواع معينة من المعالجة وتقييد المعالجة ونقل البيانات وسحب الموافقة والتظلم أمام المركز المصري لحماية البيانات الشخصية.</p>
+        <p><strong>إذا كنت مسؤولاً أو مستخدماً:</strong> تواصل معنا على العنوان المذكور في البند ١٢ لممارسة هذه الحقوق فيما يتعلق ببيانات حسابك.</p>
+        <p><strong>إذا كنت مريضاً:</strong> تنطبق هذه الحقوق على بياناتك الطبية، لكن <strong>العيادة</strong> هي المتحكم. تواصل مع العيادة مباشرة؛ وسنساعد العيادة في الاستجابة لطلبك.</p>
+        <p>نسعى للرد على الطلبات الموثقة خلال ٣٠ يوماً.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٠. ملفات تعريف الارتباط والتتبع</h2>
+        <p>تستخدم DocuMed ملفات تعريف ارتباط ضرورية لعمل الخدمة — بشكل أساسي ملفات تعريف الجلسات للحفاظ على تسجيل دخول المستخدمين، ورموز CSRF للأمان.</p>
+        <p>نحن <strong>لا</strong> نستخدم ملفات تعريف ارتباط إعلانية، أو التتبع عبر المواقع، أو ملفات تعريف ارتباط تحليلية تنشئ ملفات تعريف لمستخدمين أفراد، أو أدوات تتبع من شبكات التواصل الاجتماعي.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١١. تعديل هذه السياسة</h2>
+        <p>قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سيتم الإعلان عن التغييرات الجوهرية عبر البريد الإلكتروني للمسؤولين ونشرها على documed.health قبل ١٤ يوماً على الأقل من سريانها. ويعكس تاريخ "آخر تحديث" في الأعلى أحدث نسخة.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>١٢. التواصل</h2>
+        <p>للأسئلة المتعلقة بالخصوصية أو الطلبات أو الشكاوى، تواصل مع:</p>
+        <p><strong>مصطفى المهدي</strong><br>
+        جهة الاتصال للخصوصية في DocuMed<br>
+        البريد الإلكتروني: <a href="mailto:mustafaelmahdy52@gmail.com">mustafaelmahdy52@gmail.com</a><br>
+        الموقع الإلكتروني: documed.health</p>
+        <p>كما يحق لك تقديم شكوى لدى <strong>المركز المصري لحماية البيانات الشخصية</strong> إذا كنت ترى أن حقوقك بموجب قانون حماية البيانات قد انتُهكت.</p>
+      </div>
+    </article>
+
+    {% else %}
+    {# ═══════════════ English ═══════════════ #}
+    <a class="legal-back" href="{% url 'landing' %}">← Back to DocuMed</a>
+    <span class="legal-eyebrow">Legal</span>
+    <h1 class="legal-title">Privacy Policy</h1>
+    <span class="legal-date">Last updated: 29 May 2026</span>
+
     <article class="legal-article" dir="ltr" lang="en">
-
       <p class="legal-lead">This Privacy Policy explains how DocuMed handles personal data. DocuMed is operated by <strong>Mustafa El Mahdy</strong>, a sole proprietor based in Egypt ("DocuMed", "we", "us"), and is accessible at documed.health.</p>
       <p class="legal-lead">This policy is written in compliance with Egyptian Personal Data Protection Law No. 151 of 2020 ("PDPL") and follows international best practice. The Arabic version of this policy is the controlling version for any dispute arising in Egypt; the English version is provided for convenience.</p>
 
@@ -223,8 +409,8 @@
         Website: documed.health</p>
         <p>You also have the right to lodge a complaint with the <strong>Egyptian Personal Data Protection Center</strong> if you believe your rights under PDPL have been violated.</p>
       </div>
-
     </article>
+    {% endif %}
   </div>
 
   <!-- Footer -->
@@ -235,11 +421,11 @@
         <span class="lp-footer-domain">documed.health</span>
       </div>
       <div class="lp-footer-links">
-        <a href="{% url 'privacy' %}">{% trans "Privacy" %}</a>
-        <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
-        <a href="mailto:mustafaelmahdy52@gmail.com">{% trans "Contact" %}</a>
+        <a href="{% url 'privacy' %}">{% if LANGUAGE_CODE == 'ar' %}الخصوصية{% else %}Privacy{% endif %}</a>
+        <a href="{% url 'terms' %}">{% if LANGUAGE_CODE == 'ar' %}الشروط{% else %}Terms{% endif %}</a>
+        <a href="mailto:mustafaelmahdy52@gmail.com">{% if LANGUAGE_CODE == 'ar' %}تواصل معنا{% else %}Contact{% endif %}</a>
       </div>
-      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% trans "All rights reserved." %}</div>
+      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% if LANGUAGE_CODE == 'ar' %}جميع الحقوق محفوظة.{% else %}All rights reserved.{% endif %}</div>
     </div>
   </footer>
 
