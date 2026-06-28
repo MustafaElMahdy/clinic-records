@@ -7,28 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Terms of Service — DocuMed</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'landing.css' %}">
   <style>
+    {% if LANGUAGE_CODE == 'ar' %}body { font-family: 'Cairo', sans-serif; }{% endif %}
     .legal-body { max-width: 720px; margin: 0 auto; padding: 60px 32px 100px; }
     .legal-back { display: inline-flex; align-items: center; gap: 6px; color: var(--lp-muted); font-size: 14px; margin-bottom: 40px; text-decoration: none; transition: color 0.15s; }
     .legal-back:hover { color: var(--lp-text); text-decoration: none; }
     .legal-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.7px; text-transform: uppercase; color: var(--lp-blue); margin-bottom: 10px; display: block; }
     .legal-title { font-size: 38px; font-weight: 700; letter-spacing: -0.8px; color: var(--lp-text); margin-bottom: 8px; }
-    .legal-date { font-size: 13px; color: var(--lp-muted); margin-bottom: 48px; display: block; }
+    .legal-lead { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 8px; }
+    .legal-date { font-size: 13px; color: var(--lp-muted); margin-bottom: 40px; display: block; }
     .legal-section { margin-bottom: 40px; }
-    .legal-section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; color: var(--lp-text); margin-bottom: 12px; }
-    .legal-section p, .legal-section li { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 12px; }
-    .legal-section ul { padding-left: 20px; }
+    .legal-section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; color: var(--lp-text); margin-bottom: 12px; text-align: start; }
+    .legal-section p, .legal-section li { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 12px; text-align: start; }
+    .legal-section ul, .legal-section ol { padding-inline-start: 20px; padding-inline-end: 0; }
     .legal-section ul li { list-style: disc; margin-bottom: 6px; }
-    .legal-placeholder {
-      background: rgba(0,113,227,0.05);
-      border: 1px dashed rgba(0,113,227,0.25);
-      border-radius: 12px;
-      padding: 20px 24px;
-      font-size: 13px;
-      color: var(--lp-muted);
-      margin-bottom: 16px;
-    }
+    .legal-section ol li { list-style: decimal; margin-bottom: 6px; }
     .legal-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 40px 0; }
   </style>
 </head>
@@ -39,126 +36,201 @@
     <div class="lp-nav-inner">
       <a class="lp-brand" href="{% url 'landing' %}">Docu<span class="lp-brand-accent">Med</span></a>
       <div class="lp-nav-links">
-        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">Log in</a>
-        <a href="{% url 'landing' %}#demo" class="lp-btn lp-btn-primary">Request a Demo</a>
+        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
       </div>
     </div>
   </nav>
 
   <div class="legal-body">
-    <a class="legal-back" href="{% url 'landing' %}">
-      ← Back to DocuMed
-    </a>
+    <a class="legal-back" href="{% url 'landing' %}">← {% trans "Back to DocuMed" %}</a>
 
-    <span class="legal-eyebrow">Legal</span>
-    <h1 class="legal-title">Terms of Service</h1>
-    <span class="legal-date">Last updated: January 2026</span>
+    <span class="legal-eyebrow">{% trans "Legal" %}</span>
+    <h1 class="legal-title">{% trans "Terms of Service" %}</h1>
+    <span class="legal-date">{% trans "Last updated: 29 May 2026" %}</span>
 
-    <div class="legal-placeholder">
-      ⚠️ This is a placeholder document. Replace the sections below with your actual terms of service before going live. Consider consulting a legal professional before publishing.
-    </div>
+    {# ── English (default). Arabic version to be added when the UTF-8 source is provided. ── #}
+    <article class="legal-article" dir="ltr" lang="en">
 
-    <div class="legal-section">
-      <h2>1. Acceptance of Terms</h2>
-      <p>By accessing or using DocuMed ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, you may not use the Service.</p>
-    </div>
+      <p class="legal-lead">These Terms of Service ("Terms") govern your use of DocuMed, an electronic health records platform operated by <strong>Mustafa El Mahdy</strong>, a sole proprietor based in Egypt ("DocuMed", "we", "us", or "our"). The service is accessible at documed.health.</p>
+      <p class="legal-lead">By signing up for a DocuMed account or using the service, you agree to these Terms. If you do not agree, do not use the service. The Arabic version of these Terms is the controlling version for any dispute arising in Egypt; the English version is provided for convenience.</p>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>2. Description of Service</h2>
-      <p>DocuMed is an electronic health records platform designed for private medical practices and small clinics. The Service allows authorised clinic staff to manage patient records, document clinical visits, and store associated files.</p>
-    </div>
+      <div class="legal-section">
+        <h2>1. Definitions</h2>
+        <ul>
+          <li><strong>Service</strong> means the DocuMed software, website, and related features.</li>
+          <li><strong>Clinic</strong> means the medical practice, clinic, or healthcare entity that creates an account with DocuMed.</li>
+          <li><strong>Admin</strong> means the individual who signs up the Clinic and has full administrative control over the Clinic's account.</li>
+          <li><strong>User</strong> means any individual the Admin authorizes to access the Clinic's account, including doctors, assistants, nurses, and other staff.</li>
+          <li><strong>Patient Data</strong> means information about patients that the Clinic enters into or uploads to the service.</li>
+          <li><strong>Account Data</strong> means information about the Clinic and its Users, including names, emails, phone numbers, and login credentials.</li>
+        </ul>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>3. Authorised Use</h2>
-      <p>You agree to use the Service only for lawful purposes and in accordance with these Terms. You are responsible for:</p>
-      <ul>
-        <li>Maintaining the confidentiality of your account credentials</li>
-        <li>All activity that occurs under your account</li>
-        <li>Ensuring all staff who access the Service are properly authorised</li>
-        <li>Compliance with healthcare data regulations applicable in your jurisdiction</li>
-      </ul>
-    </div>
+      <div class="legal-section">
+        <h2>2. The Service</h2>
+        <p>DocuMed is a multi-tenant software service that provides Clinics with tools to record patient information, document visits, attach medical files, manage staff accounts, and export their records.</p>
+        <p>DocuMed is a <strong>record-keeping tool</strong>. It is not a medical device, clinical decision support system, diagnostic tool, or substitute for professional medical judgment. The Clinic and its medical professionals retain full and sole responsibility for all clinical decisions and patient care.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>4. Patient Data</h2>
-      <p>You retain ownership of all patient data you enter into the Service. DocuMed acts as a data processor on your behalf and will not access, use, or disclose patient data except as necessary to provide the Service or as required by law.</p>
-      <p>You are responsible for obtaining any necessary consents from patients for processing their health data using the Service.</p>
-    </div>
+      <div class="legal-section">
+        <h2>3. Account Registration</h2>
+        <p>To use DocuMed, the Clinic must create an account through the signup process. By doing so, the Admin confirms that:</p>
+        <ol>
+          <li>They are at least 18 years old and have legal authority to bind the Clinic to these Terms.</li>
+          <li>The Clinic is a legitimate medical practice operating in compliance with all applicable laws and regulations, including those of the Egyptian Ministry of Health and Population.</li>
+          <li>All information provided during signup is accurate and complete.</li>
+          <li>The Admin will keep account credentials secure and will notify DocuMed immediately of any suspected unauthorized access.</li>
+        </ol>
+        <p>The Admin is responsible for all activity on the Clinic's account, including activity by any User they authorize.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>5. Availability</h2>
-      <p>[Placeholder — describe uptime commitments, maintenance windows, and limitations of liability for downtime.]</p>
-    </div>
+      <div class="legal-section">
+        <h2>4. Users and Roles</h2>
+        <p>The Admin may create accounts for additional Users (doctors, assistants, nurses) and assign them roles. Each User must use their own account and must not share login credentials.</p>
+        <p>The Admin is responsible for ensuring each User is authorized under Egyptian law to access patient information, promptly deactivating accounts for Users who leave or change roles, and training Users on appropriate handling of patient data.</p>
+        <p>DocuMed enforces role-based access controls within the software but is not responsible for the Clinic's internal policies or staffing decisions.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>6. Prohibited Activities</h2>
-      <p>You may not:</p>
-      <ul>
-        <li>Share your account credentials with unauthorised individuals</li>
-        <li>Attempt to access another clinic's data</li>
-        <li>Use the Service to store data unrelated to legitimate clinical operations</li>
-        <li>Reverse engineer or tamper with the Service</li>
-      </ul>
-    </div>
+      <div class="legal-section">
+        <h2>5. Free Trial</h2>
+        <p>New Clinics receive a 14-day free trial. No credit card is required to start the trial.</p>
+        <p>During the trial, the Clinic has full access to the service. At the end of the trial, the Clinic must subscribe to a paid plan to continue using the service. If the Clinic does not subscribe, access will be suspended and the data retained according to Section 11.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>7. Termination</h2>
+      <div class="legal-section">
+        <h2>6. Subscription, Pricing, and Payment</h2>
+        <p>The DocuMed subscription is <strong>1500 EGP per Clinic per month</strong>.</p>
+        <p>Payment is currently made manually via <strong>InstaPay</strong>. To subscribe or renew, the Clinic sends the monthly amount to the InstaPay address shown on the subscription page and submits the transaction reference in the app. Once DocuMed verifies the payment, the Clinic's access is activated for a <strong>30-day period</strong>.</p>
+        <p>Subscriptions do <strong>not</strong> renew automatically and no card is charged automatically. To continue using the service, the Clinic repeats the payment each month before its access period ends. DocuMed sends reminders before access is due to expire.</p>
+        <p>Prices may change with at least 30 days' notice to existing subscribers. Price changes do not apply to a Clinic's current paid period. All fees are non-refundable except as required by Egyptian law.</p>
+      </div>
 
-      <p><strong>Termination by you.</strong> You may cancel your subscription at any time by contacting us at <a href="mailto:hello@dcumed.health">hello@dcumed.health</a>. Your access to the Service will remain active until the end of your current paid billing period. No partial refunds are issued for unused time within a billing period.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Termination by us.</strong> We reserve the right to suspend or terminate your access to the Service immediately if you materially breach these Terms, engage in prohibited activities, or fail to pay fees when due. We will make reasonable efforts to notify you before taking such action, except where immediate termination is necessary to protect the Service or other users.</p>
+      <div class="legal-section">
+        <h2>7. Acceptable Use</h2>
+        <p>The Clinic and its Users agree not to:</p>
+        <ol>
+          <li>Use the service for any unlawful purpose or in violation of any applicable law, including Egyptian Personal Data Protection Law No. 151 of 2020.</li>
+          <li>Upload content that is not related to the legitimate operation of the Clinic.</li>
+          <li>Attempt to access another Clinic's data, reverse-engineer the service, or circumvent security measures.</li>
+          <li>Use the service to send spam, malware, or harmful content.</li>
+          <li>Resell, sublicense, or provide the service to third parties without DocuMed's written permission.</li>
+          <li>Use automated tools to access the service in a way that places excessive load on it.</li>
+        </ol>
+        <p>DocuMed may suspend or terminate accounts that violate this section.</p>
+      </div>
 
-      <p><strong>Non-renewal.</strong> If your subscription is not renewed by its renewal date, your access to the Service will be disabled. Your clinic's data — including all patient records, visit notes, and uploaded files — will be retained securely for a period of <strong>30 days</strong> following the renewal date. During this grace period, you may contact us to request a copy of your data or to reactivate your subscription. After the 30-day grace period has elapsed, all data associated with your clinic will be permanently and irreversibly deleted from our systems.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Data export during grace period.</strong> To request a copy of your clinic's data during the grace period, email <a href="mailto:hello@dcumed.health">hello@dcumed.health</a> with the subject line "Data Export Request." We will provide your data in a structured format (such as CSV or PDF) within 10 business days of the request, at no charge.</p>
+      <div class="legal-section">
+        <h2>8. Data Ownership</h2>
+        <p>The Clinic owns all Patient Data and Account Data it enters into the service. DocuMed does not claim ownership of the Clinic's data.</p>
+        <p>DocuMed processes this data only to provide the service, in accordance with the Privacy Policy. The Clinic is the data controller for Patient Data; DocuMed is the data processor.</p>
+      </div>
 
-      <p><strong>Effect of termination.</strong> Upon termination or expiry of your subscription, all licences granted under these Terms immediately cease. Sections of these Terms that by their nature should survive termination (including Sections 4, 8, and 9) will remain in effect.</p>
-    </div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-section">
+        <h2>9. Service Availability</h2>
+        <p>DocuMed aims to keep the service available at all times but does not guarantee uninterrupted operation. The service may be unavailable due to maintenance, technical issues, or events outside our reasonable control.</p>
+        <p>DocuMed is in early access. No specific uptime SLA is offered at this stage. We recommend the Clinic maintain its own backup of critical records.</p>
+      </div>
 
-    <div class="legal-section">
-      <h2>8. Limitation of Liability</h2>
+      <div class="legal-divider"></div>
 
-      <p><strong>No warranty.</strong> The Service is provided "as is" and "as available," without warranty of any kind, express or implied. To the fullest extent permitted by applicable law, DocuMed expressly disclaims all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or completely secure.</p>
+      <div class="legal-section">
+        <h2>10. Termination</h2>
+        <p><strong>By the Clinic:</strong> The Clinic may stop using the service at any time by simply not renewing, or by contacting DocuMed. Access ends at the conclusion of the current paid period.</p>
+        <p><strong>By DocuMed:</strong> DocuMed may suspend or terminate a Clinic's account for material breach of these Terms, non-payment after notice, use of the service that creates legal risk for DocuMed or other Clinics, or inactivity exceeding 12 months.</p>
+        <p>DocuMed will give at least 14 days' notice before termination, except in cases of serious violation or legal requirement.</p>
+      </div>
 
-      <p><strong>Cap on liability.</strong> To the fullest extent permitted by applicable law, DocuMed's total cumulative liability to you arising out of or related to these Terms or the Service — whether in contract, tort (including negligence), or otherwise — shall not exceed the greater of: (a) the total fees paid by you to DocuMed in the <strong>twelve (12) months</strong> immediately preceding the event giving rise to the claim, or (b) <strong>USD 100</strong>.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Exclusion of consequential damages.</strong> In no event shall DocuMed be liable to you or any third party for any indirect, incidental, special, consequential, exemplary, or punitive damages — including but not limited to loss of profits, loss of data, loss of goodwill, service interruption, or the cost of substitute services — even if DocuMed has been advised of the possibility of such damages.</p>
+      <div class="legal-section">
+        <h2>11. Data Retention and Export After Termination</h2>
+        <p>After termination or cancellation, the Clinic's data is retained for <strong>90 days</strong>. During this period, the Clinic may reactivate the account by subscribing again, or request a full data export in Excel format (provided at no charge once per Clinic).</p>
+        <p>After 90 days, all Patient Data and Account Data is <strong>permanently deleted</strong> from DocuMed's active systems. Backups containing the data may persist for up to an additional 30 days before being overwritten in the normal backup rotation.</p>
+        <p>The Clinic is responsible for downloading and securely storing its data before the retention period ends.</p>
+      </div>
 
-      <p><strong>Medical and clinical decisions.</strong> DocuMed is a record-keeping tool and does not provide medical advice, diagnosis, or treatment recommendations. You remain solely responsible for all clinical decisions made in connection with your use of the Service. DocuMed shall have no liability for any harm arising from clinical decisions or actions taken in reliance on information recorded in the Service.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Third-party services.</strong> DocuMed is not responsible for the availability, accuracy, or content of any third-party services, products, or websites that may be accessed through or in connection with the Service.</p>
+      <div class="legal-section">
+        <h2>12. Medical Disclaimer</h2>
+        <p>DocuMed is a record-keeping platform. It does not provide medical advice or recommendations, diagnose conditions or suggest treatments, replace the clinical judgment of licensed medical professionals, or constitute a medical device under any applicable regulatory definition.</p>
+        <p>All clinical decisions remain the sole responsibility of the treating physician. The Clinic is responsible for ensuring that its use of DocuMed complies with the standards of care, professional ethics, and regulatory requirements of the Egyptian Medical Syndicate and the Ministry of Health and Population.</p>
+      </div>
 
-      <p>Some jurisdictions do not allow the exclusion of certain warranties or the limitation or exclusion of liability for incidental or consequential damages. Accordingly, some of the above limitations may not apply to you.</p>
-    </div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-section">
+        <h2>13. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by Egyptian law:</p>
+        <ol>
+          <li>DocuMed's total liability to the Clinic for any claim related to the service is limited to the amount the Clinic paid to DocuMed in the 12 months preceding the claim.</li>
+          <li>DocuMed is not liable for indirect, incidental, consequential, or punitive damages, including loss of profits, loss of patient relationships, or loss of business opportunity.</li>
+          <li>DocuMed is not liable for damages arising from the Clinic's own use of the service, including incorrect data entry, unauthorized access by Clinic staff, or clinical decisions made based on records in the system.</li>
+        </ol>
+        <p>Nothing in these Terms limits liability that cannot be limited under Egyptian law.</p>
+      </div>
 
-    <div class="legal-section">
-      <h2>9. Changes to These Terms</h2>
-      <p>We reserve the right to modify these Terms at any time. We will notify active users of material changes. Continued use of the Service after changes constitutes acceptance of the revised Terms.</p>
-    </div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-section">
+        <h2>14. Indemnification</h2>
+        <p>The Clinic agrees to defend and indemnify DocuMed against any claim brought by a third party (including patients, regulators, or other Users) arising from the Clinic's use of the service in violation of these Terms or applicable law, the accuracy or content of Patient Data entered by the Clinic, clinical decisions made by Clinic staff, or disputes between the Clinic and its patients, employees, or other parties.</p>
+      </div>
 
-    <div class="legal-section">
-      <h2>10. Contact</h2>
-      <p>Questions about these Terms? Contact us at:</p>
-      <p><a href="mailto:legal@dcumed.health">legal@dcumed.health</a></p>
-    </div>
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>15. Modifications to These Terms</h2>
+        <p>DocuMed may update these Terms from time to time. Material changes will be announced by email to the Admin and posted on documed.health at least 14 days before they take effect. Continued use of the service after the effective date constitutes acceptance of the updated Terms. If the Clinic does not accept them, it must stop using the service before the effective date.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>16. Governing Law and Disputes</h2>
+        <p>These Terms are governed by the laws of the Arab Republic of Egypt. Any dispute arising from these Terms or from use of the service will be resolved first by good-faith negotiation. If negotiation fails within 30 days, the dispute will be submitted to the competent Egyptian courts in Cairo.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>17. General</h2>
+        <p><strong>Entire agreement:</strong> These Terms, together with the Privacy Policy, constitute the entire agreement between the Clinic and DocuMed regarding the service.</p>
+        <p><strong>Severability:</strong> If any provision is found unenforceable, the remaining provisions remain in effect.</p>
+        <p><strong>No waiver:</strong> DocuMed's failure to enforce any provision does not waive its right to enforce it later.</p>
+        <p><strong>Assignment:</strong> The Clinic may not assign these Terms without DocuMed's written consent. DocuMed may assign these Terms in connection with a merger, acquisition, or sale of assets, with notice to the Clinic.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <h2>18. Contact</h2>
+        <p>For questions about these Terms or to exercise any right under them, contact:</p>
+        <p><strong>Mustafa El Mahdy</strong><br>
+        Email: <a href="mailto:mustafaelmahdy52@gmail.com">mustafaelmahdy52@gmail.com</a><br>
+        Website: documed.health</p>
+      </div>
+
+    </article>
   </div>
 
   <!-- Footer -->
@@ -166,14 +238,14 @@
     <div class="lp-container lp-footer-inner">
       <div class="lp-footer-brand">
         <span class="lp-brand">Docu<span class="lp-brand-accent-footer">Med</span></span>
-        <span class="lp-footer-domain">dcumed.health</span>
+        <span class="lp-footer-domain">documed.health</span>
       </div>
       <div class="lp-footer-links">
-        <a href="{% url 'privacy' %}">Privacy</a>
-        <a href="{% url 'terms' %}">Terms</a>
-        <a href="mailto:hello@dcumed.health">Contact</a>
+        <a href="{% url 'privacy' %}">{% trans "Privacy" %}</a>
+        <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
+        <a href="mailto:mustafaelmahdy52@gmail.com">{% trans "Contact" %}</a>
       </div>
-      <div class="lp-footer-copy">&copy; 2026 DocuMed. All rights reserved.</div>
+      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% trans "All rights reserved." %}</div>
     </div>
   </footer>
 

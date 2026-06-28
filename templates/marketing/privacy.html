@@ -7,29 +7,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy — DocuMed</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'landing.css' %}">
   <style>
+    {% if LANGUAGE_CODE == 'ar' %}body { font-family: 'Cairo', sans-serif; }{% endif %}
     .legal-body { max-width: 720px; margin: 0 auto; padding: 60px 32px 100px; }
     .legal-back { display: inline-flex; align-items: center; gap: 6px; color: var(--lp-muted); font-size: 14px; margin-bottom: 40px; text-decoration: none; transition: color 0.15s; }
     .legal-back:hover { color: var(--lp-text); text-decoration: none; }
     .legal-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.7px; text-transform: uppercase; color: var(--lp-blue); margin-bottom: 10px; display: block; }
     .legal-title { font-size: 38px; font-weight: 700; letter-spacing: -0.8px; color: var(--lp-text); margin-bottom: 8px; }
-    .legal-date { font-size: 13px; color: var(--lp-muted); margin-bottom: 48px; display: block; }
+    .legal-lead { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 8px; }
+    .legal-date { font-size: 13px; color: var(--lp-muted); margin-bottom: 40px; display: block; }
     .legal-section { margin-bottom: 40px; }
-    .legal-section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; color: var(--lp-text); margin-bottom: 12px; }
-    .legal-section p, .legal-section li { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 12px; }
-    .legal-section ul { padding-left: 20px; }
+    .legal-section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; color: var(--lp-text); margin-bottom: 12px; text-align: start; }
+    .legal-section p, .legal-section li { font-size: 15px; color: #3d3d3f; line-height: 1.72; margin-bottom: 12px; text-align: start; }
+    .legal-section ul { padding-inline-start: 20px; padding-inline-end: 0; }
     .legal-section ul li { list-style: disc; margin-bottom: 6px; }
-    .legal-placeholder {
-      background: rgba(0,113,227,0.05);
-      border: 1px dashed rgba(0,113,227,0.25);
-      border-radius: 12px;
-      padding: 20px 24px;
-      font-size: 13px;
-      color: var(--lp-muted);
-      margin-bottom: 16px;
-    }
+    .legal-section table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    .legal-section th, .legal-section td { border: 1px solid rgba(0,0,0,0.10); padding: 9px 11px; text-align: start; vertical-align: top; }
+    .legal-section th { background: rgba(0,0,0,0.03); font-weight: 600; color: var(--lp-text); }
     .legal-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 40px 0; }
+    /* RTL: list bullets and content follow the document direction automatically
+       via logical properties + dir on .legal-article. */
   </style>
 </head>
 <body style="background:#f5f5f7;">
@@ -39,114 +40,191 @@
     <div class="lp-nav-inner">
       <a class="lp-brand" href="{% url 'landing' %}">Docu<span class="lp-brand-accent">Med</span></a>
       <div class="lp-nav-links">
-        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">Log in</a>
-        <a href="{% url 'landing' %}#demo" class="lp-btn lp-btn-primary">Request a Demo</a>
+        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
       </div>
     </div>
   </nav>
 
   <div class="legal-body">
-    <a class="legal-back" href="{% url 'landing' %}">
-      ← Back to DocuMed
-    </a>
+    <a class="legal-back" href="{% url 'landing' %}">← {% trans "Back to DocuMed" %}</a>
 
-    <span class="legal-eyebrow">Legal</span>
-    <h1 class="legal-title">Privacy Policy</h1>
-    <span class="legal-date">Last updated: January 2026</span>
+    <span class="legal-eyebrow">{% trans "Legal" %}</span>
+    <h1 class="legal-title">{% trans "Privacy Policy" %}</h1>
+    <span class="legal-date">{% trans "Last updated: 29 May 2026" %}</span>
 
-    <div class="legal-placeholder">
-      ⚠️ This is a placeholder document. Replace the sections below with your actual privacy policy before going live. Consider consulting a legal professional familiar with healthcare data regulations applicable in your jurisdiction (e.g. HIPAA, GDPR, or local equivalents).
-    </div>
+    {# ── English (default). Arabic version to be added when the UTF-8 source is provided. ── #}
+    <article class="legal-article" dir="ltr" lang="en">
 
-    <div class="legal-section">
-      <h2>1. Introduction</h2>
-      <p>DocuMed ("we", "us", or "our") operates the DocuMed electronic health records platform (the "Service"). This Privacy Policy explains how we collect, use, disclose, and protect information about you and your patients when you use our Service.</p>
-      <p>By using DocuMed, you agree to the collection and use of information as described in this policy.</p>
-    </div>
+      <p class="legal-lead">This Privacy Policy explains how DocuMed handles personal data. DocuMed is operated by <strong>Mustafa El Mahdy</strong>, a sole proprietor based in Egypt ("DocuMed", "we", "us"), and is accessible at documed.health.</p>
+      <p class="legal-lead">This policy is written in compliance with Egyptian Personal Data Protection Law No. 151 of 2020 ("PDPL") and follows international best practice. The Arabic version of this policy is the controlling version for any dispute arising in Egypt; the English version is provided for convenience.</p>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>2. Information We Collect</h2>
-      <p>We collect information you provide directly when you:</p>
-      <ul>
-        <li>Create an account or set up your clinic</li>
-        <li>Add patients and record clinical visits</li>
-        <li>Upload files and attachments</li>
-        <li>Contact us for support</li>
-      </ul>
-      <p>This may include names, contact information, clinical notes, diagnoses, and uploaded documents.</p>
-    </div>
+      <div class="legal-section">
+        <h2>1. Who Controls What Data</h2>
+        <p>DocuMed handles two categories of personal data, and the roles are different for each.</p>
+        <p><strong>Account Data — DocuMed is the controller.</strong> This includes the name, email, phone number, role, and login credentials of the Clinic's Admin and Users. We collect this directly when they sign up or are added to a Clinic account, and we control how it is used.</p>
+        <p><strong>Patient Data — the Clinic is the controller, DocuMed is the processor.</strong> This includes everything the Clinic enters about its patients: names, contact details, national ID, date of birth, sex, address, clinical notes, diagnoses, treatment plans, and attached files such as labs and X-rays. The Clinic decides what to collect and what to do with it; DocuMed only stores and processes this data on the Clinic's behalf, following the Clinic's instructions and these terms.</p>
+        <p>If you are a <strong>patient</strong> of a DocuMed-using clinic, your relationship is with that clinic, not with DocuMed. DocuMed will support clinics in responding to patient data requests but does not deal with patients directly.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>3. How We Use Your Information</h2>
-      <p>We use the information we collect to:</p>
-      <ul>
-        <li>Provide and operate the DocuMed Service</li>
-        <li>Maintain the security and integrity of your clinic's data</li>
-        <li>Respond to support requests</li>
-        <li>Comply with legal obligations</li>
-      </ul>
-      <p>We do not sell, trade, or otherwise transfer patient data to third parties.</p>
-    </div>
+      <div class="legal-section">
+        <h2>2. What Data We Collect</h2>
+        <p><strong>From the Admin and Users (Account Data):</strong></p>
+        <ul>
+          <li>Name</li>
+          <li>Email address</li>
+          <li>Phone number (optional)</li>
+          <li>Role within the Clinic</li>
+          <li>Password (stored as a one-way hash; we cannot read it)</li>
+          <li>IP address and approximate location at login</li>
+          <li>Browser and device information</li>
+        </ul>
+        <p><strong>About the Clinic:</strong></p>
+        <ul>
+          <li>Clinic name, phone, and address</li>
+          <li>Subscription status and billing-related information</li>
+        </ul>
+        <p><strong>Patient Data the Clinic enters:</strong></p>
+        <ul>
+          <li>Patient identifiers (name, phone, national ID, date of birth, sex, address)</li>
+          <li>Visit records (chief complaint, clinical notes, diagnosis, treatment plan, follow-up date)</li>
+          <li>Attached files (lab results, X-rays, documents)</li>
+          <li>Any other clinical information the Clinic chooses to record</li>
+        </ul>
+        <p><strong>Automatically collected technical data:</strong></p>
+        <ul>
+          <li>Server logs (IP address, time, requested page, response code)</li>
+          <li>Audit log entries (which User performed which action, on which record, when)</li>
+          <li>Error reports captured by our monitoring system (Sentry)</li>
+        </ul>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>4. Data Security</h2>
-      <p>DocuMed uses clinic-level data isolation, role-based access control, and authenticated file delivery to protect patient records. All data is stored with access restricted to authorised users of the specific clinic.</p>
-      <p>No system is 100% secure. We encourage clinic administrators to enforce strong passwords and promptly deactivate departing staff accounts.</p>
-    </div>
+      <div class="legal-section">
+        <h2>3. How We Use the Data</h2>
+        <p>We use Account Data to provide the service, authenticate logins and protect accounts, send transactional emails (such as password resets and trial or renewal notices), detect and prevent fraud and abuse, communicate with the Admin about service matters, and improve the service based on aggregated usage.</p>
+        <p>We process Patient Data only to store and display it to authorized Users of the Clinic, enable features such as search and export, maintain audit trails for the Clinic, and recover from technical failures (backups).</p>
+        <p>We do <strong>not</strong> use Patient Data for advertising, analytics, model training, or any purpose other than providing the service to the Clinic.</p>
+      </div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-section">
-      <h2>5. Data Retention</h2>
+      <div class="legal-section">
+        <h2>4. Legal Basis for Processing</h2>
+        <p>Under Egyptian PDPL and applicable international principles, we process <strong>Account Data</strong> based on the contractual necessity of providing the service and, where applicable, our legitimate interests in running and securing it. We process <strong>Patient Data</strong> based on the contractual relationship between DocuMed and the Clinic, where the Clinic has its own legal basis (typically patient consent or a healthcare-related legal basis) for collecting and using that data.</p>
+      </div>
 
-      <p><strong>Active accounts.</strong> All patient data — including records, visit notes, uploaded files, and audit logs — is retained for as long as your clinic's account remains active. There is no automatic deletion of data during an active subscription.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Upon termination or non-renewal.</strong> When a subscription ends or is not renewed, your clinic's data is held securely for a <strong>30-day grace period</strong>. During this window your data remains intact and you may request an export (see below). After 30 days, all data associated with your clinic is permanently and irreversibly deleted from our systems and backups.</p>
+      <div class="legal-section">
+        <h2>5. How We Share Data</h2>
+        <p>DocuMed does not sell personal data. We share data only as follows.</p>
+        <p><strong>With service providers ("sub-processors") who help us run the service:</strong></p>
+        <table>
+          <thead>
+            <tr><th>Sub-processor</th><th>Purpose</th><th>Where data is processed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Supabase</td><td>Database hosting (PostgreSQL)</td><td>Outside Egypt (typically EU or US)</td></tr>
+            <tr><td>Render</td><td>Application hosting</td><td>Outside Egypt (typically EU or US)</td></tr>
+            <tr><td>Cloudflare R2</td><td>File and attachment storage (labs, X-rays, documents)</td><td>Outside Egypt (global object storage)</td></tr>
+            <tr><td>Resend</td><td>Transactional email delivery</td><td>Outside Egypt (typically US)</td></tr>
+            <tr><td>Sentry</td><td>Error monitoring</td><td>Outside Egypt (typically US)</td></tr>
+          </tbody>
+        </table>
+        <p>Each sub-processor is bound by its own terms and security obligations. We choose providers that maintain industry-standard security practices.</p>
+        <p><strong>With authorities</strong> where required by Egyptian law, valid legal process, or to protect the rights and safety of DocuMed, its users, or the public.</p>
+        <p><strong>In a business transfer</strong> if DocuMed is acquired, merged, or sells substantially all of its assets. The Clinic will be notified in advance and may cancel and export its data.</p>
+        <p>We do not share Patient Data with third parties for any other purpose without the Clinic's explicit instruction.</p>
+      </div>
 
-      <p><strong>Data export.</strong> You may request a structured export of your clinic's patient data at any time during an active subscription, or within the 30-day grace period following termination, by emailing <a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a>. We will respond within 10 business days. Exports are provided at no additional charge.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Your obligations as data controller.</strong> DocuMed acts as a data processor on your behalf; your clinic is the data controller. Medical records legislation varies by country and may require you to retain certain records for a defined period (commonly 7–10 years) regardless of which system you use. You are responsible for ensuring that terminating your DocuMed subscription does not cause you to breach your local medical records retention obligations. We recommend exporting and archiving your data before your account closes if required by your jurisdiction.</p>
+      <div class="legal-section">
+        <h2>6. International Data Transfers</h2>
+        <p>Because some of our infrastructure providers are based outside Egypt, personal data is transferred internationally. We rely on these providers' standard contractual protections and security certifications. If you are uncomfortable with international processing, contact us before signing up.</p>
+      </div>
 
-      <p><strong>Backups.</strong> We maintain system backups for disaster recovery purposes. Backup copies of data may persist for up to <strong>30 days</strong> after deletion from live systems, after which they are purged as part of our regular backup rotation.</p>
-    </div>
+      <div class="legal-divider"></div>
 
-    <div class="legal-divider"></div>
+      <div class="legal-section">
+        <h2>7. Security</h2>
+        <p>We protect data through:</p>
+        <ul>
+          <li><strong>Encryption in transit</strong> — all connections use HTTPS.</li>
+          <li><strong>Encryption at rest</strong> — the database, file storage, and backups are encrypted.</li>
+          <li><strong>Tenant isolation</strong> — every database query is scoped to a single Clinic, so one Clinic cannot access another's data.</li>
+          <li><strong>Role-based access</strong> — Users can only access data appropriate to their role.</li>
+          <li><strong>Password hashing</strong> — passwords are stored as one-way hashes, never in plain text.</li>
+          <li><strong>Audit logging</strong> — significant actions are recorded with user, timestamp, and IP.</li>
+          <li><strong>Backups</strong> — automated backups with retention to allow recovery from failures.</li>
+          <li><strong>Error monitoring</strong> — operational issues are tracked through Sentry without exposing sensitive data.</li>
+        </ul>
+        <p>No system is perfectly secure. The Clinic is responsible for protecting its own credentials, training its Users, and using strong passwords.</p>
+      </div>
 
-    <div class="legal-section">
-      <h2>6. Your Rights</h2>
+      <div class="legal-divider"></div>
 
-      <p>Depending on the data protection laws applicable in your jurisdiction, you and/or your patients may have the following rights with respect to personal data held by DocuMed. Requests should be submitted to <a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a> and we will respond within <strong>30 days</strong>.</p>
+      <div class="legal-section">
+        <h2>8. Data Retention</h2>
+        <table>
+          <thead><tr><th>Data</th><th>How long we keep it</th></tr></thead>
+          <tbody>
+            <tr><td>Account Data for active Clinics</td><td>For the duration of the subscription</td></tr>
+            <tr><td>Patient Data for active Clinics</td><td>For the duration of the subscription</td></tr>
+            <tr><td>Data after cancellation</td><td>90 days, then permanent deletion</td></tr>
+            <tr><td>Backups containing deleted data</td><td>Up to 30 additional days before rotated out</td></tr>
+            <tr><td>Audit logs</td><td>For the duration of the subscription, plus 90 days</td></tr>
+            <tr><td>Server logs</td><td>30 days</td></tr>
+            <tr><td>Error reports (Sentry)</td><td>90 days</td></tr>
+          </tbody>
+        </table>
+        <p>After permanent deletion, data cannot be recovered.</p>
+      </div>
 
-      <p><strong>Right of access.</strong> You may request a copy of the personal data we hold about your clinic, its users, and its patients. We will provide this in a structured, machine-readable format (such as CSV).</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Right to rectification.</strong> If any data we hold is inaccurate or incomplete, you may request that we correct it. In most cases, clinic administrators can correct patient and user data directly within the application without needing to contact us.</p>
+      <div class="legal-section">
+        <h2>9. Your Rights</h2>
+        <p>Under Egyptian PDPL, individuals have rights regarding their personal data, including the rights to access, correct, delete (subject to legal and contractual exceptions), object to certain processing, restrict processing, data portability, withdraw consent, and complain to the Egyptian Personal Data Protection Center.</p>
+        <p><strong>If you are an Admin or User:</strong> contact us at the address in Section 12 to exercise these rights regarding your Account Data.</p>
+        <p><strong>If you are a patient:</strong> these rights apply to your Patient Data, but the <strong>Clinic</strong> is the controller. Contact the Clinic directly; we will assist the Clinic in fulfilling your request.</p>
+        <p>We aim to respond to verified requests within 30 days.</p>
+      </div>
 
-      <p><strong>Right to erasure ("right to be forgotten").</strong> You may request deletion of personal data. We will delete the requested data unless we are legally required to retain it (for example, where local law mandates a minimum medical records retention period). Please note that as your clinic is the data controller for patient records, requests for erasure of patient data should be handled by your clinic in the first instance.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Right to restriction of processing.</strong> You may request that we restrict our processing of your data in certain circumstances — for example, while a dispute about accuracy is being resolved.</p>
+      <div class="legal-section">
+        <h2>10. Cookies and Tracking</h2>
+        <p>DocuMed uses essential cookies required for the service to work — primarily session cookies for keeping Users logged in and CSRF tokens for security.</p>
+        <p>We do <strong>not</strong> use advertising cookies, cross-site tracking, analytics cookies that profile individual users, or third-party social media trackers.</p>
+      </div>
 
-      <p><strong>Right to data portability.</strong> You may request a copy of your clinic's data in a structured, portable format so it can be transferred to another provider. See the data export section above for details.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Right to object.</strong> You may object to our processing of your data where we rely on legitimate interest as a legal basis. We will assess the objection and cease processing unless we have compelling legitimate grounds that override your interests.</p>
+      <div class="legal-section">
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Material changes will be announced by email to Admins and posted on documed.health at least 14 days before they take effect. The "Last updated" date at the top reflects the most recent version.</p>
+      </div>
 
-      <p><strong>Rights related to automated decision-making.</strong> DocuMed does not make automated decisions with legal or significant effects based on patient data.</p>
+      <div class="legal-divider"></div>
 
-      <p><strong>Note for patient rights requests.</strong> Patients wishing to exercise their data rights (such as requesting access to or deletion of their records) should contact their clinic directly. The clinic, as data controller, is the appropriate party to handle such requests. DocuMed will co-operate fully with a clinic's legally compliant request to assist in fulfilling patient rights.</p>
-    </div>
+      <div class="legal-section">
+        <h2>12. Contact</h2>
+        <p>For privacy questions, requests, or complaints, contact:</p>
+        <p><strong>Mustafa El Mahdy</strong><br>
+        Privacy contact for DocuMed<br>
+        Email: <a href="mailto:mustafaelmahdy52@gmail.com">mustafaelmahdy52@gmail.com</a><br>
+        Website: documed.health</p>
+        <p>You also have the right to lodge a complaint with the <strong>Egyptian Personal Data Protection Center</strong> if you believe your rights under PDPL have been violated.</p>
+      </div>
 
-    <div class="legal-divider"></div>
-
-    <div class="legal-section">
-      <h2>7. Contact Us</h2>
-      <p>If you have questions about this Privacy Policy or how we handle your data, please contact us at:</p>
-      <p><a href="mailto:privacy@dcumed.health">privacy@dcumed.health</a></p>
-    </div>
+    </article>
   </div>
 
   <!-- Footer -->
@@ -154,14 +232,14 @@
     <div class="lp-container lp-footer-inner">
       <div class="lp-footer-brand">
         <span class="lp-brand">Docu<span class="lp-brand-accent-footer">Med</span></span>
-        <span class="lp-footer-domain">dcumed.health</span>
+        <span class="lp-footer-domain">documed.health</span>
       </div>
       <div class="lp-footer-links">
-        <a href="{% url 'privacy' %}">Privacy</a>
-        <a href="{% url 'terms' %}">Terms</a>
-        <a href="mailto:hello@dcumed.health">Contact</a>
+        <a href="{% url 'privacy' %}">{% trans "Privacy" %}</a>
+        <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
+        <a href="mailto:mustafaelmahdy52@gmail.com">{% trans "Contact" %}</a>
       </div>
-      <div class="lp-footer-copy">&copy; 2026 DocuMed. All rights reserved.</div>
+      <div class="lp-footer-copy">&copy; 2026 DocuMed. {% trans "All rights reserved." %}</div>
     </div>
   </footer>
 
