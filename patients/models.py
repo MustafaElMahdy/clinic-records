@@ -45,11 +45,11 @@ class Patient(models.Model):
     class Meta:
         ordering = ["full_name"]
         indexes = [
-            models.Index(fields=["normalized_name"]),
-            models.Index(fields=["phone"]),
-            models.Index(fields=["national_id"]),
+            # Single-column indexes (normalized_name, phone, national_id) and the
+            # explicit (clinic, national_id) index were dropped as redundant in
+            # migration 0006: every query filters by clinic first, and
+            # (clinic, national_id) is already covered by the unique constraint below.
             models.Index(fields=["clinic", "phone"]),
-            models.Index(fields=["clinic", "national_id"]),
             models.Index(fields=["clinic", "normalized_name"]),
         ]
         constraints = [

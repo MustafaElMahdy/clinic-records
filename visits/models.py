@@ -55,6 +55,7 @@ class Visit(models.Model):
     class Meta:
         ordering = ["-visit_datetime"]
         indexes = [
-            models.Index(fields=["visit_datetime"]),
+            # The single-column visit_datetime index was dropped as redundant in
+            # migration 0004 (queries always filter by clinic first).
             models.Index(fields=["clinic", "visit_datetime"]),
         ]
