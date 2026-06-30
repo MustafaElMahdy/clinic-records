@@ -157,3 +157,20 @@ class RenewalReminder(models.Model):
 
     def __str__(self):
         return f"{self.clinic.name} — {self.kind} — {self.days_before}d before {self.period_end}"
+
+
+class ClickEvent(models.Model):
+    """
+    First-party, anonymous click tracking for marketing-page CTAs. Records only
+    an allowlisted event name + the page path + timestamp. No cookies, no PII,
+    no per-user profiling — consistent with the Privacy Policy.
+    """
+    name = models.CharField(max_length=50, db_index=True)
+    page = models.CharField(max_length=200, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} @ {self.created_at:%Y-%m-%d %H:%M}"

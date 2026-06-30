@@ -391,3 +391,35 @@ class OwnerDashboardTests(TestCase):
         self.assertEqual(r.context["active_trials"], 1)
         self.assertEqual(r.context["lapsed_trials"], 1)
         self.assertEqual(r.context["mrr"], 1 * 1500)
+
+
+class ClickTrackingTests(TestCase):
+    def test_allowlisted_event_is_recorded(self):
+        from clinics.models import ClickEvent
+        r = self.client.post(reverse("track_event"),
+                             {"name": "trial_hero", "page": "/"})
+        self.assertEqual(r.status_code, 204)
+        self.assertEqual(ClickEvent.objects.filter(name="trial_hero").count(), 1)
+
+    def test_unknown_event_is_ignored(self):
+        from clinics.models import ClickEvent
+        r = self.client.post(reverse("track_event"),
+                             {"name": "evil_payload", "page": "/"})
+        self.assertEqual(r.status_code, 204)  # still 204, but nothing stored
+        self.assertEqual(ClickEvent.objects.count(), 0)
+
+    def test_get_not_allowed(self):
+        r = self.client.get(reverse("track_event"))
+        self.assertEqual(r.status_code, 405)
+
+    def test_clicks_show_on_dashboard(self):
+        from clinics.models import ClickEvent
+        ClickEvent.objects.create(name="trial_hero", page="/")
+        ClickEvent.objects.create(name="trial_hero", page="/")
+        ClickEvent.objects.create(name="nav_pricing", page="/")
+        su = User.objects.create_superuser("root2", "root2@x.com", "pw")
+        self.client.force_login(su)
+        r = self.client.get(reverse("owner_dashboard"))
+        rows = {row["label"]: row["total"] for row in r.context["click_rows"]}
+        self.assertEqual(rows["Start trial · hero"], 2)
+        self.assertEqual(rows["Nav: Pricing"], 1)

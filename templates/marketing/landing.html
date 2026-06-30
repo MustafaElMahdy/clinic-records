@@ -39,11 +39,11 @@
     <div class="lp-nav-inner">
       <a class="lp-brand" href="#top">Docu<span class="lp-brand-accent">Med</span></a>
       <div class="lp-nav-links">
-        <a href="#features">{% trans "Features" %}</a>
-        <a href="#how-it-works">{% trans "How It Works" %}</a>
-        <a href="#pricing">{% trans "Pricing" %}</a>
-        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost">{% trans "Log in" %}</a>
-        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary">{% trans "Start free trial" %}</a>
+        <a href="#features" data-track="nav_features">{% trans "Features" %}</a>
+        <a href="#how-it-works" data-track="nav_howitworks">{% trans "How It Works" %}</a>
+        <a href="#pricing" data-track="nav_pricing">{% trans "Pricing" %}</a>
+        <a href="{% url 'login' %}" class="lp-btn lp-btn-ghost" data-track="nav_login">{% trans "Log in" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary" data-track="trial_nav">{% trans "Start free trial" %}</a>
         <!-- Language toggle -->
         <form method="post" action="{% url 'set_language' %}" style="margin:0; display:inline;">
           {% csrf_token %}
@@ -72,8 +72,8 @@
           {% trans "DocuMed gives doctors and their teams a single, secure place to manage patients, record visits, and track every clinical detail — with an interface as refined as the care you provide." %}
         </p>
         <div class="lp-hero-ctas">
-          <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg">{% trans "Start free trial" %}</a>
-          <a href="#features" class="lp-btn lp-btn-ghost lp-btn-lg">{% trans "See Features" %}</a>
+          <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg" data-track="trial_hero">{% trans "Start free trial" %}</a>
+          <a href="#features" class="lp-btn lp-btn-ghost lp-btn-lg" data-track="nav_features">{% trans "See Features" %}</a>
         </div>
       </div>
 
@@ -483,7 +483,7 @@
           {% endfor %}
         </ul>
 
-        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg" style="width: 100%; display: block; text-align: center;">{% trans "Start 14-day free trial" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-primary lp-btn-lg" style="width: 100%; display: block; text-align: center;" data-track="trial_pricing">{% trans "Start 14-day free trial" %}</a>
         <div style="margin-top: 12px; font-size: 13px; color: var(--muted, #6b7280);">{% trans "No credit card required." %}</div>
       </div>
     </div>
@@ -500,7 +500,7 @@
         {% trans "See how DocuMed transforms your clinic's record-keeping in a live, personalised demo. No commitment, no credit card." %}
       </p>
       <div class="lp-cta-actions">
-        <a href="{% url 'signup' %}" class="lp-btn lp-btn-white lp-btn-lg">{% trans "Start free trial" %}</a>
+        <a href="{% url 'signup' %}" class="lp-btn lp-btn-white lp-btn-lg" data-track="trial_cta">{% trans "Start free trial" %}</a>
         <span class="lp-cta-note">{% trans "Questions? Email us at" %} <a href="mailto:hello@documed.health">hello@documed.health</a></span>
       </div>
     </div>
@@ -548,6 +548,23 @@
         nav.classList.toggle('lp-nav-scrolled', window.scrollY > 10);
       }, { passive: true });
     }
+  </script>
+
+  <!-- First-party click tracking (anonymous, no cookies) -->
+  <script>
+    (function () {
+      function send(name) {
+        try {
+          var data = new FormData();
+          data.append('name', name);
+          data.append('page', location.pathname);
+          navigator.sendBeacon('/track/', data);
+        } catch (e) {}
+      }
+      document.querySelectorAll('[data-track]').forEach(function (el) {
+        el.addEventListener('click', function () { send(el.getAttribute('data-track')); });
+      });
+    })();
   </script>
 
 </body>

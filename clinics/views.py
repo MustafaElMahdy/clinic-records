@@ -8,7 +8,10 @@ from django.core.mail import send_mail
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
+from django.db.models import Count
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from openpyxl import Workbook
@@ -210,6 +213,31 @@ def clinic_signup(request):
     return render(request, "registration/signup.html", {"form": form})
 
 
+# Allowlisted marketing CTA events. Anything not in here is ignored, so the
+# public endpoint can't be used to write arbitrary data.
+TRACKED_EVENTS = {
+    "nav_features": "Nav: Features",
+    "nav_howitworks": "Nav: How It Works",
+    "nav_pricing": "Nav: Pricing",
+    "nav_login": "Nav: Log in",
+    "trial_nav": "Start trial · nav",
+    "trial_hero": "Start trial · hero",
+    "trial_pricing": "Start trial · pricing",
+    "trial_cta": "Start trial · final CTA",
+}
+
+
+@csrf_exempt
+@require_POST
+def track_event(request):
+    """Anonymous first-party click beacon. Records only allowlisted event names."""
+    name = (request.POST.get("name") or "").strip()
+    if name in TRACKED_EVENTS:
+        from .models import ClickEvent
+        ClickEvent.objects.create(name=name, page=(request.POST.get("page") or "")[:200])
+    return HttpResponse(status=204)
+
+
 def _is_owner(user):
     return user.is_authenticated and user.is_superuser
 
@@ -218,7 +246,7 @@ def _is_owner(user):
 def owner_dashboard(request):
     """Platform-wide business metrics for the product owner (superuser only)."""
     from visits.models import Visit
-    from .models import PaymentSubmission
+    from .models import PaymentSubmission, ClickEvent
 
     now = timezone.now()
     today = now.date()
@@ -263,7 +291,19 @@ def owner_dashboard(request):
             status = "Inactive"
         recent_rows.append({"clinic": c, "status": status})
 
+    # Website click counts (all-time + last 7 days), in a fixed friendly order.
+    all_counts = {r["name"]: r["total"] for r in
+                  ClickEvent.objects.values("name").annotate(total=Count("id"))}
+    week_counts = {r["name"]: r["total"] for r in
+                   ClickEvent.objects.filter(created_at__gte=now - timedelta(days=7))
+                   .values("name").annotate(total=Count("id"))}
+    click_rows = [
+        {"label": label, "total": all_counts.get(name, 0), "week": week_counts.get(name, 0)}
+        for name, label in TRACKED_EVENTS.items()
+    ]
+
     return render(request, "clinics/owner_dashboard.html", {
+        "click_rows": click_rows,
         "total": total,
         "active_trials": active_trials,
         "lapsed_trials": lapsed_trials,

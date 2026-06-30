@@ -16,6 +16,7 @@ class ClinicMiddleware:
         "/terms/",
         "/password-reset/",
         "/set-language/",
+        "/track/",
     )
     EXEMPT_PATHS = {"/"}  # exact matches
 

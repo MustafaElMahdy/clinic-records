@@ -85,6 +85,25 @@
 </div>
 
 <div class="card" style="margin-top:26px;">
+  <h2>Website clicks</h2>
+  <p class="muted" style="margin-top:0;">Which buttons visitors click on the landing page.</p>
+  <table class="table">
+    <tr>
+      <th>Button</th>
+      <th>Last 7 days</th>
+      <th>All time</th>
+    </tr>
+    {% for row in click_rows %}
+      <tr>
+        <td>{{ row.label }}</td>
+        <td>{{ row.week }}</td>
+        <td><b>{{ row.total }}</b></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="card" style="margin-top:14px;">
   <h2>Recent signups</h2>
   <table class="table">
     <tr>
@@ -105,6 +124,6 @@
 </div>
 
 <p class="muted" style="margin-top:14px; font-size:12px;">
-  Business metrics from your database. Page-click analytics (which buttons visitors click) are tracked separately — see below.
+  All figures are first-party, from your own database — no third-party trackers or cookies.
 </p>
 {% endblock %}
