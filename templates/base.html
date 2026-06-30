@@ -23,6 +23,9 @@
           <a href="{% url 'accounts:list' %}" class="btn">{% trans "Users" %}</a>
           <a href="{% url 'clinics:settings' %}" class="btn">{% trans "Settings" %}</a>
         {% endif %}
+        {% if user.is_superuser %}
+          <a href="{% url 'owner_dashboard' %}" class="btn">Metrics</a>
+        {% endif %}
 
         {% if user.is_authenticated %}
           <span class="muted nav-username">{{ user.get_full_name|default:user.username }}</span>

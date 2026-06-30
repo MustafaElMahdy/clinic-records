@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Metrics — DocuMed{% endblock %}
+{% block content %}
+<style>
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 14px 0 8px; }
+  .metric { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 18px; }
+  .metric-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-color); margin-bottom: 8px; }
+  .metric-value { font-size: 30px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
+  .metric-sub { font-size: 12px; color: var(--muted-color); margin-top: 6px; }
+  .metric.accent { border-color: rgba(0,113,227,0.35); background: rgba(0,113,227,0.04); }
+  .metric.warn  { border-color: rgba(255,149,0,0.35); background: rgba(255,149,0,0.05); }
+  .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-color); margin: 26px 0 2px; }
+</style>
+
+<div class="row" style="align-items:center; justify-content:space-between;">
+  <h1>Metrics</h1>
+  <a class="btn" href="/admin/clinics/clinic/">Open in admin</a>
+</div>
+
+<div class="section-label">Revenue & customers</div>
+<div class="metric-grid">
+  <div class="metric accent">
+    <div class="metric-label">Paying customers</div>
+    <div class="metric-value">{{ paying }}</div>
+    <div class="metric-sub">{{ mrr }} EGP / month (MRR)</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Trial → paid conversion</div>
+    <div class="metric-value">{{ conversion }}%</div>
+    <div class="metric-sub">of all {{ total }} signups</div>
+  </div>
+  <div class="metric {% if pending_payments %}warn{% endif %}">
+    <div class="metric-label">Payments to review</div>
+    <div class="metric-value">{{ pending_payments }}</div>
+    <div class="metric-sub"><a href="/admin/clinics/paymentsubmission/?status__exact=pending">Review now →</a></div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total clinics</div>
+    <div class="metric-value">{{ total }}</div>
+  </div>
+</div>
+
+<div class="section-label">Trials & pipeline</div>
+<div class="metric-grid">
+  <div class="metric">
+    <div class="metric-label">Active trials</div>
+    <div class="metric-value">{{ active_trials }}</div>
+    <div class="metric-sub">still within 14 days</div>
+  </div>
+  <div class="metric {% if lapsed_trials %}warn{% endif %}">
+    <div class="metric-label">Lapsed trials</div>
+    <div class="metric-value">{{ lapsed_trials }}</div>
+    <div class="metric-sub">trial ended, never paid — follow up</div>
+  </div>
+  <div class="metric {% if lapsed_paid %}warn{% endif %}">
+    <div class="metric-label">Churned (paid lapsed)</div>
+    <div class="metric-value">{{ lapsed_paid }}</div>
+    <div class="metric-sub">were paying, access expired</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Marked expired</div>
+    <div class="metric-value">{{ expired }}</div>
+  </div>
+</div>
+
+<div class="section-label">Growth & engagement</div>
+<div class="metric-grid">
+  <div class="metric">
+    <div class="metric-label">Signups · last 7 days</div>
+    <div class="metric-value">{{ signups_7 }}</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Signups · last 30 days</div>
+    <div class="metric-value">{{ signups_30 }}</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total patients</div>
+    <div class="metric-value">{{ total_patients }}</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total visits</div>
+    <div class="metric-value">{{ total_visits }}</div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:26px;">
+  <h2>Recent signups</h2>
+  <table class="table">
+    <tr>
+      <th>Clinic</th>
+      <th>Status</th>
+      <th>Signed up</th>
+    </tr>
+    {% for row in recent_rows %}
+      <tr>
+        <td><b>{{ row.clinic.name }}</b></td>
+        <td>{{ row.status }}</td>
+        <td>{{ row.clinic.created_at|date:"Y-m-d" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="3" class="muted">No clinics yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<p class="muted" style="margin-top:14px; font-size:12px;">
+  Business metrics from your database. Page-click analytics (which buttons visitors click) are tracked separately — see below.
+</p>
+{% endblock %}

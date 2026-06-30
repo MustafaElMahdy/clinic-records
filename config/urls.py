@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf.urls.i18n import set_language
-from clinics.views import clinic_signup
+from clinics.views import clinic_signup, owner_dashboard
 
 
 PRICING_FEATURES = [
@@ -24,6 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("signup/", clinic_signup, name="signup"),
+    path("metrics/", owner_dashboard, name="owner_dashboard"),
     path("login/", auth_views.LoginView.as_view(template_name="registration/login.html", redirect_authenticated_user=True), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 

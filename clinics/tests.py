@@ -353,3 +353,41 @@ class PurgeCancelledClinicsTests(TestCase):
         cid = c.pk
         call_command("purge_cancelled_clinics", "--commit")
         self.assertFalse(Clinic.objects.filter(pk=cid).exists())
+
+
+class OwnerDashboardTests(TestCase):
+    def setUp(self):
+        self.today = timezone.now().date()
+        self.clinic = make_clinic(subscription_status="active",
+                                  paid_until=self.today + timedelta(days=10))
+        self.superuser = User.objects.create_superuser("root", "root@x.com", "pw")
+        self.normal = User.objects.create_user(
+            "doc", password="pw", role="admin", clinic=self.clinic
+        )
+
+    def test_superuser_can_view(self):
+        self.client.force_login(self.superuser)
+        r = self.client.get(reverse("owner_dashboard"))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "Paying customers")
+
+    def test_non_superuser_cannot_view(self):
+        self.client.force_login(self.normal)
+        r = self.client.get(reverse("owner_dashboard"))
+        self.assertNotEqual(r.status_code, 200)
+
+    def test_anonymous_cannot_view(self):
+        r = self.client.get(reverse("owner_dashboard"))
+        self.assertNotEqual(r.status_code, 200)
+
+    def test_metric_counts(self):
+        make_clinic(subscription_status="trialing",
+                    trial_ends_at=self.today + timedelta(days=5))
+        make_clinic(subscription_status="trialing",
+                    trial_ends_at=self.today - timedelta(days=1))  # lapsed trial
+        self.client.force_login(self.superuser)
+        r = self.client.get(reverse("owner_dashboard"))
+        self.assertEqual(r.context["paying"], 1)
+        self.assertEqual(r.context["active_trials"], 1)
+        self.assertEqual(r.context["lapsed_trials"], 1)
+        self.assertEqual(r.context["mrr"], 1 * 1500)
